@@ -1,16 +1,15 @@
-import Head from "next/head";
+import SEO from "@/components/common/SEO";
 import Link from "next/link";
 import styles from "@/styles/Home.module.css";
 
 export default function Home() {
   return (
     <>
-      <Head>
-        <title>LearnHub - Video Learning Platform</title>
-        <meta name="description" content="Learn new skills with our video courses" />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
+      <SEO 
+        title="LearnHub - Video Learning Platform"
+        description="Learn new skills with our comprehensive video courses. Browse 72+ courses across frontend, backend, security, DevOps, cloud, and AI."
+        keywords="online learning, video courses, programming tutorials, web development, LearnHub"
+      />
 
       <div className={styles.container}>
         <section className={styles.hero}>

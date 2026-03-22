@@ -72,11 +72,10 @@ export default function Dashboard() {
 
   return (
     <>
-      <Head>
-        <title>Dashboard - LearnHub</title>
-        <meta name="description" content="Your learning dashboard" />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-      </Head>
+      <SEO 
+        title="Dashboard"
+        description="Your learning dashboard"
+      />
 
       <div className={styles.container}>
         <div className={styles.header}>

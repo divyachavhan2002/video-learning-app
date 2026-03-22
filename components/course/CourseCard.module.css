@@ -1,10 +1,10 @@
 /* Course Card */
 .card {
   background-color: var(--card-bg);
-  border-radius: 12px;
+  border-radius: var(--radius-lg);
   overflow: hidden;
   box-shadow: var(--shadow-sm);
-  transition: all 0.3s ease;
+  transition: all var(--transition-base) ease;
   display: flex;
   flex-direction: column;
   height: 100%;
@@ -25,7 +25,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: background 0.3s ease;
+  transition: background var(--transition-base) ease;
 }
 
 .thumbnailPlaceholder {
@@ -38,23 +38,30 @@
 
 .icon {
   font-size: 4rem;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.iconFallback {
+  font-size: 4rem;
+  color: rgba(255, 255, 255, 0.9);
 }
 
 .level {
   position: absolute;
-  top: 12px;
-  right: 12px;
-  background-color: var(--overlay-light);
-  color: var(--secondary-color);
-  padding: 0.25rem 0.75rem;
-  border-radius: 20px;
-  font-size: 0.8rem;
-  font-weight: 600;
+  top: var(--space-md);
+  right: var(--space-md);
+  background-color: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(8px);
+  color: white;
+  padding: var(--space-xs) var(--space-sm);
+  border-radius: var(--radius-full);
+  font-size: var(--text-sm);
+  font-weight: var(--font-semibold);
 }
 
 /* Content */
 .content {
-  padding: 1.5rem;
+  padding: var(--space-lg);
   display: flex;
   flex-direction: column;
   flex: 1;
@@ -62,71 +69,71 @@
 
 .category {
   color: var(--secondary-color);
-  font-size: 0.85rem;
-  font-weight: 600;
+  font-size: var(--text-sm);
+  font-weight: var(--font-semibold);
   text-transform: uppercase;
-  margin-bottom: 0.5rem;
-  transition: color 0.3s ease;
+  margin-bottom: var(--space-sm);
+  transition: color var(--transition-base) ease;
 }
 
 .title {
-  font-size: 1.25rem;
-  font-weight: 700;
+  font-size: var(--text-xl);
+  font-weight: var(--font-bold);
   color: var(--text-primary);
-  margin-bottom: 0.75rem;
+  margin-bottom: var(--space-sm);
   line-height: 1.4;
-  transition: color 0.3s ease;
+  transition: color var(--transition-base) ease;
 }
 
 .description {
   color: var(--text-gray);
-  font-size: 0.9rem;
+  font-size: var(--text-base);
   line-height: 1.6;
-  margin-bottom: 1rem;
+  margin-bottom: var(--space-md);
   flex: 1;
   display: -webkit-box;
   -webkit-line-clamp: 3;
   line-clamp: 3;
   -webkit-box-orient: vertical;
   overflow: hidden;
-  transition: color 0.3s ease;
+  transition: color var(--transition-base) ease;
 }
 
 .instructor {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
+  gap: var(--space-sm);
   color: var(--text-gray);
-  font-size: 0.9rem;
-  margin-bottom: 1rem;
-  transition: color 0.3s ease;
+  font-size: var(--text-base);
+  margin-bottom: var(--space-md);
+  transition: color var(--transition-base) ease;
 }
 
 .instructorIcon {
-  font-size: 1rem;
+  font-size: var(--text-lg);
 }
 
 /* Meta Information */
 .meta {
   display: flex;
-  gap: 1rem;
-  margin-bottom: 1.5rem;
-  padding-top: 1rem;
+  gap: var(--space-md);
+  margin-bottom: var(--space-lg);
+  padding-top: var(--space-md);
   border-top: 1px solid var(--border-color);
-  transition: border-color 0.3s ease;
+  transition: border-color var(--transition-base) ease;
 }
 
 .metaItem {
   display: flex;
   align-items: center;
-  gap: 0.3rem;
+  gap: var(--space-xs);
   color: var(--text-gray);
-  font-size: 0.85rem;
-  transition: color 0.3s ease;
+  font-size: var(--text-sm);
+  transition: color var(--transition-base) ease;
 }
 
 .metaIcon {
-  font-size: 1rem;
+  font-size: var(--text-lg);
 }
 
 /* Footer */
@@ -138,21 +145,21 @@
 }
 
 .price {
-  font-size: 1.5rem;
-  font-weight: 700;
+  font-size: var(--text-2xl);
+  font-weight: var(--font-bold);
   color: var(--primary-color);
-  transition: color 0.3s ease;
+  transition: color var(--transition-base) ease;
 }
 
 .enrollBtn {
   background-color: var(--primary-color);
-  color: white;
-  padding: 0.625rem 1.5rem;
-  border-radius: 6px;
+  color: var(--button-text);
+  padding: var(--space-sm) var(--space-lg);
+  border-radius: var(--radius-md);
   text-decoration: none;
-  font-weight: 600;
-  transition: all 0.3s ease;
-  font-size: 0.9rem;
+  font-weight: var(--font-semibold);
+  transition: all var(--transition-base) ease;
+  font-size: var(--text-base);
 }
 
 .enrollBtn:hover {

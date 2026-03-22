@@ -1,0 +1,337 @@
+/* Container */
+.container {
+  width: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 2rem 1rem;
+}
+
+/* Loading State */
+.loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 400px;
+  font-size: 1.2rem;
+  color: var(--text-gray);
+}
+
+/* Not Found */
+.notFound {
+  text-align: center;
+  padding: 4rem 2rem;
+  min-height: 400px;
+}
+
+.notFound h1 {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+  color: var(--text-primary);
+}
+
+.notFound p {
+  color: var(--text-gray);
+  margin-bottom: 2rem;
+}
+
+.backBtn {
+  display: inline-block;
+  background-color: var(--primary-color);
+  color: white;
+  padding: 0.75rem 2rem;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.backBtn:hover {
+  background-color: var(--primary-hover);
+  transform: translateY(-2px);
+}
+
+/* Breadcrumb */
+.breadcrumb {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 2rem;
+  font-size: 0.9rem;
+  flex-wrap: nowrap;
+  white-space: nowrap;
+}
+
+.breadcrumb a {
+  color: var(--primary-color);
+  text-decoration: none;
+  transition: color 0.3s ease;
+  font-weight: 500;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.breadcrumb a:hover {
+  color: var(--primary-hover);
+  text-decoration: underline;
+}
+
+.separator {
+  color: var(--text-light);
+  transition: color 0.3s ease;
+  user-select: none;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.current {
+  color: var(--text-gray);
+  font-weight: 500;
+  transition: color 0.3s ease;
+}
+
+/* Watch Layout */
+.watchLayout {
+  display: grid;
+  grid-template-columns: 1fr 380px;
+  gap: 2rem;
+  align-items: start;
+}
+
+/* Video Section */
+.videoSection {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.videoInfo {
+  padding: 1.5rem;
+  background-color: var(--card-bg);
+  border-radius: 12px;
+  border: 1px solid var(--border-color);
+  transition: all 0.3s ease;
+}
+
+.videoTitle {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 0.75rem;
+  transition: color 0.3s ease;
+}
+
+.videoMeta {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.9rem;
+  color: var(--text-gray);
+  transition: color 0.3s ease;
+}
+
+.metaDivider {
+  color: var(--text-light);
+}
+
+.courseInfo {
+  padding: 1.5rem;
+  background-color: var(--card-bg);
+  border-radius: 12px;
+  border: 1px solid var(--border-color);
+  transition: all 0.3s ease;
+}
+
+.courseInfo h2 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 0.5rem;
+  transition: color 0.3s ease;
+}
+
+.instructor {
+  color: var(--primary-color);
+  font-weight: 600;
+  margin-bottom: 1rem;
+}
+
+.description {
+  color: var(--text-gray);
+  line-height: 1.6;
+  transition: color 0.3s ease;
+}
+
+/* Lessons Sidebar */
+.lessonsSidebar {
+  position: sticky;
+  top: 2rem;
+  background-color: var(--card-bg);
+  border-radius: 12px;
+  border: 1px solid var(--border-color);
+  overflow: hidden;
+  max-height: calc(100vh - 4rem);
+  display: flex;
+  flex-direction: column;
+  transition: all 0.3s ease;
+}
+
+.sidebarHeader {
+  padding: 1.25rem;
+  border-bottom: 1px solid var(--border-color);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: var(--card-bg);
+  transition: all 0.3s ease;
+}
+
+.sidebarHeader h3 {
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  transition: color 0.3s ease;
+}
+
+.lessonCount {
+  font-size: 0.875rem;
+  color: var(--text-gray);
+  transition: color 0.3s ease;
+}
+
+.lessonsList {
+  overflow-y: auto;
+  flex: 1;
+}
+
+.lessonItem {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem 1.25rem;
+  border: none;
+  border-bottom: 1px solid var(--border-color);
+  background-color: var(--card-bg);
+  cursor: pointer;
+  text-align: left;
+  transition: all 0.3s ease;
+}
+
+.lessonItem:hover {
+  background-color: var(--overlay-white-10);
+}
+
+.lessonItem.active {
+  background-color: rgba(59, 130, 246, 0.1);
+  border-left: 4px solid var(--primary-color);
+}
+
+.lessonItem.completed .lessonNumber {
+  background-color: var(--success-color);
+  color: var(--button-text);
+}
+
+.lessonNumber {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background-color: var(--border-color);
+  color: var(--text-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  font-size: 0.875rem;
+  flex-shrink: 0;
+  transition: all 0.3s ease;
+}
+
+.lessonDetails {
+  flex: 1;
+  min-width: 0;
+}
+
+.lessonTitle {
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 0.25rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  transition: color 0.3s ease;
+}
+
+.lessonDuration {
+  font-size: 0.75rem;
+  color: var(--text-gray);
+  transition: color 0.3s ease;
+}
+
+.playingIndicator {
+  font-size: 0.875rem;
+  flex-shrink: 0;
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+  .watchLayout {
+    grid-template-columns: 1fr;
+  }
+
+  .lessonsSidebar {
+    position: static;
+    max-height: 400px;
+  }
+}
+
+@media (max-width: 768px) {
+  .container {
+    padding: 1rem;
+  }
+
+  .breadcrumb {
+    font-size: 0.8rem;
+  }
+
+  .videoTitle {
+    font-size: 1.25rem;
+  }
+
+  .videoInfo,
+  .courseInfo {
+    padding: 1rem;
+  }
+
+  .sidebarHeader {
+    padding: 1rem;
+  }
+
+  .lessonItem {
+    padding: 0.875rem 1rem;
+    gap: 0.75rem;
+  }
+
+  .lessonNumber {
+    width: 28px;
+    height: 28px;
+    font-size: 0.75rem;
+  }
+
+  .lessonTitle {
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .breadcrumb {
+    font-size: 0.75rem;
+  }
+
+  .videoMeta {
+    font-size: 0.8rem;
+  }
+
+  .lessonsSidebar {
+    max-height: 300px;
+  }
+}

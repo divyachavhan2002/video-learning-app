@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
 import { useAuth } from '@/context/AuthContext';
+import { getAuthErrorMessage, validateSignupForm } from '@/lib/authUtils';
 import styles from '@/styles/Auth.module.css';
 
 export default function Signup() {
@@ -19,13 +20,10 @@ export default function Signup() {
     e.preventDefault();
     setError('');
 
-    // Validation
-    if (password !== confirmPassword) {
-      return setError('Passwords do not match');
-    }
-
-    if (password.length < 6) {
-      return setError('Password must be at least 6 characters');
+    // Validate form
+    const validation = validateSignupForm({ name, email, password, confirmPassword });
+    if (!validation.isValid) {
+      return setError(validation.message);
     }
 
     setLoading(true);
@@ -34,7 +32,7 @@ export default function Signup() {
       await signup(email, password, name);
       router.push('/dashboard');
     } catch (error) {
-      setError(getErrorMessage(error.code));
+      setError(getAuthErrorMessage(error.code));
     } finally {
       setLoading(false);
     }
@@ -49,21 +47,10 @@ export default function Signup() {
       await loginWithGoogle();
       router.push('/dashboard');
     } catch (error) {
-      setError(getErrorMessage(error.code));
+      setError(getAuthErrorMessage(error.code));
     } finally {
       setLoading(false);
     }
-  };
-
-  // Map Firebase error codes to user-friendly messages
-  const getErrorMessage = (code) => {
-    const errorMessages = {
-      'auth/email-already-in-use': 'An account with this email already exists.',
-      'auth/invalid-email': 'Invalid email address.',
-      'auth/weak-password': 'Password is too weak. Use at least 6 characters.',
-    };
-    
-    return errorMessages[code] || 'An error occurred. Please try again.';
   };
 
   return (
