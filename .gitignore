@@ -39,3 +39,21 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# Auto-generated documentation files (keep only README.md)
+CLAUDE.md
+AGENTS.md
+PROJECT_GUIDE.md
+RESPONSIVE_GUIDE.md
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS files
+Thumbs.db
+.DS_Store
+
