@@ -1,6 +1,4 @@
-// Sample course data
-// In future, this will come from Firebase
-
+// Sample course data - will be replaced with Firebase data
 export const coursesData = [
   {
     id: 1,
