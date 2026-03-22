@@ -524,6 +524,38 @@ Screenshots, mockups, etc.
 
 ---
 
+## 🔒 Security Guidelines
+
+### Never Commit Sensitive Data
+
+**❌ DO NOT commit:**
+- API keys or tokens
+- Passwords or credentials
+- `.env` or `.env.local` files
+- Firebase configuration with actual keys
+- Personal access tokens
+- Database credentials
+
+**✅ DO commit:**
+- `.env.example` (template with no actual values)
+- Public configuration
+- Documentation
+
+### If You Accidentally Commit Secrets:
+
+1. **Immediately** revoke/rotate the exposed keys
+2. Contact the maintainer
+3. Remove from Git history (never just delete in new commit)
+
+### Reporting Security Issues
+
+If you find a security vulnerability:
+- **Do NOT** open a public issue
+- Email: divyachavhan234@gmail.com
+- Describe the issue privately
+
+---
+
 ## 🎓 Learning Resources
 
 ### Recommended Reading
@@ -531,6 +563,7 @@ Screenshots, mockups, etc.
 - [React Docs](https://react.dev)
 - [Git Workflow](https://guides.github.com/introduction/flow/)
 - [Writing Good Commits](https://chris.beams.io/posts/git-commit/)
+- [Keeping API Keys Safe](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure)
 
 ---
 

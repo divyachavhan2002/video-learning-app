@@ -435,12 +435,18 @@ git push origin feature/new-feature
    - Build Command: `npm run build`
    - Output Directory: `.next`
 
-3. **Environment Variables** (when needed)
+3. **Environment Variables** (Future - when adding Firebase)
+   ```bash
+   # Create .env.local file (NEVER commit this file!)
+   NEXT_PUBLIC_FIREBASE_API_KEY=your_key_here
+   NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN=your_domain_here
+   NEXT_PUBLIC_FIREBASE_PROJECT_ID=your_project_id
    ```
-   NEXT_PUBLIC_FIREBASE_API_KEY=your_api_key
-   NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN=your_domain
-   # Add more as needed
-   ```
+   
+   **⚠️ IMPORTANT:** 
+   - Never commit `.env.local` to Git
+   - Add environment variables in Vercel dashboard
+   - Keep API keys private and secure
 
 4. **Deploy**
    - Click "Deploy"

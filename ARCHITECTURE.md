@@ -626,11 +626,19 @@ match /enrollments/{enrollmentId} {
 
 ### Environment Variables
 ```bash
-# .env.local (Never commit this!)
-NEXT_PUBLIC_FIREBASE_API_KEY=your_api_key
-NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN=your_domain
-NEXT_PUBLIC_FIREBASE_PROJECT_ID=your_project
+# .env.local (NEVER commit this file to Git!)
+# Add these to your Vercel dashboard instead
+
+NEXT_PUBLIC_FIREBASE_API_KEY=your_key_here
+NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN=your_domain_here
+NEXT_PUBLIC_FIREBASE_PROJECT_ID=your_project_id_here
 ```
+
+**🔒 Security Best Practices:**
+- ✅ Add `.env.local` to `.gitignore` (already done)
+- ✅ Store secrets in Vercel environment variables
+- ✅ Never commit API keys or tokens
+- ✅ Use different keys for development and production
 
 ---
 
