@@ -6,6 +6,11 @@
   overflow: hidden;
   box-shadow: var(--shadow-card);
   transition: all 0.3s ease;
+  position: relative;
+}
+
+.videoContainer:fullscreen {
+  border-radius: 0;
 }
 
 /* Player Wrapper */
@@ -32,7 +37,11 @@
   transition: all 0.3s ease;
 }
 
-.playButton {
+.playButton,
+.skipButton,
+.volumeButton,
+.speedButton,
+.fullscreenButton {
   background: none;
   border: none;
   font-size: 1.5rem;
@@ -43,11 +52,20 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  color: var(--text-primary);
 }
 
-.playButton:hover {
+.playButton:hover,
+.skipButton:hover,
+.volumeButton:hover,
+.speedButton:hover,
+.fullscreenButton:hover {
   background-color: var(--overlay-white-10);
   transform: scale(1.1);
+}
+
+.skipButton {
+  font-size: 1.25rem;
 }
 
 /* Progress Bar */
@@ -110,21 +128,6 @@
   gap: 0.5rem;
 }
 
-.volumeButton {
-  background: none;
-  border: none;
-  font-size: 1.25rem;
-  cursor: pointer;
-  padding: 0.5rem;
-  border-radius: 8px;
-  transition: all 0.3s ease;
-}
-
-.volumeButton:hover {
-  background-color: var(--overlay-white-10);
-  transform: scale(1.1);
-}
-
 .volumeSlider {
   width: 80px;
   height: 4px;
@@ -168,21 +171,91 @@
   background: var(--primary-hover);
 }
 
+/* Speed Control */
+.speedControl {
+  position: relative;
+}
+
+.speedButton {
+  font-size: 1rem;
+  min-width: 50px;
+  font-weight: 600;
+}
+
+.speedMenu {
+  position: absolute;
+  bottom: 100%;
+  right: 0;
+  margin-bottom: 0.5rem;
+  background-color: var(--card-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  box-shadow: var(--shadow-card);
+  overflow: hidden;
+  z-index: 10;
+}
+
+.speedOption {
+  display: block;
+  width: 100%;
+  padding: 0.5rem 1rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 0.875rem;
+  color: var(--text-primary);
+  transition: all 0.2s ease;
+  text-align: left;
+}
+
+.speedOption:hover {
+  background-color: var(--overlay-white-10);
+}
+
+.speedOption.active {
+  background-color: var(--primary-color);
+  color: white;
+  font-weight: 600;
+}
+
+/* Fullscreen Button */
+.fullscreenButton {
+  font-size: 1.25rem;
+}
+
 /* Responsive Design */
 @media (max-width: 768px) {
   .controls {
     gap: 0.5rem;
     padding: 0.75rem;
+    flex-wrap: wrap;
   }
 
-  .playButton {
+  .playButton,
+  .skipButton,
+  .volumeButton,
+  .speedButton,
+  .fullscreenButton {
     font-size: 1.25rem;
     padding: 0.375rem;
+  }
+
+  .skipButton {
+    font-size: 1rem;
   }
 
   .timeDisplay {
     font-size: 0.75rem;
     min-width: 80px;
+    order: 3;
+    width: 100%;
+    justify-content: center;
+  }
+
+  .progressContainer {
+    order: 2;
+    width: 100%;
+    flex: initial;
   }
 
   .volumeControl {
@@ -193,9 +266,15 @@
     width: 60px;
   }
 
-  .volumeButton {
-    font-size: 1rem;
-    padding: 0.375rem;
+  .speedButton {
+    min-width: 45px;
+    font-size: 0.875rem;
+  }
+
+  .speedMenu {
+    right: auto;
+    left: 50%;
+    transform: translateX(-50%);
   }
 }
 
