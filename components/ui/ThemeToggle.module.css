@@ -1,0 +1,98 @@
+.themeToggle {
+  position: relative;
+}
+
+.toggleButton {
+  background: transparent;
+  border: 2px solid var(--border-color);
+  border-radius: 8px;
+  padding: 0.5rem 0.75rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 44px;
+  min-height: 44px;
+}
+
+.toggleButton:hover {
+  background-color: var(--card-hover-bg);
+  border-color: var(--primary-color);
+}
+
+.icon {
+  font-size: 1.25rem;
+  display: block;
+}
+
+.dropdown {
+  position: absolute;
+  top: calc(100% + 0.5rem);
+  right: 0;
+  background: var(--card-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  box-shadow: var(--shadow-dropdown);
+  min-width: 150px;
+  z-index: 1000;
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+.option {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border: none;
+  background: transparent;
+  color: var(--text-primary);
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-align: left;
+}
+
+.option:hover {
+  background-color: var(--card-hover-bg);
+}
+
+.option.active {
+  background-color: var(--hover-blue-light);
+  color: var(--primary-color);
+  font-weight: 600;
+}
+
+.optionIcon {
+  font-size: 1.125rem;
+}
+
+.check {
+  margin-left: auto;
+  color: var(--primary-color);
+  font-weight: 700;
+}
+
+/* Mobile */
+@media (max-width: 480px) {
+  .toggleButton {
+    padding: 0.4rem 0.6rem;
+    min-width: 40px;
+    min-height: 40px;
+  }
+
+  .icon {
+    font-size: 1.1rem;
+  }
+
+  .dropdown {
+    min-width: 140px;
+  }
+
+  .option {
+    padding: 0.625rem 0.875rem;
+    font-size: 0.9rem;
+  }
+}

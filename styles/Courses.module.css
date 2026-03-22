@@ -9,20 +9,25 @@
   text-align: center;
   padding: 3rem 2rem;
   margin-bottom: 3rem;
+  background-color: var(--card-bg);
+  border-radius: 12px;
+  transition: background-color 0.3s ease;
 }
 
 .title {
   font-size: clamp(2rem, 5vw, 2.5rem);
   font-weight: 700;
-  color: #1f2937;
+  color: var(--text-primary);
   margin-bottom: 1rem;
+  transition: color 0.3s ease;
 }
 
 .subtitle {
   font-size: clamp(1rem, 2.5vw, 1.125rem);
-  color: #6b7280;
+  color: var(--text-gray);
   max-width: 600px;
   margin: 0 auto;
+  transition: color 0.3s ease;
 }
 
 /* Courses Section */
@@ -42,8 +47,9 @@
 .emptyState {
   text-align: center;
   padding: 4rem 2rem;
-  color: #6b7280;
+  color: var(--text-gray);
   font-size: 1.125rem;
+  transition: color 0.3s ease;
 }
 
 /* Responsive Design */

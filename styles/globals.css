@@ -1,40 +1,152 @@
-/* CSS Variables for consistent theming */
+/* ========================================
+   CSS VARIABLES - Single Source of Truth
+   All design tokens and theme variables
+   ======================================== */
+
 :root {
+  /* Spacing Scale */
+  --space-xs: 0.25rem;   /* 4px */
+  --space-sm: 0.5rem;    /* 8px */
+  --space-md: 1rem;      /* 16px */
+  --space-lg: 1.5rem;    /* 24px */
+  --space-xl: 2rem;      /* 32px */
+  --space-2xl: 3rem;     /* 48px */
+  --space-3xl: 4rem;     /* 64px */
+
+  /* Border Radius */
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-xl: 16px;
+  --radius-full: 9999px;
+
+  /* Font Sizes */
+  --text-xs: 0.75rem;    /* 12px */
+  --text-sm: 0.875rem;   /* 14px */
+  --text-base: 1rem;     /* 16px */
+  --text-lg: 1.125rem;   /* 18px */
+  --text-xl: 1.25rem;    /* 20px */
+  --text-2xl: 1.5rem;    /* 24px */
+  --text-3xl: 1.875rem;  /* 30px */
+  --text-4xl: 2.25rem;   /* 36px */
+
+  /* Font Weights */
+  --font-normal: 400;
+  --font-medium: 500;
+  --font-semibold: 600;
+  --font-bold: 700;
+
+  /* Z-Index Scale */
+  --z-base: 0;
+  --z-dropdown: 100;
+  --z-sticky: 200;
+  --z-modal: 300;
+  --z-toast: 400;
+
+  /* Transitions */
+  --transition-fast: 150ms;
+  --transition-base: 300ms;
+  --transition-slow: 500ms;
+  
+  /* Backgrounds */
   --background: #f9fafb;
   --foreground: #171717;
+  --card-bg: #ffffff;
+  --card-hover-bg: #f9fafb;
+  
+  /* Primary Colors */
   --primary-color: #2563eb;
   --primary-hover: #1d4ed8;
   --secondary-color: #667eea;
   --accent-color: #fbbf24;
+  --accent-hover: #f59e0b;
+  
+  /* Text Colors */
+  --text-primary: #1f2937;
+  --text-secondary: #4b5563;
   --text-gray: #6b7280;
+  --text-light: #9ca3af;
+  
+  /* Border & Divider */
   --border-color: #e5e7eb;
-  --card-bg: #ffffff;
+  --border-light: #f3f4f6;
+  --border-dark: #d1d5db;
+  
+  /* Status Colors */
+  --error-bg: #fee;
+  --error-text: #c33;
+  --error-border: #fcc;
+  --danger-color: #dc2626;
+  --danger-bg: #fef2f2;
+  --success-color: #10b981;
+  --warning-color: #f59e0b;
+  
+  /* Specific UI Colors */
+  --hover-blue-light: #eff6ff;
+  --hover-blue-dark: #1e3a8a;
+  
+  /* Gradients */
+  --gradient-primary: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  
+  /* Shadows */
   --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.1);
   --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.1);
   --shadow-lg: 0 12px 24px rgba(0, 0, 0, 0.15);
+  --shadow-xl: 0 20px 60px rgba(0, 0, 0, 0.15);
+  --shadow-accent: 0 4px 12px rgba(251, 191, 36, 0.4);
+  --shadow-primary: 0 4px 12px rgba(37, 99, 235, 0.3);
+  --shadow-dropdown: 0 10px 25px rgba(0, 0, 0, 0.1);
   
-  /* Responsive spacing */
-  --spacing-xs: 0.5rem;
-  --spacing-sm: 1rem;
-  --spacing-md: 1.5rem;
-  --spacing-lg: 2rem;
-  --spacing-xl: 3rem;
+  /* Opacity overlays */
+  --overlay-light: rgba(255, 255, 255, 0.9);
+  --overlay-medium: rgba(255, 255, 255, 0.2);
+  --overlay-dark: rgba(0, 0, 0, 0.1);
+  --overlay-white-10: rgba(255, 255, 255, 0.1);
+  --text-shadow-accent: 0 2px 10px rgba(251, 191, 36, 0.3);
   
   /* Container widths */
   --container-max: 1200px;
   --container-padding: 1rem;
 }
 
-/* Dark mode support */
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-    --card-bg: #1f2937;
-    --border-color: #374151;
-    --text-gray: #9ca3af;
-  }
+/* ========================================
+   DARK MODE THEME
+   ======================================== */
+.dark {
+  /* Backgrounds */
+  --background: #0a0a0a;
+  --foreground: #ededed;
+  --card-bg: #1f2937;
+  --card-hover-bg: #111827;
+  
+  /* Text Colors */
+  --text-primary: #f3f4f6;
+  --text-secondary: #d1d5db;
+  --text-light: #d1d5db;
+  --text-gray: #9ca3af;
+  
+  /* Border & Divider */
+  --border-color: #374151;
+  --border-light: #4b5563;
+  --border-dark: #1f2937;
+  
+  /* Shadows */
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.3);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.3);
+  --shadow-lg: 0 12px 24px rgba(0, 0, 0, 0.4);
+  --shadow-xl: 0 20px 60px rgba(0, 0, 0, 0.4);
+  --shadow-dropdown: 0 10px 25px rgba(0, 0, 0, 0.5);
+  
+  /* Opacity overlays */
+  --overlay-light: rgba(255, 255, 255, 0.2);
+  --overlay-medium: rgba(255, 255, 255, 0.2);
+  --overlay-dark: rgba(0, 0, 0, 0.3);
+  --overlay-white-10: rgba(255, 255, 255, 0.1);
 }
+
+/* ========================================
+   BASE STYLES
+   ======================================== */
 
 /* Base reset and setup */
 * {
@@ -68,6 +180,7 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   line-height: 1.6;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 a {
@@ -76,15 +189,7 @@ a {
   cursor: pointer;
 }
 
-/* Improve tap targets for mobile */
-button,
-a,
-input,
-select,
-textarea {
-  min-height: 44px;
-  min-width: 44px;
-}
+/* Improve tap targets for mobile - removed global min-height/width to prevent layout issues */
 
 /* Responsive images */
 img {
@@ -110,3 +215,12 @@ button {
     color-scheme: dark;
   }
 }
+
+/* ========================================
+   BREAKPOINTS REFERENCE
+   Use these values in @media queries
+   ======================================== */
+/* Mobile: 480px */
+/* Tablet: 768px */
+/* Laptop: 1024px */
+/* Desktop: 1440px */

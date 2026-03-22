@@ -1,7 +1,6 @@
-# 🎓 Video Learning App - Complete Documentation
+# 🎓 LearnHub - Video Learning Platform
 
-> A modern, fully responsive video learning platform built with Next.js and Firebase  
-> **Internship Project by Divya Chavhan**
+A modern video learning platform built with Next.js and Firebase.
 
 [![Next.js](https://img.shields.io/badge/Next.js-16.2.1-black)](https://nextjs.org/)
 [![React](https://img.shields.io/badge/React-19.2.4-blue)](https://reactjs.org/)
@@ -24,30 +23,21 @@
 - [Contributing](#-contributing)
 - [Author](#-author)
 
-> 📚 **Additional Documentation:**  
-> - [CONTRIBUTING.md](./CONTRIBUTING.md) - Git workflow & contribution guidelines  
-> - [ARCHITECTURE.md](./ARCHITECTURE.md) - Technical architecture & design patterns
-
 ---
 
 ## 🎯 Project Overview
 
-This is a **video learning platform** where users can:
-- Browse and enroll in video courses
-- Watch educational video content
-- Track their learning progress
-- Manage their profile and enrolled courses
+LearnHub is a video learning platform that allows users to browse courses, enroll in content, and track their progress. Built as part of a web development internship using modern React/Next.js patterns.
 
-**Built for:** Web Development Internship  
-**Timeline:** 6-week development cycle  
-**Approach:** Professional Git workflow with Pull Requests
+**Development Period:** 6 weeks  
+**Workflow:** Feature branches with PR reviews
 
 ---
 
 ## ✨ Features
 
-### Current Features (Completed)
-- ✅ **Responsive Layout** - Works on desktop, laptop, tablet, and mobile
+### Current Features
+- ✅ **Responsive Design** - Mobile-first approach, works across all devices
 - ✅ **Modern UI** - Clean, professional design with gradient hero section
 - ✅ **Navigation** - Header with logo, menu, and auth buttons
 - ✅ **Feature Showcase** - Grid layout adapting to screen size

@@ -13,7 +13,6 @@ export default function Courses() {
       </Head>
 
       <div className={styles.container}>
-        {/* Header Section */}
         <section className={styles.header}>
           <h1 className={styles.title}>Explore Our Courses</h1>
           <p className={styles.subtitle}>
@@ -21,7 +20,6 @@ export default function Courses() {
           </p>
         </section>
 
-        {/* Courses Grid */}
         <section className={styles.coursesSection}>
           <div className={styles.courseGrid}>
             {coursesData.map((course) => (
@@ -30,7 +28,6 @@ export default function Courses() {
           </div>
         </section>
 
-        {/* Empty State (if no courses) */}
         {coursesData.length === 0 && (
           <div className={styles.emptyState}>
             <p>No courses available at the moment. Check back soon!</p>

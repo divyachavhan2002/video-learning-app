@@ -1,4 +1,5 @@
 import Head from "next/head";
+import Link from "next/link";
 import styles from "@/styles/Home.module.css";
 
 export default function Home() {
@@ -12,7 +13,6 @@ export default function Home() {
       </Head>
 
       <div className={styles.container}>
-        {/* Hero Section */}
         <section className={styles.hero}>
           <h1 className={styles.title}>
             Welcome to <span className={styles.highlight}>LearnHub</span>
@@ -21,16 +21,15 @@ export default function Home() {
             Learn new skills with our comprehensive video courses
           </p>
           <div className={styles.ctaButtons}>
-            <a href="/courses" className={styles.primaryBtn}>
+            <Link href="/courses" className={styles.primaryBtn}>
               Browse Courses
-            </a>
-            <a href="/signup" className={styles.secondaryBtn}>
+            </Link>
+            <Link href="/auth/signup" className={styles.secondaryBtn}>
               Get Started Free
-            </a>
+            </Link>
           </div>
         </section>
 
-        {/* Features Section */}
         <section className={styles.features}>
           <h2 className={styles.sectionTitle}>Why Choose LearnHub?</h2>
           <div className={styles.featureGrid}>

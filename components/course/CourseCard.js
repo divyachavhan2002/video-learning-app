@@ -4,7 +4,6 @@ import styles from './CourseCard.module.css';
 export default function CourseCard({ course }) {
   return (
     <div className={styles.card}>
-      {/* Thumbnail placeholder */}
       <div className={styles.thumbnail}>
         <div className={styles.thumbnailPlaceholder}>
           <span className={styles.icon}>📚</span>
@@ -12,7 +11,6 @@ export default function CourseCard({ course }) {
         <span className={styles.level}>{course.level}</span>
       </div>
 
-      {/* Course Info */}
       <div className={styles.content}>
         <div className={styles.category}>{course.category}</div>
         

@@ -1,0 +1,441 @@
+/* Container */
+.container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem 1rem;
+}
+
+/* Not Found */
+.notFound {
+  text-align: center;
+  padding: 4rem 2rem;
+  min-height: 400px;
+}
+
+.notFound h1 {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+  color: var(--text-primary);
+  transition: color 0.3s ease;
+}
+
+.notFound p {
+  color: var(--text-gray);
+  margin-bottom: 2rem;
+  transition: color 0.3s ease;
+}
+
+.backBtn {
+  display: inline-block;
+  background-color: var(--primary-color);
+  color: white;
+  padding: 0.75rem 2rem;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.backBtn:hover {
+  background-color: var(--primary-hover);
+  transform: translateY(-2px);
+}
+
+/* Breadcrumb */
+.breadcrumb {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 2rem;
+  font-size: 0.9rem;
+  flex-wrap: nowrap;
+  white-space: nowrap;
+}
+
+.breadcrumb a {
+  color: var(--primary-color);
+  text-decoration: none;
+  transition: color 0.3s ease;
+  font-weight: 500;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.breadcrumb a:hover {
+  color: var(--primary-hover);
+  text-decoration: underline;
+}
+
+.separator {
+  color: var(--text-light);
+  transition: color 0.3s ease;
+  user-select: none;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.current {
+  color: var(--text-gray);
+  font-weight: 500;
+  transition: color 0.3s ease;
+  white-space: nowrap;
+  flex-shrink: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  min-width: 0;
+}
+
+/* Hero */
+.hero {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 3rem;
+  margin-bottom: 3rem;
+  padding: 2rem;
+  background: var(--gradient-primary);
+  border-radius: 16px;
+  color: white;
+}
+
+.heroContent {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.category {
+  display: inline-block;
+  width: fit-content;
+  background-color: var(--overlay-medium);
+  color: white;
+  padding: 0.4rem 1rem;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  margin-bottom: 1rem;
+}
+
+.title {
+  font-size: clamp(2rem, 5vw, 2.5rem);
+  font-weight: 700;
+  margin-bottom: 1rem;
+  line-height: 1.2;
+  color: white;
+}
+
+.description {
+  font-size: clamp(1rem, 2.5vw, 1.125rem);
+  line-height: 1.6;
+  margin-bottom: 1.5rem;
+  opacity: 0.95;
+  color: white;
+}
+
+.meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.metaItem {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.95rem;
+  color: white;
+}
+
+.icon {
+  font-size: 1.2rem;
+}
+
+.actions {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.enrollBtn,
+.shareBtn {
+  padding: 0.875rem 2rem;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border: none;
+}
+
+.enrollBtn {
+  background-color: var(--accent-color);
+  color: var(--text-primary);
+}
+
+.enrollBtn:hover {
+  background-color: var(--accent-hover);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-accent);
+}
+
+.shareBtn {
+  background-color: transparent;
+  color: white;
+  border: 2px solid white;
+}
+
+.shareBtn:hover {
+  background-color: var(--overlay-white-10);
+  transform: translateY(-2px);
+}
+
+.heroImage {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.thumbnail {
+  width: 100%;
+  max-width: 400px;
+  aspect-ratio: 16/9;
+  background: var(--overlay-white-10);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  backdrop-filter: blur(10px);
+}
+
+.thumbnailIcon {
+  font-size: 6rem;
+}
+
+/* Content */
+.content {
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.section {
+  margin-bottom: 3rem;
+}
+
+.sectionTitle {
+  font-size: clamp(1.5rem, 4vw, 1.75rem);
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 1.5rem;
+  transition: color 0.3s ease;
+}
+
+/* Learning List */
+.learningList {
+  list-style: none;
+  padding: 0;
+}
+
+.learningList li {
+  padding: 1rem;
+  margin-bottom: 0.75rem;
+  background-color: var(--card-bg);
+  border-left: 4px solid var(--primary-color);
+  border-radius: 4px;
+  color: var(--text-gray);
+  transition: all 0.3s ease;
+  border: 1px solid var(--border-color);
+}
+
+.learningList li::before {
+  content: '✅ ';
+  margin-right: 0.5rem;
+}
+
+/* Curriculum */
+.curriculum {
+  background-color: var(--card-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.module {
+  border-bottom: 1px solid var(--border-color);
+}
+
+.module:last-child {
+  border-bottom: none;
+}
+
+.moduleTitle {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 1.25rem;
+  background-color: var(--card-bg);
+  color: var(--text-primary);
+  font-size: 1.125rem;
+  font-weight: 600;
+  margin: 0;
+  transition: all 0.3s ease;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.moduleIcon {
+  font-size: 1.25rem;
+}
+
+.lessonList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.lesson {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem 1.25rem;
+  border-bottom: 1px solid var(--border-color);
+  transition: all 0.3s ease;
+}
+
+.lesson:last-child {
+  border-bottom: none;
+}
+
+.lesson:hover {
+  background-color: var(--card-bg);
+  opacity: 0.8;
+}
+
+.lessonIcon {
+  font-size: 1.125rem;
+}
+
+.lessonTitle {
+  flex: 1;
+  color: var(--text-gray);
+  transition: color 0.3s ease;
+}
+
+.lessonDuration {
+  color: var(--text-light);
+  font-size: 0.875rem;
+  transition: color 0.3s ease;
+}
+
+.comingSoon {
+  padding: 2rem;
+  text-align: center;
+  color: var(--text-gray);
+  background-color: var(--card-bg);
+  transition: all 0.3s ease;
+}
+
+/* Instructor */
+.instructorCard {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  padding: 2rem;
+  background-color: var(--card-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+}
+
+.instructorAvatar {
+  width: 80px;
+  height: 80px;
+  background: var(--gradient-primary);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.avatarIcon {
+  font-size: 2.5rem;
+}
+
+.instructorInfo h3 {
+  font-size: 1.25rem;
+  color: var(--text-primary);
+  margin-bottom: 0.5rem;
+  transition: color 0.3s ease;
+}
+
+.instructorInfo p {
+  color: var(--text-gray);
+  line-height: 1.6;
+  transition: color 0.3s ease;
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+  .hero {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+
+  .heroImage {
+    order: -1;
+  }
+}
+
+@media (max-width: 768px) {
+  .container {
+    padding: 1.5rem 0.75rem;
+  }
+
+  .hero {
+    padding: 1.5rem;
+  }
+
+  .meta {
+    gap: 1rem;
+  }
+
+  .actions {
+    flex-direction: column;
+  }
+
+  .enrollBtn,
+  .shareBtn {
+    width: 100%;
+  }
+
+  .thumbnail {
+    max-width: 300px;
+  }
+
+  .thumbnailIcon {
+    font-size: 4rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .breadcrumb {
+    font-size: 0.8rem;
+  }
+
+  .moduleTitle {
+    font-size: 1rem;
+    padding: 1rem;
+  }
+
+  .lesson {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+    padding: 0.875rem 1rem;
+  }
+
+  .instructorCard {
+    flex-direction: column;
+    text-align: center;
+  }
+}

@@ -1,14 +1,14 @@
 /* Header container */
 .header {
-  background-color: #ffffff;
-  border-bottom: 1px solid #e5e7eb;
+  background-color: var(--card-bg);
+  border-bottom: 1px solid var(--border-color);
   padding: 0.75rem 0;
   position: sticky;
   top: 0;
   z-index: 100;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  box-shadow: var(--shadow-sm);
   backdrop-filter: blur(10px);
-  background-color: rgba(255, 255, 255, 0.95);
+  transition: all 0.3s ease;
 }
 
 .container {
@@ -24,7 +24,7 @@
 /* Logo */
 .logo h2 {
   margin: 0;
-  color: #2563eb;
+  color: var(--primary-color);
   cursor: pointer;
   transition: color 0.3s ease;
   font-size: 1.5rem;
@@ -32,7 +32,7 @@
 }
 
 .logo h2:hover {
-  color: #1d4ed8;
+  color: var(--primary-hover);
 }
 
 /* Navigation */
@@ -45,7 +45,7 @@
 }
 
 .navLink {
-  color: #4b5563;
+  color: var(--text-secondary);
   text-decoration: none;
   font-weight: 500;
   transition: color 0.3s ease;
@@ -54,7 +54,7 @@
 }
 
 .navLink:hover {
-  color: #2563eb;
+  color: var(--primary-color);
 }
 
 /* Auth Buttons */
@@ -78,25 +78,60 @@
 }
 
 .loginBtn {
-  color: #2563eb;
+  padding: 0.5rem 1.25rem;
+  border-radius: 6px;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  white-space: nowrap;
+  font-size: 0.95rem;
+  color: var(--primary-color);
   background-color: transparent;
-  border: 1px solid #2563eb;
+  border: 1px solid var(--primary-color);
 }
 
 .loginBtn:hover {
-  background-color: #eff6ff;
+  background-color: var(--card-hover-bg);
 }
 
 .signupBtn {
-  color: #ffffff;
-  background-color: #2563eb;
-  border: 1px solid #2563eb;
+  color: white;
+  background-color: var(--primary-color);
+  border: 1px solid var(--primary-color);
 }
 
 .signupBtn:hover {
-  background-color: #1d4ed8;
+  background-color: var(--primary-hover);
   transform: translateY(-1px);
-  box-shadow: 0 2px 8px rgba(37, 99, 235, 0.3);
+  box-shadow: var(--shadow-md);
+}
+
+.userName {
+  color: var(--text-secondary);
+  font-weight: 500;
+  font-size: 0.95rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 150px;
+  transition: color 0.3s ease;
+}
+
+.logoutBtn {
+  padding: 0.5rem 1.25rem;
+  border-radius: 6px;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  white-space: nowrap;
+  font-size: 0.95rem;
+  color: var(--danger-color);
+  background-color: transparent;
+  border: 1px solid var(--danger-color);
+  cursor: pointer;
+}
+
+.logoutBtn:hover {
+  background-color: var(--danger-bg);
+  transform: translateY(-1px);
 }
 
 /* Tablet - 768px to 1024px */

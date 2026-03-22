@@ -1,0 +1,220 @@
+/* ========================================
+   SHARED CSS UTILITIES
+   Reusable styles to reduce duplication
+   ======================================== */
+
+/* Page Containers - Use these instead of duplicating */
+.pageWrapper {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem 1rem;
+}
+
+.contentWrapper {
+  width: 100%;
+  padding: 0 1rem;
+}
+
+/* Common Sections */
+.section {
+  margin-bottom: 3rem;
+}
+
+.sectionHeader {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+/* Typography */
+.heading1 {
+  font-size: clamp(2rem, 5vw, 2.5rem);
+  font-weight: 700;
+  color: var(--text-primary);
+  line-height: 1.2;
+}
+
+.heading2 {
+  font-size: clamp(1.5rem, 4vw, 1.75rem);
+  font-weight: 700;
+  color: var(--text-primary);
+  line-height: 1.3;
+}
+
+.bodyText {
+  font-size: clamp(1rem, 2.5vw, 1.125rem);
+  color: var(--text-gray);
+  line-height: 1.6;
+}
+
+/* Buttons - Standardized across app */
+.button {
+  padding: 0.75rem 2rem;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border: none;
+  text-decoration: none;
+  display: inline-block;
+  text-align: center;
+  min-width: 120px;
+}
+
+.buttonPrimary {
+  padding: 0.75rem 2rem;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border: none;
+  text-decoration: none;
+  display: inline-block;
+  text-align: center;
+  min-width: 120px;
+  background-color: var(--primary-color);
+  color: white;
+}
+
+.buttonPrimary:hover {
+  background-color: var(--primary-hover);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-primary);
+}
+
+.buttonSecondary {
+  padding: 0.75rem 2rem;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-decoration: none;
+  display: inline-block;
+  text-align: center;
+  min-width: 120px;
+  background-color: transparent;
+  color: var(--text-primary);
+  border: 2px solid var(--border-color);
+}
+
+.buttonSecondary:hover {
+  border-color: var(--primary-color);
+  transform: translateY(-2px);
+}
+
+/* Cards */
+.card {
+  background-color: var(--card-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  padding: 2rem;
+  transition: all 0.3s ease;
+}
+
+.cardInteractive:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-md);
+}
+
+/* Grids - Responsive by default */
+.gridAuto {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 2rem;
+}
+
+.gridTwoColumn {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 2rem;
+}
+
+.gridThreeColumn {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem;
+}
+
+/* Loading States */
+.loadingContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 400px;
+}
+
+.loadingText {
+  font-size: 1.2rem;
+  color: var(--text-gray);
+}
+
+/* Empty States */
+.emptyState {
+  text-align: center;
+  padding: 4rem 2rem;
+  background-color: var(--card-bg);
+  border-radius: 12px;
+  border: 2px dashed var(--border-color);
+  transition: all 0.3s ease;
+}
+
+.emptyStateIcon {
+  font-size: 4rem;
+  margin-bottom: 1rem;
+}
+
+.emptyStateText {
+  color: var(--text-gray);
+  font-size: 1.125rem;
+  margin-bottom: 1.5rem;
+}
+
+/* Responsive Breakpoints */
+@media (max-width: 1024px) {
+  .gridThreeColumn {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .pageWrapper {
+    padding: 1.5rem 0.75rem;
+  }
+
+  .section {
+    margin-bottom: 2rem;
+  }
+
+  .gridTwoColumn,
+  .gridThreeColumn {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+
+  .gridAuto {
+    gap: 1.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .pageWrapper {
+    padding: 1rem 0.5rem;
+  }
+
+  .card {
+    padding: 1.5rem;
+  }
+
+  .button {
+    width: 100%;
+    padding: 0.625rem 1.5rem;
+  }
+
+  .gridAuto {
+    gap: 1rem;
+  }
+}
+
