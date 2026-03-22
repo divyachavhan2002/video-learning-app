@@ -21,7 +21,12 @@
 - [Git Workflow](#-git-workflow)
 - [Deployment](#-deployment)
 - [Future Enhancements](#-future-enhancements)
+- [Contributing](#-contributing)
 - [Author](#-author)
+
+> 📚 **Additional Documentation:**  
+> - [CONTRIBUTING.md](./CONTRIBUTING.md) - Git workflow & contribution guidelines  
+> - [ARCHITECTURE.md](./ARCHITECTURE.md) - Technical architecture & design patterns
 
 ---
 
@@ -489,6 +494,34 @@ git push origin feature/new-feature
 - [Next.js Learn](https://nextjs.org/learn)
 - [Firebase Authentication](https://firebase.google.com/docs/auth)
 - [Responsive Web Design](https://web.dev/responsive-web-design-basics/)
+
+---
+
+---
+
+## 🤝 Contributing
+
+We welcome contributions! Please read our [CONTRIBUTING.md](./CONTRIBUTING.md) for:
+- Development workflow
+- Branch naming conventions
+- Commit message guidelines
+- Pull request process
+- Code style guidelines
+
+**Quick Start for Contributors:**
+```bash
+# Fork and clone
+git clone https://github.com/YOUR_USERNAME/video-learning-app.git
+
+# Create feature branch
+git checkout -b feature/your-feature
+
+# Make changes and commit
+git commit -m "feat: your feature description"
+
+# Push and create PR
+git push origin feature/your-feature
+```
 
 ---
 
