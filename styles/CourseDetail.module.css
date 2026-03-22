@@ -160,27 +160,28 @@
 
 /* Message styles */
 .successMessage {
-  background-color: rgba(34, 197, 94, 0.1);
-  color: #22c55e;
-  padding: 0.875rem 1.25rem;
-  border-radius: 8px;
-  margin-bottom: 1rem;
-  font-weight: 500;
-  border: 1px solid rgba(34, 197, 94, 0.3);
+  background-color: var(--success-bg);
+  color: var(--success-color);
+  padding: var(--space-md) var(--space-lg);
+  border-radius: var(--radius-md);
+  margin-bottom: var(--space-md);
+  font-weight: var(--font-medium);
+  border: 1px solid var(--success-border);
 }
 
 .errorMessage {
-  background-color: rgba(239, 68, 68, 0.1);
-  color: #ef4444;
-  padding: 0.875rem 1.25rem;
-  border-radius: 8px;
-  margin-bottom: 1rem;
-  font-weight: 500;
-  border: 1px solid rgba(239, 68, 68, 0.3);
+  background-color: var(--error-bg);
+  color: var(--error-color);
+  padding: var(--space-md) var(--space-lg);
+  border-radius: var(--radius-md);
+  margin-bottom: var(--space-md);
+  font-weight: var(--font-medium);
+  border: 1px solid var(--error-border);
 }
 
 .enrollBtn,
 .enrolledBtn,
+.startLearningBtn,
 .shareBtn {
   padding: 0.875rem 2rem;
   border-radius: 8px;
@@ -189,6 +190,9 @@
   cursor: pointer;
   transition: all 0.3s ease;
   border: none;
+  text-decoration: none;
+  display: inline-block;
+  text-align: center;
 }
 
 .enrollBtn {
@@ -207,10 +211,23 @@
   cursor: not-allowed;
 }
 
-.enrolledBtn {
-  background-color: #22c55e;
+.startLearningBtn {
+  background-color: var(--primary-color);
   color: white;
+}
+
+.startLearningBtn:hover {
+  background-color: var(--primary-hover);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-primary);
+}
+
+.enrolledBtn {
+  background-color: var(--success-color);
+  color: var(--button-text);
   cursor: default;
+  font-size: var(--text-sm);
+  padding: var(--space-sm) var(--space-lg);
 }
 
 .shareBtn {

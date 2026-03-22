@@ -1,0 +1,24 @@
+{
+  "instructors": [
+    { "id": 1, "name": "Sarah Johnson", "specialty": "Frontend & React" },
+    { "id": 2, "name": "Mike Chen", "specialty": "Full-Stack Development" },
+    { "id": 3, "name": "Emma Davis", "specialty": "JavaScript & Frontend" },
+    { "id": 4, "name": "Alex Martinez", "specialty": "Backend Development" },
+    { "id": 5, "name": "David Kumar", "specialty": "CSS & UI/UX" },
+    { "id": 6, "name": "Lisa Wong", "specialty": "Firebase & Cloud" },
+    { "id": 7, "name": "Raj Patel", "specialty": "Java & Enterprise" },
+    { "id": 8, "name": "Emily Brown", "specialty": ".NET & C#" },
+    { "id": 9, "name": "David Kim", "specialty": "Databases" },
+    { "id": 10, "name": "Maria Garcia", "specialty": "SQL & Data" },
+    { "id": 11, "name": "James Wilson", "specialty": "Cybersecurity" },
+    { "id": 12, "name": "Nina Chen", "specialty": "Authentication" },
+    { "id": 13, "name": "Tom Anderson", "specialty": "DevOps & Docker" },
+    { "id": 14, "name": "Robert Lee", "specialty": "Cloud & AWS" },
+    { "id": 15, "name": "Jennifer White", "specialty": "Mobile Development" },
+    { "id": 16, "name": "Carlos Rodriguez", "specialty": "AI & Machine Learning" },
+    { "id": 17, "name": "Sophia Martinez", "specialty": "Python" },
+    { "id": 18, "name": "Kevin Zhang", "specialty": "TypeScript" },
+    { "id": 19, "name": "Rachel Green", "specialty": "Vue.js" },
+    { "id": 20, "name": "Daniel Park", "specialty": "Angular" }
+  ]
+}

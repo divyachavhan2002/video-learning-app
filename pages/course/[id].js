@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
-import Head from 'next/head';
+import SEO from '@/components/common/SEO';
 import Link from 'next/link';
 import { coursesData } from '@/data/courses';
 import { useAuth } from '@/context/AuthContext';
@@ -66,11 +66,11 @@ export default function CourseDetail() {
 
   return (
     <>
-      <Head>
-        <title>{course.title} - LearnHub</title>
-        <meta name="description" content={course.description} />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-      </Head>
+      <SEO 
+        title={`${course.title} - LearnHub`}
+        description={course.description}
+        keywords={`${course.title}, ${course.tech}, online course, ${course.category}, ${course.level}`}
+      />
 
       <div className={styles.container}>
         <div className={styles.header}>
@@ -113,9 +113,14 @@ export default function CourseDetail() {
 
               <div className={styles.actions}>
                 {enrolled ? (
-                  <button className={styles.enrolledBtn} disabled>
-                    ✓ Already Enrolled
-                  </button>
+                  <>
+                    <Link href={`/course/${id}/watch`} className={styles.startLearningBtn}>
+                      Start Learning
+                    </Link>
+                    <button className={styles.enrolledBtn} disabled>
+                      ✓ Enrolled
+                    </button>
+                  </>
                 ) : (
                   <button 
                     className={styles.enrollBtn}

@@ -1,0 +1,1099 @@
+{
+  "frontend": [
+    {
+      "id": 1,
+      "title": "HTML5 & CSS3 Fundamentals",
+      "description": "Master the building blocks of the web with modern HTML5 and CSS3.",
+      "instructorId": 1,
+      "duration": "8 hours",
+      "level": "Beginner",
+      "students": 4521,
+      "rating": 4.8,
+      "category": "frontend",
+      "tech": "html",
+      "lessons": [
+        {"id": 1, "title": "HTML5 Structure", "duration": "15:30", "videoUrl": "https://www.youtube.com/watch?v=qz0aGYrrlhU"},
+        {"id": 2, "title": "CSS3 Styling", "duration": "18:45", "videoUrl": "https://www.youtube.com/watch?v=1PnVor36_40"}
+      ]
+    },
+    {
+      "id": 2,
+      "title": "JavaScript ES6+ Complete",
+      "description": "Master modern JavaScript with ES6+ features.",
+      "instructorId": 3,
+      "duration": "12 hours",
+      "level": "Beginner",
+      "students": 3845,
+      "rating": 4.9,
+      "category": "frontend",
+      "tech": "javascript",
+      "lessons": [
+        {"id": 1, "title": "JS Fundamentals", "duration": "20:30", "videoUrl": "https://www.youtube.com/watch?v=W6NZfCO5SIk"}
+      ]
+    },
+    {
+      "id": 3,
+      "title": "React Complete Guide 2026",
+      "description": "Build modern web apps with React.",
+      "instructorId": 1,
+      "duration": "16 hours",
+      "level": "Intermediate",
+      "students": 5234,
+      "rating": 4.9,
+      "category": "frontend",
+      "tech": "react",
+      "lessons": [
+        {"id": 1, "title": "React Fundamentals", "duration": "18:30", "videoUrl": "https://www.youtube.com/watch?v=SqcY0GlETPk"}
+      ]
+    },
+    {
+      "id": 4,
+      "title": "Next.js 15 Complete",
+      "description": "Master Next.js 15 with App Router.",
+      "instructorId": 2,
+      "duration": "18 hours",
+      "level": "Advanced",
+      "students": 2876,
+      "rating": 4.9,
+      "category": "frontend",
+      "tech": "nextjs",
+      "lessons": [
+        {"id": 1, "title": "Next.js Basics", "duration": "20:00", "videoUrl": "https://www.youtube.com/watch?v=mTz0GXj8NN0"}
+      ]
+    },
+    {
+      "id": 5,
+      "title": "Vue.js 3 Masterclass",
+      "description": "Build reactive apps with Vue 3.",
+      "instructorId": 19,
+      "duration": "14 hours",
+      "level": "Intermediate",
+      "students": 2145,
+      "rating": 4.8,
+      "category": "frontend",
+      "tech": "vue",
+      "lessons": [
+        {"id": 1, "title": "Vue 3 Basics", "duration": "16:30", "videoUrl": "https://www.youtube.com/watch?v=FXpIoQ_rT_c"}
+      ]
+    },
+    {
+      "id": 6,
+      "title": "Angular 18 Complete",
+      "description": "Build enterprise apps with Angular.",
+      "instructorId": 20,
+      "duration": "20 hours",
+      "level": "Advanced",
+      "students": 1987,
+      "rating": 4.7,
+      "category": "frontend",
+      "tech": "angular",
+      "lessons": [
+        {"id": 1, "title": "Angular Fundamentals", "duration": "22:30", "videoUrl": "https://www.youtube.com/watch?v=3qBXWUpoPHo"}
+      ]
+    },
+    {
+      "id": 7,
+      "title": "TypeScript Complete Guide",
+      "description": "Write type-safe JavaScript.",
+      "instructorId": 18,
+      "duration": "10 hours",
+      "level": "Intermediate",
+      "students": 3456,
+      "rating": 4.9,
+      "category": "frontend",
+      "tech": "typescript",
+      "lessons": [
+        {"id": 1, "title": "TypeScript Fundamentals", "duration": "14:30", "videoUrl": "https://www.youtube.com/watch?v=BwuLxPH8IDs"}
+      ]
+    },
+    {
+      "id": 8,
+      "title": "Tailwind CSS Mastery",
+      "description": "Master utility-first CSS.",
+      "instructorId": 5,
+      "duration": "9 hours",
+      "level": "Beginner",
+      "students": 2987,
+      "rating": 4.8,
+      "category": "frontend",
+      "tech": "tailwind",
+      "lessons": [
+        {"id": 1, "title": "Tailwind Setup", "duration": "12:30", "videoUrl": "https://www.youtube.com/watch?v=UBOj6rqRUME"}
+      ]
+    },
+    {
+      "id": 9,
+      "title": "Bootstrap 5 Complete",
+      "description": "Build responsive sites fast.",
+      "instructorId": 5,
+      "duration": "8 hours",
+      "level": "Beginner",
+      "students": 3421,
+      "rating": 4.6,
+      "category": "frontend",
+      "tech": "bootstrap",
+      "lessons": [
+        {"id": 1, "title": "Bootstrap Grid", "duration": "15:30", "videoUrl": "https://www.youtube.com/watch?v=4sosXZsdy-s"}
+      ]
+    }
+  ],
+  "backend": [
+    {
+      "id": 10,
+      "title": "Node.js Complete Guide",
+      "description": "Build scalable backend with Node.js.",
+      "instructorId": 4,
+      "duration": "16 hours",
+      "level": "Intermediate",
+      "students": 4321,
+      "rating": 4.9,
+      "category": "backend",
+      "tech": "node",
+      "lessons": [
+        {"id": 1, "title": "Node.js Fundamentals", "duration": "20:30", "videoUrl": "https://www.youtube.com/watch?v=TlB_eWDSMt4"}
+      ]
+    },
+    {
+      "id": 11,
+      "title": "Python Django Framework",
+      "description": "Build powerful web apps with Django.",
+      "instructorId": 17,
+      "duration": "18 hours",
+      "level": "Intermediate",
+      "students": 3876,
+      "rating": 4.8,
+      "category": "backend",
+      "tech": "python",
+      "lessons": [
+        {"id": 1, "title": "Django Setup", "duration": "22:30", "videoUrl": "https://www.youtube.com/watch?v=F5mRW0jo-U4"}
+      ]
+    },
+    {
+      "id": 12,
+      "title": "Java Spring Boot",
+      "description": "Enterprise Java development.",
+      "instructorId": 7,
+      "duration": "20 hours",
+      "level": "Advanced",
+      "students": 2987,
+      "rating": 4.9,
+      "category": "backend",
+      "tech": "java",
+      "lessons": [
+        {"id": 1, "title": "Spring Boot Basics", "duration": "24:30", "videoUrl": "https://www.youtube.com/watch?v=vtPkZShrvXQ"}
+      ]
+    },
+    {
+      "id": 13,
+      "title": "C# .NET 8 Complete",
+      "description": "Modern .NET development.",
+      "instructorId": 8,
+      "duration": "17 hours",
+      "level": "Intermediate",
+      "students": 2345,
+      "rating": 4.8,
+      "category": "backend",
+      "tech": "csharp",
+      "lessons": [
+        {"id": 1, "title": "C# Fundamentals", "duration": "21:30", "videoUrl": "https://www.youtube.com/watch?v=GhQdlIFylQ8"}
+      ]
+    },
+    {
+      "id": 14,
+      "title": "PHP & Laravel 11",
+      "description": "Modern PHP development.",
+      "instructorId": 2,
+      "duration": "15 hours",
+      "level": "Intermediate",
+      "students": 3210,
+      "rating": 4.7,
+      "category": "backend",
+      "tech": "php",
+      "lessons": [
+        {"id": 1, "title": "PHP 8 Fundamentals", "duration": "19:30", "videoUrl": "https://www.youtube.com/watch?v=OK_JCtrrv-c"}
+      ]
+    },
+    {
+      "id": 15,
+      "title": "Go Programming & APIs",
+      "description": "Build fast backend with Go.",
+      "instructorId": 4,
+      "duration": "13 hours",
+      "level": "Intermediate",
+      "students": 2543,
+      "rating": 4.9,
+      "category": "backend",
+      "tech": "go",
+      "lessons": [
+        {"id": 1, "title": "Go Fundamentals", "duration": "17:30", "videoUrl": "https://www.youtube.com/watch?v=YS4e4q9oBaU"}
+      ]
+    },
+    {
+      "id": 16,
+      "title": "GraphQL Complete",
+      "description": "Build modern APIs with GraphQL.",
+      "instructorId": 2,
+      "duration": "12 hours",
+      "level": "Intermediate",
+      "students": 2876,
+      "rating": 4.8,
+      "category": "backend",
+      "tech": "graphql",
+      "lessons": [
+        {"id": 1, "title": "GraphQL Fundamentals", "duration": "16:30", "videoUrl": "https://www.youtube.com/watch?v=ed8SzALpx1Q"}
+      ]
+    },
+    {
+      "id": 17,
+      "title": "FastAPI Python",
+      "description": "High-performance APIs with FastAPI.",
+      "instructorId": 17,
+      "duration": "11 hours",
+      "level": "Intermediate",
+      "students": 2345,
+      "rating": 4.8,
+      "category": "backend",
+      "tech": "python",
+      "lessons": [
+        {"id": 1, "title": "FastAPI Basics", "duration": "15:30", "videoUrl": "https://www.youtube.com/watch?v=0sOvCWFmrtA"}
+      ]
+    },
+    {
+      "id": 18,
+      "title": "NestJS Framework",
+      "description": "Enterprise Node.js with NestJS.",
+      "instructorId": 18,
+      "duration": "14 hours",
+      "level": "Advanced",
+      "students": 1987,
+      "rating": 4.9,
+      "category": "backend",
+      "tech": "node",
+      "lessons": [
+        {"id": 1, "title": "NestJS Fundamentals", "duration": "18:30", "videoUrl": "https://www.youtube.com/watch?v=F_oOtaxb0L8"}
+      ]
+    }
+  ],
+  "database": [
+    {
+      "id": 19,
+      "title": "MongoDB Complete",
+      "description": "Master NoSQL with MongoDB.",
+      "instructorId": 9,
+      "duration": "12 hours",
+      "level": "Beginner",
+      "students": 3456,
+      "rating": 4.8,
+      "category": "database",
+      "tech": "mongodb",
+      "lessons": [
+        {"id": 1, "title": "MongoDB Basics", "duration": "16:30", "videoUrl": "https://www.youtube.com/watch?v=-bt_y4Loofg"}
+      ]
+    },
+    {
+      "id": 20,
+      "title": "PostgreSQL & SQL",
+      "description": "Master relational databases.",
+      "instructorId": 10,
+      "duration": "14 hours",
+      "level": "Beginner",
+      "students": 4123,
+      "rating": 4.9,
+      "category": "database",
+      "tech": "postgresql",
+      "lessons": [
+        {"id": 1, "title": "SQL Fundamentals", "duration": "18:30", "videoUrl": "https://www.youtube.com/watch?v=HXV3zeQKqGY"}
+      ]
+    },
+    {
+      "id": 21,
+      "title": "MySQL Database",
+      "description": "Learn MySQL for web apps.",
+      "instructorId": 10,
+      "duration": "11 hours",
+      "level": "Beginner",
+      "students": 2987,
+      "rating": 4.7,
+      "category": "database",
+      "tech": "mysql",
+      "lessons": [
+        {"id": 1, "title": "MySQL Basics", "duration": "15:30", "videoUrl": "https://www.youtube.com/watch?v=7S_tz1z_5bA"}
+      ]
+    },
+    {
+      "id": 22,
+      "title": "Firebase for Web Apps",
+      "description": "Build real-time apps with Firebase.",
+      "instructorId": 6,
+      "duration": "10 hours",
+      "level": "Intermediate",
+      "students": 3210,
+      "rating": 4.8,
+      "category": "database",
+      "tech": "firebase",
+      "lessons": [
+        {"id": 1, "title": "Firebase Setup", "duration": "14:30", "videoUrl": "https://www.youtube.com/watch?v=9kRgVxULbag"}
+      ]
+    },
+    {
+      "id": 23,
+      "title": "Redis Caching",
+      "description": "Master Redis for caching.",
+      "instructorId": 9,
+      "duration": "9 hours",
+      "level": "Intermediate",
+      "students": 1876,
+      "rating": 4.7,
+      "category": "database",
+      "tech": "redis",
+      "lessons": [
+        {"id": 1, "title": "Redis Basics", "duration": "13:30", "videoUrl": "https://www.youtube.com/watch?v=jgpVdJB2sKQ"}
+      ]
+    },
+    {
+      "id": 24,
+      "title": "Prisma ORM Complete",
+      "description": "Type-safe databases with Prisma.",
+      "instructorId": 2,
+      "duration": "10 hours",
+      "level": "Intermediate",
+      "students": 2345,
+      "rating": 4.9,
+      "category": "database",
+      "tech": "prisma",
+      "lessons": [
+        {"id": 1, "title": "Prisma Setup", "duration": "14:30", "videoUrl": "https://www.youtube.com/watch?v=CYH04BJzamo"}
+      ]
+    },
+    {
+      "id": 25,
+      "title": "Elasticsearch Search",
+      "description": "Build powerful search engines.",
+      "instructorId": 9,
+      "duration": "12 hours",
+      "level": "Advanced",
+      "students": 1543,
+      "rating": 4.8,
+      "category": "database",
+      "tech": "elasticsearch",
+      "lessons": [
+        {"id": 1, "title": "Elasticsearch Basics", "duration": "16:30", "videoUrl": "https://www.youtube.com/watch?v=C3tlMqaNSaI"}
+      ]
+    },
+    {
+      "id": 26,
+      "title": "Supabase Complete",
+      "description": "Open source Firebase alternative.",
+      "instructorId": 6,
+      "duration": "9 hours",
+      "level": "Intermediate",
+      "students": 1987,
+      "rating": 4.7,
+      "category": "database",
+      "tech": "supabase",
+      "lessons": [
+        {"id": 1, "title": "Supabase Setup", "duration": "13:30", "videoUrl": "https://www.youtube.com/watch?v=7uKQBl9uZ00"}
+      ]
+    },
+    {
+      "id": 27,
+      "title": "DynamoDB AWS NoSQL",
+      "description": "Master AWS DynamoDB.",
+      "instructorId": 14,
+      "duration": "10 hours",
+      "level": "Intermediate",
+      "students": 1654,
+      "rating": 4.6,
+      "category": "database",
+      "tech": "aws",
+      "lessons": [
+        {"id": 1, "title": "DynamoDB Basics", "duration": "14:30", "videoUrl": "https://www.youtube.com/watch?v=2k2GINpO308"}
+      ]
+    }
+  ],
+  "security": [
+    {
+      "id": 28,
+      "title": "Web Security Fundamentals",
+      "description": "Learn essential web security.",
+      "instructorId": 11,
+      "duration": "12 hours",
+      "level": "Intermediate",
+      "students": 2876,
+      "rating": 4.9,
+      "category": "security",
+      "tech": "security",
+      "lessons": [
+        {"id": 1, "title": "Security Basics", "duration": "16:30", "videoUrl": "https://www.youtube.com/watch?v=WlmKwIe9z1Q"}
+      ]
+    },
+    {
+      "id": 29,
+      "title": "OAuth 2.0 & JWT",
+      "description": "Master modern authentication.",
+      "instructorId": 12,
+      "duration": "10 hours",
+      "level": "Advanced",
+      "students": 2345,
+      "rating": 4.9,
+      "category": "security",
+      "tech": "auth",
+      "lessons": [
+        {"id": 1, "title": "OAuth Flows", "duration": "14:30", "videoUrl": "https://www.youtube.com/watch?v=996OiexHze0"}
+      ]
+    },
+    {
+      "id": 30,
+      "title": "Ethical Hacking",
+      "description": "Learn ethical hacking techniques.",
+      "instructorId": 11,
+      "duration": "18 hours",
+      "level": "Advanced",
+      "students": 1987,
+      "rating": 4.8,
+      "category": "security",
+      "tech": "hacking",
+      "lessons": [
+        {"id": 1, "title": "Hacking Basics", "duration": "22:30", "videoUrl": "https://www.youtube.com/watch?v=3Kq1MIfTWCE"}
+      ]
+    },
+    {
+      "id": 31,
+      "title": "Cryptography Essentials",
+      "description": "Master encryption and hashing.",
+      "instructorId": 11,
+      "duration": "13 hours",
+      "level": "Intermediate",
+      "students": 1654,
+      "rating": 4.7,
+      "category": "security",
+      "tech": "crypto",
+      "lessons": [
+        {"id": 1, "title": "Crypto Fundamentals", "duration": "17:30", "videoUrl": "https://www.youtube.com/watch?v=jhXCTbFnK8o"}
+      ]
+    },
+    {
+      "id": 32,
+      "title": "SSL/TLS & HTTPS",
+      "description": "Secure web communications.",
+      "instructorId": 11,
+      "duration": "9 hours",
+      "level": "Intermediate",
+      "students": 2123,
+      "rating": 4.7,
+      "category": "security",
+      "tech": "ssl",
+      "lessons": [
+        {"id": 1, "title": "SSL/TLS Basics", "duration": "13:30", "videoUrl": "https://www.youtube.com/watch?v=j9QmMEWmcfo"}
+      ]
+    },
+    {
+      "id": 33,
+      "title": "API Security",
+      "description": "Secure your APIs.",
+      "instructorId": 12,
+      "duration": "11 hours",
+      "level": "Intermediate",
+      "students": 2456,
+      "rating": 4.8,
+      "category": "security",
+      "tech": "api",
+      "lessons": [
+        {"id": 1, "title": "API Security Basics", "duration": "15:30", "videoUrl": "https://www.youtube.com/watch?v=R8W17M6YfVY"}
+      ]
+    },
+    {
+      "id": 34,
+      "title": "Cloud Security AWS",
+      "description": "Secure AWS infrastructure.",
+      "instructorId": 14,
+      "duration": "14 hours",
+      "level": "Intermediate",
+      "students": 2098,
+      "rating": 4.8,
+      "category": "security",
+      "tech": "aws",
+      "lessons": [
+        {"id": 1, "title": "AWS Security", "duration": "18:30", "videoUrl": "https://www.youtube.com/watch?v=qWxZVUBPcTA"}
+      ]
+    },
+    {
+      "id": 35,
+      "title": "Zero Trust Security",
+      "description": "Implement zero trust architecture.",
+      "instructorId": 11,
+      "duration": "12 hours",
+      "level": "Advanced",
+      "students": 1456,
+      "rating": 4.7,
+      "category": "security",
+      "tech": "zerotrust",
+      "lessons": [
+        {"id": 1, "title": "Zero Trust Basics", "duration": "16:30", "videoUrl": "https://www.youtube.com/watch?v=kbqJ-_IcNVU"}
+      ]
+    },
+    {
+      "id": 36,
+      "title": "GDPR & Data Privacy",
+      "description": "Master data privacy compliance.",
+      "instructorId": 11,
+      "duration": "10 hours",
+      "level": "Intermediate",
+      "students": 1765,
+      "rating": 4.6,
+      "category": "security",
+      "tech": "gdpr",
+      "lessons": [
+        {"id": 1, "title": "GDPR Fundamentals", "duration": "14:30", "videoUrl": "https://www.youtube.com/watch?v=LX9MKp4Bxm8"}
+      ]
+    }
+  ],
+  "devops": [
+    {
+      "id": 37,
+      "title": "Docker for Developers",
+      "description": "Master containerization with Docker.",
+      "instructorId": 13,
+      "duration": "12 hours",
+      "level": "Intermediate",
+      "students": 3654,
+      "rating": 4.9,
+      "category": "devops",
+      "tech": "docker",
+      "lessons": [
+        {"id": 1, "title": "Docker Basics", "duration": "16:30", "videoUrl": "https://www.youtube.com/watch?v=fqMOX6JJhGo"}
+      ]
+    },
+    {
+      "id": 38,
+      "title": "Kubernetes Fundamentals",
+      "description": "Orchestrate containers with Kubernetes.",
+      "instructorId": 13,
+      "duration": "16 hours",
+      "level": "Advanced",
+      "students": 2876,
+      "rating": 4.9,
+      "category": "devops",
+      "tech": "kubernetes",
+      "lessons": [
+        {"id": 1, "title": "Kubernetes Basics", "duration": "20:30", "videoUrl": "https://www.youtube.com/watch?v=X48VuDVv0do"}
+      ]
+    },
+    {
+      "id": 39,
+      "title": "Git & GitHub Mastery",
+      "description": "Master version control with Git.",
+      "instructorId": 1,
+      "duration": "10 hours",
+      "level": "Beginner",
+      "students": 4987,
+      "rating": 4.8,
+      "category": "devops",
+      "tech": "git",
+      "lessons": [
+        {"id": 1, "title": "Git Fundamentals", "duration": "14:30", "videoUrl": "https://www.youtube.com/watch?v=RGOj5yH7evk"}
+      ]
+    },
+    {
+      "id": 40,
+      "title": "CI/CD with GitHub Actions",
+      "description": "Automate workflows with GitHub Actions.",
+      "instructorId": 1,
+      "duration": "11 hours",
+      "level": "Intermediate",
+      "students": 2654,
+      "rating": 4.8,
+      "category": "devops",
+      "tech": "cicd",
+      "lessons": [
+        {"id": 1, "title": "GitHub Actions", "duration": "15:30", "videoUrl": "https://www.youtube.com/watch?v=R8_veQiYBjI"}
+      ]
+    },
+    {
+      "id": 41,
+      "title": "Terraform IaC",
+      "description": "Automate infrastructure with Terraform.",
+      "instructorId": 13,
+      "duration": "14 hours",
+      "level": "Advanced",
+      "students": 1987,
+      "rating": 4.9,
+      "category": "devops",
+      "tech": "terraform",
+      "lessons": [
+        {"id": 1, "title": "Terraform Basics", "duration": "18:30", "videoUrl": "https://www.youtube.com/watch?v=l5k1ai_GBDE"}
+      ]
+    },
+    {
+      "id": 42,
+      "title": "Jenkins CI/CD",
+      "description": "Build automated pipelines with Jenkins.",
+      "instructorId": 13,
+      "duration": "13 hours",
+      "level": "Intermediate",
+      "students": 2345,
+      "rating": 4.7,
+      "category": "devops",
+      "tech": "jenkins",
+      "lessons": [
+        {"id": 1, "title": "Jenkins Basics", "duration": "17:30", "videoUrl": "https://www.youtube.com/watch?v=FX322RVNGj4"}
+      ]
+    },
+    {
+      "id": 43,
+      "title": "Linux System Admin",
+      "description": "Master Linux for DevOps.",
+      "instructorId": 13,
+      "duration": "15 hours",
+      "level": "Intermediate",
+      "students": 3456,
+      "rating": 4.8,
+      "category": "devops",
+      "tech": "linux",
+      "lessons": [
+        {"id": 1, "title": "Linux Fundamentals", "duration": "19:30", "videoUrl": "https://www.youtube.com/watch?v=ROjZy1WbCIA"}
+      ]
+    },
+    {
+      "id": 44,
+      "title": "Prometheus & Grafana",
+      "description": "Monitor applications and infrastructure.",
+      "instructorId": 13,
+      "duration": "11 hours",
+      "level": "Intermediate",
+      "students": 1876,
+      "rating": 4.7,
+      "category": "devops",
+      "tech": "monitoring",
+      "lessons": [
+        {"id": 1, "title": "Prometheus Basics", "duration": "15:30", "videoUrl": "https://www.youtube.com/watch?v=h4Sl21AKiDg"}
+      ]
+    },
+    {
+      "id": 45,
+      "title": "Nginx Web Server",
+      "description": "Master Nginx for web serving.",
+      "instructorId": 13,
+      "duration": "10 hours",
+      "level": "Intermediate",
+      "students": 2234,
+      "rating": 4.6,
+      "category": "devops",
+      "tech": "nginx",
+      "lessons": [
+        {"id": 1, "title": "Nginx Basics", "duration": "14:30", "videoUrl": "https://www.youtube.com/watch?v=7VAI73roXaY"}
+      ]
+    }
+  ],
+  "mobile": [
+    {
+      "id": 46,
+      "title": "React Native Complete",
+      "description": "Build cross-platform mobile apps.",
+      "instructorId": 15,
+      "duration": "18 hours",
+      "level": "Intermediate",
+      "students": 3876,
+      "rating": 4.9,
+      "category": "mobile",
+      "tech": "reactnative",
+      "lessons": [
+        {"id": 1, "title": "React Native Basics", "duration": "22:30", "videoUrl": "https://www.youtube.com/watch?v=0-S5a0eXPoc"}
+      ]
+    },
+    {
+      "id": 47,
+      "title": "Flutter & Dart Complete",
+      "description": "Create beautiful mobile apps with Flutter.",
+      "instructorId": 15,
+      "duration": "20 hours",
+      "level": "Intermediate",
+      "students": 4123,
+      "rating": 4.9,
+      "category": "mobile",
+      "tech": "flutter",
+      "lessons": [
+        {"id": 1, "title": "Flutter Basics", "duration": "24:30", "videoUrl": "https://www.youtube.com/watch?v=1ukSR1GRtMU"}
+      ]
+    },
+    {
+      "id": 48,
+      "title": "iOS Development Swift",
+      "description": "Build native iOS apps with Swift.",
+      "instructorId": 15,
+      "duration": "22 hours",
+      "level": "Advanced",
+      "students": 2987,
+      "rating": 4.8,
+      "category": "mobile",
+      "tech": "swift",
+      "lessons": [
+        {"id": 1, "title": "Swift Fundamentals", "duration": "26:30", "videoUrl": "https://www.youtube.com/watch?v=Ulp1Kimblg0"}
+      ]
+    },
+    {
+      "id": 49,
+      "title": "Android Kotlin",
+      "description": "Develop modern Android apps with Kotlin.",
+      "instructorId": 15,
+      "duration": "21 hours",
+      "level": "Intermediate",
+      "students": 3234,
+      "rating": 4.8,
+      "category": "mobile",
+      "tech": "kotlin",
+      "lessons": [
+        {"id": 1, "title": "Kotlin Fundamentals", "duration": "25:30", "videoUrl": "https://www.youtube.com/watch?v=F9UC9DY-vIU"}
+      ]
+    },
+    {
+      "id": 50,
+      "title": "Progressive Web Apps",
+      "description": "Build PWAs that work like native apps.",
+      "instructorId": 2,
+      "duration": "12 hours",
+      "level": "Intermediate",
+      "students": 2456,
+      "rating": 4.7,
+      "category": "mobile",
+      "tech": "pwa",
+      "lessons": [
+        {"id": 1, "title": "PWA Basics", "duration": "16:30", "videoUrl": "https://www.youtube.com/watch?v=sFsRylCQblw"}
+      ]
+    },
+    {
+      "id": 51,
+      "title": "Expo for React Native",
+      "description": "Build React Native apps faster with Expo.",
+      "instructorId": 15,
+      "duration": "14 hours",
+      "level": "Intermediate",
+      "students": 2123,
+      "rating": 4.8,
+      "category": "mobile",
+      "tech": "expo",
+      "lessons": [
+        {"id": 1, "title": "Expo Basics", "duration": "18:30", "videoUrl": "https://www.youtube.com/watch?v=0kL6nhutjQ8"}
+      ]
+    },
+    {
+      "id": 52,
+      "title": "Mobile UI/UX Design",
+      "description": "Design beautiful mobile interfaces.",
+      "instructorId": 5,
+      "duration": "13 hours",
+      "level": "Beginner",
+      "students": 2876,
+      "rating": 4.7,
+      "category": "mobile",
+      "tech": "uiux",
+      "lessons": [
+        {"id": 1, "title": "Mobile Design", "duration": "17:30", "videoUrl": "https://www.youtube.com/watch?v=mICr_Fb0PdU"}
+      ]
+    },
+    {
+      "id": 53,
+      "title": "Firebase Mobile Apps",
+      "description": "Integrate Firebase in mobile apps.",
+      "instructorId": 6,
+      "duration": "14 hours",
+      "level": "Intermediate",
+      "students": 2654,
+      "rating": 4.8,
+      "category": "mobile",
+      "tech": "firebase",
+      "lessons": [
+        {"id": 1, "title": "Firebase Mobile Setup", "duration": "18:30", "videoUrl": "https://www.youtube.com/watch?v=fgdpvwEWJ9M"}
+      ]
+    },
+    {
+      "id": 54,
+      "title": "Mobile App Testing",
+      "description": "Master mobile app testing.",
+      "instructorId": 15,
+      "duration": "11 hours",
+      "level": "Intermediate",
+      "students": 1765,
+      "rating": 4.6,
+      "category": "mobile",
+      "tech": "testing",
+      "lessons": [
+        {"id": 1, "title": "Testing Fundamentals", "duration": "15:30", "videoUrl": "https://www.youtube.com/watch?v=0GypdsJulKE"}
+      ]
+    }
+  ],
+  "cloud": [
+    {
+      "id": 55,
+      "title": "AWS Cloud Practitioner",
+      "description": "Get started with AWS.",
+      "instructorId": 14,
+      "duration": "16 hours",
+      "level": "Beginner",
+      "students": 4321,
+      "rating": 4.9,
+      "category": "cloud",
+      "tech": "aws",
+      "lessons": [
+        {"id": 1, "title": "AWS Introduction", "duration": "20:30", "videoUrl": "https://www.youtube.com/watch?v=ulprqHHWlng"}
+      ]
+    },
+    {
+      "id": 56,
+      "title": "Microsoft Azure Fundamentals",
+      "description": "Master Azure cloud.",
+      "instructorId": 14,
+      "duration": "15 hours",
+      "level": "Beginner",
+      "students": 3654,
+      "rating": 4.8,
+      "category": "cloud",
+      "tech": "azure",
+      "lessons": [
+        {"id": 1, "title": "Azure Basics", "duration": "19:30", "videoUrl": "https://www.youtube.com/watch?v=NKEFWyqJ5XA"}
+      ]
+    },
+    {
+      "id": 57,
+      "title": "Google Cloud Platform",
+      "description": "Learn GCP services.",
+      "instructorId": 14,
+      "duration": "17 hours",
+      "level": "Beginner",
+      "students": 2987,
+      "rating": 4.8,
+      "category": "cloud",
+      "tech": "gcp",
+      "lessons": [
+        {"id": 1, "title": "GCP Introduction", "duration": "21:30", "videoUrl": "https://www.youtube.com/watch?v=4D3X6Xl5c_Y"}
+      ]
+    },
+    {
+      "id": 58,
+      "title": "AWS Lambda Serverless",
+      "description": "Build serverless applications with AWS Lambda.",
+      "instructorId": 14,
+      "duration": "14 hours",
+      "level": "Intermediate",
+      "students": 2456,
+      "rating": 4.9,
+      "category": "cloud",
+      "tech": "lambda",
+      "lessons": [
+        {"id": 1, "title": "Serverless Basics", "duration": "18:30", "videoUrl": "https://www.youtube.com/watch?v=97q30JjEq9Y"}
+      ]
+    },
+    {
+      "id": 59,
+      "title": "Cloud Architecture Design",
+      "description": "Design scalable cloud systems.",
+      "instructorId": 14,
+      "duration": "18 hours",
+      "level": "Advanced",
+      "students": 1987,
+      "rating": 4.9,
+      "category": "cloud",
+      "tech": "architecture",
+      "lessons": [
+        {"id": 1, "title": "Architecture Fundamentals", "duration": "22:30", "videoUrl": "https://www.youtube.com/watch?v=dH0yz-Osy54"}
+      ]
+    },
+    {
+      "id": 60,
+      "title": "Cloud Networking",
+      "description": "Master cloud networking.",
+      "instructorId": 14,
+      "duration": "13 hours",
+      "level": "Intermediate",
+      "students": 2123,
+      "rating": 4.7,
+      "category": "cloud",
+      "tech": "networking",
+      "lessons": [
+        {"id": 1, "title": "Cloud Network Basics", "duration": "17:30", "videoUrl": "https://www.youtube.com/watch?v=hiKPPy584Mg"}
+      ]
+    },
+    {
+      "id": 61,
+      "title": "Cloud Cost Optimization",
+      "description": "Optimize cloud costs.",
+      "instructorId": 14,
+      "duration": "10 hours",
+      "level": "Intermediate",
+      "students": 1765,
+      "rating": 4.6,
+      "category": "cloud",
+      "tech": "cost",
+      "lessons": [
+        {"id": 1, "title": "Cost Management", "duration": "14:30", "videoUrl": "https://www.youtube.com/watch?v=7q5AeoIc-S8"}
+      ]
+    },
+    {
+      "id": 62,
+      "title": "Multi-Cloud Strategy",
+      "description": "Implement multi-cloud architecture.",
+      "instructorId": 14,
+      "duration": "15 hours",
+      "level": "Advanced",
+      "students": 1456,
+      "rating": 4.8,
+      "category": "cloud",
+      "tech": "multicloud",
+      "lessons": [
+        {"id": 1, "title": "Multi-Cloud Basics", "duration": "19:30", "videoUrl": "https://www.youtube.com/watch?v=8EqKLdJG5JQ"}
+      ]
+    },
+    {
+      "id": 63,
+      "title": "Cloud Migration",
+      "description": "Migrate applications to the cloud.",
+      "instructorId": 14,
+      "duration": "14 hours",
+      "level": "Advanced",
+      "students": 1654,
+      "rating": 4.7,
+      "category": "cloud",
+      "tech": "migration",
+      "lessons": [
+        {"id": 1, "title": "Migration Basics", "duration": "18:30", "videoUrl": "https://www.youtube.com/watch?v=TDalsML3QqY"}
+      ]
+    }
+  ],
+  "ai": [
+    {
+      "id": 64,
+      "title": "Python for AI",
+      "description": "Master Python for AI/ML.",
+      "instructorId": 16,
+      "duration": "16 hours",
+      "level": "Beginner",
+      "students": 4654,
+      "rating": 4.9,
+      "category": "ai",
+      "tech": "python",
+      "lessons": [
+        {"id": 1, "title": "Python AI Basics", "duration": "20:30", "videoUrl": "https://www.youtube.com/watch?v=_uQrJ0TkZlc"}
+      ]
+    },
+    {
+      "id": 65,
+      "title": "Machine Learning Fundamentals",
+      "description": "Master ML algorithms.",
+      "instructorId": 16,
+      "duration": "20 hours",
+      "level": "Intermediate",
+      "students": 3876,
+      "rating": 4.9,
+      "category": "ai",
+      "tech": "ml",
+      "lessons": [
+        {"id": 1, "title": "ML Introduction", "duration": "24:30", "videoUrl": "https://www.youtube.com/watch?v=aircAruvnKk"}
+      ]
+    },
+    {
+      "id": 66,
+      "title": "Deep Learning TensorFlow",
+      "description": "Build neural networks with TensorFlow.",
+      "instructorId": 16,
+      "duration": "22 hours",
+      "level": "Advanced",
+      "students": 2987,
+      "rating": 4.9,
+      "category": "ai",
+      "tech": "tensorflow",
+      "lessons": [
+        {"id": 1, "title": "TensorFlow Basics", "duration": "26:30", "videoUrl": "https://www.youtube.com/watch?v=tPYj3fFJGjk"}
+      ]
+    },
+    {
+      "id": 67,
+      "title": "PyTorch Deep Learning",
+      "description": "Master PyTorch for deep learning.",
+      "instructorId": 16,
+      "duration": "21 hours",
+      "level": "Advanced",
+      "students": 2456,
+      "rating": 4.9,
+      "category": "ai",
+      "tech": "pytorch",
+      "lessons": [
+        {"id": 1, "title": "PyTorch Fundamentals", "duration": "25:30", "videoUrl": "https://www.youtube.com/watch?v=c36lUUr864M"}
+      ]
+    },
+    {
+      "id": 68,
+      "title": "Natural Language Processing",
+      "description": "Master NLP techniques.",
+      "instructorId": 16,
+      "duration": "19 hours",
+      "level": "Advanced",
+      "students": 2123,
+      "rating": 4.8,
+      "category": "ai",
+      "tech": "nlp",
+      "lessons": [
+        {"id": 1, "title": "NLP Fundamentals", "duration": "23:30", "videoUrl": "https://www.youtube.com/watch?v=fNxaJsNG3-s"}
+      ]
+    },
+    {
+      "id": 69,
+      "title": "Computer Vision",
+      "description": "Build computer vision apps.",
+      "instructorId": 16,
+      "duration": "20 hours",
+      "level": "Advanced",
+      "students": 1987,
+      "rating": 4.8,
+      "category": "ai",
+      "tech": "cv",
+      "lessons": [
+        {"id": 1, "title": "Computer Vision Basics", "duration": "24:30", "videoUrl": "https://www.youtube.com/watch?v=01sAkU_NvOY"}
+      ]
+    },
+    {
+      "id": 70,
+      "title": "Data Science Python",
+      "description": "Master data science workflow.",
+      "instructorId": 17,
+      "duration": "18 hours",
+      "level": "Intermediate",
+      "students": 3234,
+      "rating": 4.8,
+      "category": "ai",
+      "tech": "datascience",
+      "lessons": [
+        {"id": 1, "title": "Data Science Basics", "duration": "22:30", "videoUrl": "https://www.youtube.com/watch?v=ua-CiDNNj30"}
+      ]
+    },
+    {
+      "id": 71,
+      "title": "AI Ethics",
+      "description": "Understand AI ethics and bias.",
+      "instructorId": 16,
+      "duration": "12 hours",
+      "level": "Intermediate",
+      "students": 1765,
+      "rating": 4.7,
+      "category": "ai",
+      "tech": "ethics",
+      "lessons": [
+        {"id": 1, "title": "AI Ethics Fundamentals", "duration": "16:30", "videoUrl": "https://www.youtube.com/watch?v=t1qDjzCIWlk"}
+      ]
+    },
+    {
+      "id": 72,
+      "title": "MLOps & Deployment",
+      "description": "Deploy ML models to production.",
+      "instructorId": 16,
+      "duration": "17 hours",
+      "level": "Advanced",
+      "students": 1876,
+      "rating": 4.9,
+      "category": "ai",
+      "tech": "mlops",
+      "lessons": [
+        {"id": 1, "title": "MLOps Fundamentals", "duration": "21:30", "videoUrl": "https://www.youtube.com/watch?v=Cni-WtfAciI"}
+      ]
+    }
+  ]
+}

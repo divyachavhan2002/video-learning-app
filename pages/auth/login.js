@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
 import { useAuth } from '@/context/AuthContext';
+import { getAuthErrorMessage } from '@/lib/authUtils';
 import styles from '@/styles/Auth.module.css';
 
 export default function Login() {
@@ -22,7 +23,7 @@ export default function Login() {
       await login(email, password);
       router.push('/dashboard');
     } catch (error) {
-      setError(getErrorMessage(error.code));
+      setError(getAuthErrorMessage(error.code));
     } finally {
       setLoading(false);
     }
@@ -37,23 +38,10 @@ export default function Login() {
       await loginWithGoogle();
       router.push('/dashboard');
     } catch (error) {
-      setError(getErrorMessage(error.code));
+      setError(getAuthErrorMessage(error.code));
     } finally {
       setLoading(false);
     }
-  };
-
-  // Map Firebase error codes to user-friendly messages
-  const getErrorMessage = (code) => {
-    const errorMessages = {
-      'auth/invalid-email': 'Invalid email address.',
-      'auth/user-disabled': 'This account has been disabled.',
-      'auth/user-not-found': 'No account found with this email.',
-      'auth/wrong-password': 'Incorrect password.',
-      'auth/invalid-credential': 'Invalid email or password.',
-    };
-    
-    return errorMessages[code] || 'An error occurred. Please try again.';
   };
 
   return (

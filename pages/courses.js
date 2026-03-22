@@ -1,4 +1,4 @@
-import Head from 'next/head';
+import SEO from '@/components/common/SEO';
 import CourseCard from '@/components/course/CourseCard';
 import { coursesData } from '@/data/courses';
 import styles from '@/styles/Courses.module.css';
@@ -6,11 +6,10 @@ import styles from '@/styles/Courses.module.css';
 export default function Courses() {
   return (
     <>
-      <Head>
-        <title>All Courses - LearnHub</title>
-        <meta name="description" content="Browse our collection of free video courses on web development, programming, and design" />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-      </Head>
+      <SEO 
+        title="All Courses"
+        description="Browse our collection of free video courses on web development, programming, and design"
+      />
 
       <div className={styles.container}>
         <section className={styles.header}>
