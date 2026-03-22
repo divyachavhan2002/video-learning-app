@@ -1,15 +1,56 @@
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import Head from 'next/head';
 import Link from 'next/link';
 import { coursesData } from '@/data/courses';
+import { useAuth } from '@/context/AuthContext';
 import styles from '@/styles/CourseDetail.module.css';
 
 export default function CourseDetail() {
   const router = useRouter();
   const { id } = router.query;
+  const { user, enrollInCourse, isEnrolled } = useAuth();
+  const [enrolled, setEnrolled] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [message, setMessage] = useState('');
 
   // Find course by ID from URL parameter
   const course = coursesData.find(c => c.id === parseInt(id));
+
+  // Check if user is already enrolled
+  useEffect(() => {
+    const checkEnrollment = async () => {
+      if (user && id) {
+        const enrolled = await isEnrolled(parseInt(id));
+        setEnrolled(enrolled);
+      }
+    };
+    checkEnrollment();
+  }, [user, id, isEnrolled]);
+
+  // Handle course enrollment
+  const handleEnroll = async () => {
+    if (!user) {
+      router.push('/auth/login');
+      return;
+    }
+
+    setLoading(true);
+    setMessage('');
+
+    try {
+      await enrollInCourse(parseInt(id));
+      setEnrolled(true);
+      setMessage('Successfully enrolled! Redirecting to dashboard...');
+      setTimeout(() => {
+        router.push('/dashboard');
+      }, 2000);
+    } catch (error) {
+      setMessage('Failed to enroll. Please try again.');
+    } finally {
+      setLoading(false);
+    }
+  };
 
   if (!course) {
     return (
@@ -64,10 +105,26 @@ export default function CourseDetail() {
                 </div>
               </div>
 
+              {message && (
+                <div className={enrolled ? styles.successMessage : styles.errorMessage}>
+                  {message}
+                </div>
+              )}
+
               <div className={styles.actions}>
-                <button className={styles.enrollBtn}>
-                  Enroll for {course.price}
-                </button>
+                {enrolled ? (
+                  <button className={styles.enrolledBtn} disabled>
+                    ✓ Already Enrolled
+                  </button>
+                ) : (
+                  <button 
+                    className={styles.enrollBtn}
+                    onClick={handleEnroll}
+                    disabled={loading}
+                  >
+                    {loading ? 'Enrolling...' : `Enroll for ${course.price}`}
+                  </button>
+                )}
                 <button className={styles.shareBtn}>
                   Share Course
                 </button>
