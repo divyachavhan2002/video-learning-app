@@ -52,6 +52,8 @@
   color: #9ca3af;
   text-decoration: none;
   transition: color 0.3s ease;
+  display: inline-block;
+  padding: 0.25rem 0;
 }
 
 .links a:hover {
@@ -76,14 +78,70 @@
   font-style: italic;
 }
 
-/* Responsive Design */
+/* Desktop Large */
+@media (min-width: 1440px) {
+  .container {
+    max-width: 1400px;
+  }
+}
+
+/* Tablet - 768px and below */
 @media (max-width: 768px) {
   .content {
-    grid-template-columns: 1fr;
+    grid-template-columns: repeat(2, 1fr);
     gap: 1.5rem;
   }
 
   .footer {
     padding: 2rem 0 1rem;
+  }
+  
+  .section h3 {
+    font-size: 1.3rem;
+  }
+  
+  .section h4 {
+    font-size: 1rem;
+  }
+}
+
+/* Mobile - 480px and below */
+@media (max-width: 480px) {
+  .content {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+  
+  .footer {
+    padding: 1.5rem 0 1rem;
+  }
+  
+  .container {
+    padding: 0 0.75rem;
+  }
+  
+  .section h3 {
+    font-size: 1.2rem;
+  }
+  
+  .copyright p {
+    font-size: 0.85rem;
+  }
+}
+
+/* Landscape orientation */
+@media (max-height: 500px) and (orientation: landscape) {
+  .footer {
+    padding: 1.5rem 0 0.75rem;
+  }
+  
+  .content {
+    gap: 1rem;
+    margin-bottom: 1rem;
+  }
+  
+  .section h3,
+  .section h4 {
+    margin-bottom: 0.5rem;
   }
 }
