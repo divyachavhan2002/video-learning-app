@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import SEO from '@/components/common/SEO';
 import CourseCard from '@/components/course/CourseCard';
@@ -10,14 +10,20 @@ export default function Courses() {
   const { category: categoryQuery } = router.query;
   
   const [searchQuery, setSearchQuery] = useState('');
-  const [selectedCategory, setSelectedCategory] = useState(categoryQuery || 'all');
+  const [selectedCategory, setSelectedCategory] = useState(categoryQuery || null);
+
+  // Update selected category when URL changes
+  useEffect(() => {
+    setSelectedCategory(categoryQuery || null);
+    setSearchQuery('');
+  }, [categoryQuery]);
 
   // Filter courses based on search and category
   const filteredCourses = useMemo(() => {
     let filtered = coursesData;
 
     // Filter by category
-    if (selectedCategory && selectedCategory !== 'all') {
+    if (selectedCategory) {
       filtered = filtered.filter(course => course.category === selectedCategory);
     }
 
@@ -42,14 +48,14 @@ export default function Courses() {
 
   const handleCategoryClick = (categoryId) => {
     setSelectedCategory(categoryId);
-    setSearchQuery(''); // Clear search when category changes
-    
-    // Update URL
-    if (categoryId === 'all') {
-      router.push('/courses', undefined, { shallow: true });
-    } else {
-      router.push(`/courses?category=${categoryId}`, undefined, { shallow: true });
-    }
+    setSearchQuery('');
+    router.push(`/courses?category=${categoryId}`, undefined, { shallow: true });
+  };
+
+  const handleBackToCategories = () => {
+    setSelectedCategory(null);
+    setSearchQuery('');
+    router.push('/courses', undefined, { shallow: true });
   };
 
   const handleSearchChange = (e) => {
@@ -76,60 +82,54 @@ export default function Courses() {
           </p>
         </section>
 
-        {/* Search Bar */}
-        <section className={styles.searchSection}>
-          <div className={styles.searchContainer}>
-            <input
-              type="text"
-              placeholder="Search courses, topics, or technologies..."
-              value={searchQuery}
-              onChange={handleSearchChange}
-              className={styles.searchInput}
-            />
-            {searchQuery && (
-              <button onClick={clearSearch} className={styles.clearButton}>
-                ✕
-              </button>
-            )}
-            <span className={styles.searchIcon}>🔍</span>
-          </div>
-        </section>
-
-        {/* Category Filter */}
-        <section className={styles.categoriesSection}>
-          <h2 className={styles.categoriesTitle}>Browse by Category</h2>
-          <div className={styles.categoriesGrid}>
-            <button
-              onClick={() => handleCategoryClick('all')}
-              className={`${styles.categoryCard} ${selectedCategory === 'all' ? styles.active : ''}`}
-            >
-              <div className={styles.categoryIcon}>📚</div>
-              <h3 className={styles.categoryName}>All Courses</h3>
-              <p className={styles.categoryDescription}>Browse all available courses</p>
-              <span className={styles.categoryCount}>{coursesData.length} courses</span>
-            </button>
-
-            {courseCategories.map((category) => {
-              const Icon = category.Icon;
-              const count = coursesData.filter(c => c.category === category.id).length;
-              
-              return (
-                <button
-                  key={category.id}
-                  onClick={() => handleCategoryClick(category.id)}
-                  className={`${styles.categoryCard} ${selectedCategory === category.id ? styles.active : ''}`}
-                >
-                  <div className={styles.categoryIcon}>
-                    <Icon />
-                  </div>
-                  <h3 className={styles.categoryName}>{category.name}</h3>
-                  <p className={styles.categoryDescription}>{category.description}</p>
-                  <span className={styles.categoryCount}>{count} courses</span>
+        {/* Show search only when category is selected or search is active */}
+        {(selectedCategory || searchQuery) && (
+          <section className={styles.searchSection}>
+            <div className={styles.searchContainer}>
+              <input
+                type="text"
+                placeholder="Search courses, topics, or technologies..."
+                value={searchQuery}
+                onChange={handleSearchChange}
+                className={styles.searchInput}
+              />
+              {searchQuery && (
+                <button onClick={clearSearch} className={styles.clearButton}>
+                  ✕
                 </button>
-              );
-            })}
-          </div>
-        </section>
+              )}
+              <span className={styles.searchIcon}>🔍</span>
+            </div>
+          </section>
+        )}
+
+        {/* Show Categories only when no category is selected */}
+        {!selectedCategory && !searchQuery && (
+          <section className={styles.categoriesSection}>
+            <h2 className={styles.categoriesTitle}>Browse by Category</h2>
+            <div className={styles.categoriesGrid}>
+              {courseCategories.map((category) => {
+                const Icon = category.Icon;
+                const count = coursesData.filter(c => c.category === category.id).length;
+                
+                return (
+                  <button
+                    key={category.id}
+                    onClick={() => handleCategoryClick(category.id)}
+                    className={styles.categoryCard}
+                  >
+                    <div className={styles.categoryIcon}>
+                      <Icon />
+                    </div>
+                    <h3 className={styles.categoryName}>{category.name}</h3>
+                    <p className={styles.categoryDescription}>{category.description}</p>
+                    <span className={styles.categoryCount}>{count} courses</span>
+                  </button>
+                );
+              })}
+            </div>
+          </section>
+        )}
 
         {/* Search Results Info */}
         {searchQuery && (
