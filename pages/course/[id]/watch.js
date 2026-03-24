@@ -14,7 +14,17 @@ export default function Watch() {
   const [currentLesson, setCurrentLesson] = useState(0);
   const [watchProgress, setWatchProgress] = useState({});
 
-  const course = coursesData.find(c => c.id === parseInt(id));
+  // Check for YouTube video from sessionStorage
+  const [tempCourse, setTempCourse] = useState(null);
+  
+  useEffect(() => {
+    const stored = sessionStorage.getItem('tempCourse');
+    if (stored && id?.startsWith('youtube-')) {
+      setTempCourse(JSON.parse(stored));
+    }
+  }, [id]);
+
+  const course = tempCourse || coursesData.find(c => c.id === parseInt(id));
 
   // Redirect to login if not authenticated
   useEffect(() => {

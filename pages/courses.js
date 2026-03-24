@@ -11,10 +11,10 @@ export default function Courses() {
   
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState(categoryQuery || null);
-  const [searchMode, setSearchMode] = useState('courses'); // 'courses' or 'youtube'
   const [youtubeResults, setYoutubeResults] = useState([]);
   const [youtubeLoading, setYoutubeLoading] = useState(false);
   const [youtubeError, setYoutubeError] = useState(null);
+  const [showYoutubeResults, setShowYoutubeResults] = useState(false);
 
   // Update selected category when URL changes
   useEffect(() => {
@@ -63,10 +63,20 @@ export default function Courses() {
   };
 
   const handleSearchChange = (e) => {
-    setSearchQuery(e.target.value);
-    if (searchMode === 'youtube') {
-      setYoutubeResults([]);
-      setYoutubeError(null);
+    const query = e.target.value;
+    setSearchQuery(query);
+    
+    // Reset YouTube results when typing
+    setYoutubeResults([]);
+    setYoutubeError(null);
+    setShowYoutubeResults(false);
+    
+    // Auto-search YouTube if no courses found after typing stops
+    if (query.trim()) {
+      clearTimeout(window.searchTimeout);
+      window.searchTimeout = setTimeout(() => {
+        autoSearchYouTube(query);
+      }, 1000); // Wait 1 second after user stops typing
     }
   };
 
@@ -74,20 +84,20 @@ export default function Courses() {
     setSearchQuery('');
     setYoutubeResults([]);
     setYoutubeError(null);
+    setShowYoutubeResults(false);
   };
 
-  const toggleSearchMode = () => {
-    const newMode = searchMode === 'courses' ? 'youtube' : 'courses';
-    setSearchMode(newMode);
-    setSearchQuery('');
-    setYoutubeResults([]);
-    setYoutubeError(null);
-  };
-
-  const searchYouTube = async (e) => {
-    e.preventDefault();
+  const autoSearchYouTube = async (query) => {
+    // Only search YouTube if no courses match
+    const coursesMatch = coursesData.some(course => 
+      course.title.toLowerCase().includes(query.toLowerCase()) ||
+      course.description.toLowerCase().includes(query.toLowerCase()) ||
+      course.tech.toLowerCase().includes(query.toLowerCase())
+    );
     
-    if (!searchQuery.trim()) return;
+    if (coursesMatch) {
+      return; // Don't search YouTube if we have course matches
+    }
 
     setYoutubeLoading(true);
     setYoutubeError(null);
@@ -96,11 +106,11 @@ export default function Courses() {
       const apiKey = process.env.NEXT_PUBLIC_YOUTUBE_API_KEY;
       
       if (!apiKey) {
-        throw new Error('YouTube API key not configured. Add NEXT_PUBLIC_YOUTUBE_API_KEY to .env.local');
+        throw new Error('YouTube API key not configured');
       }
 
       const response = await fetch(
-        `https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=12&q=${encodeURIComponent(searchQuery)}&type=video&key=${apiKey}`
+        `https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=12&q=${encodeURIComponent(query + ' tutorial')}&type=video&key=${apiKey}`
       );
 
       if (!response.ok) {
@@ -114,6 +124,7 @@ export default function Courses() {
       }
 
       setYoutubeResults(data.items || []);
+      setShowYoutubeResults(true);
     } catch (err) {
       console.error('YouTube search error:', err);
       setYoutubeError(err.message || 'Failed to search YouTube');
@@ -123,8 +134,31 @@ export default function Courses() {
   };
 
   const handleYouTubeVideoClick = (video) => {
-    const videoUrl = `https://www.youtube.com/watch?v=${video.id.videoId}`;
-    window.open(videoUrl, '_blank');
+    // Create a temporary course object for the YouTube video
+    const tempCourse = {
+      id: `youtube-${video.id.videoId}`,
+      title: video.snippet.title,
+      description: video.snippet.description,
+      instructor: video.snippet.channelTitle,
+      duration: 'YouTube Video',
+      level: 'External',
+      category: 'youtube',
+      tech: 'video',
+      lessons: [
+        {
+          id: 1,
+          title: video.snippet.title,
+          duration: 'Video',
+          videoUrl: `https://www.youtube.com/watch?v=${video.id.videoId}`
+        }
+      ]
+    };
+    
+    // Store in sessionStorage so watch page can access it
+    sessionStorage.setItem('tempCourse', JSON.stringify(tempCourse));
+    
+    // Navigate to watch page
+    router.push(`/course/youtube-${video.id.videoId}/watch`);
   };
 
   return (
@@ -229,17 +263,10 @@ export default function Courses() {
         {/* Course Content - Only show in courses mode */}
         {searchMode === 'courses' && (
           <>
-            {/* Show search only when category is selected or searching */}
-            {(selectedCategory || searchQuery) && searchQuery && (
-              <div className={styles.searchResults}>
-                <p>
-                  Found <strong>{filteredCourses.length}</strong> course{filteredCourses.length !== 1 ? 's' : ''} 
-                  matching "<strong>{searchQuery}</strong>"
-                </p>
-              </div>
-            )}
+          </>
+        )}
 
-            {/* Show Categories only when no category is selected */}
+        {/* Show Categories only when no search and no category selected */}
         {!selectedCategory && !searchQuery && (
           <section className={styles.categoriesSection}>
             <h2 className={styles.categoriesTitle}>Browse by Category</h2>
@@ -277,8 +304,8 @@ export default function Courses() {
           </div>
         )}
 
-        {/* Courses Grid - Show ONLY when category is selected or searching */}
-        {(selectedCategory || searchQuery) && (
+        {/* Courses Grid - Show when category selected or course search has results */}
+        {(selectedCategory || (searchQuery && filteredCourses.length > 0)) && (
           <section className={styles.coursesSection}>
             {selectedCategory && !searchQuery && (
               <div className={styles.categoryHeader}>
@@ -302,30 +329,16 @@ export default function Courses() {
           </section>
         )}
 
-        {/* Empty State */}
-        {(selectedCategory || searchQuery) && filteredCourses.length === 0 && (
+        {/* Empty State - only for category with no courses */}
+        {selectedCategory && !searchQuery && filteredCourses.length === 0 && (
           <div className={styles.emptyState}>
             <div className={styles.emptyIcon}>📭</div>
-            {searchQuery ? (
-              <>
-                <h3>No courses found</h3>
-                <p>Try adjusting your search terms or browse by category</p>
-                <button onClick={clearSearch} className={styles.clearSearchButton}>
-                  Clear Search
-                </button>
-              </>
-            ) : (
-              <>
-                <h3>No courses in this category yet</h3>
-                <p>Check back soon for new courses!</p>
-                <button onClick={handleBackToCategories} className={styles.clearSearchButton}>
-                  Back to Categories
-                </button>
-              </>
-            )}
+            <h3>No courses in this category yet</h3>
+            <p>Check back soon for new courses!</p>
+            <button onClick={handleBackToCategories} className={styles.clearSearchButton}>
+              Back to Categories
+            </button>
           </div>
-        )}
-          </>
         )}
       </div>
     </>
