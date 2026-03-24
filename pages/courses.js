@@ -141,30 +141,33 @@ export default function Courses() {
           </div>
         )}
 
-        {/* Courses Grid */}
-        <section className={styles.coursesSection}>
-          {selectedCategory !== 'all' && !searchQuery && (
-            <div className={styles.categoryHeader}>
-              <h2>
-                {courseCategories.find(c => c.id === selectedCategory)?.name || 'Courses'}
-              </h2>
-              <button 
-                onClick={() => handleCategoryClick('all')}
-                className={styles.viewAllButton}
-              >
-                View All Categories
-              </button>
+        {/* Courses Grid - Show ONLY when category is selected or searching */}
+        {(selectedCategory || searchQuery) && (
+          <section className={styles.coursesSection}>
+            {selectedCategory && !searchQuery && (
+              <div className={styles.categoryHeader}>
+                <h2>
+                  {courseCategories.find(c => c.id === selectedCategory)?.name || 'Courses'}
+                </h2>
+                <button 
+                  onClick={handleBackToCategories}
+                  className={styles.viewAllButton}
+                >
+                  ← Back to Categories
+                </button>
+              </div>
+            )}
+
+            <div className={styles.courseGrid}>
+              {filteredCourses.map((course) => (
+                <CourseCard key={course.id} course={course} />
+              ))}
             </div>
-          )}
+          </section>
+        )}
 
-          <div className={styles.courseGrid}>
-            {filteredCourses.map((course) => (
-              <CourseCard key={course.id} course={course} />
-            ))}
-          </div>
-        </section>
-
-        {filteredCourses.length === 0 && (
+        {/* Empty State */}
+        {(selectedCategory || searchQuery) && filteredCourses.length === 0 && (
           <div className={styles.emptyState}>
             <div className={styles.emptyIcon}>📭</div>
             {searchQuery ? (
@@ -179,6 +182,9 @@ export default function Courses() {
               <>
                 <h3>No courses in this category yet</h3>
                 <p>Check back soon for new courses!</p>
+                <button onClick={handleBackToCategories} className={styles.clearSearchButton}>
+                  Back to Categories
+                </button>
               </>
             )}
           </div>
