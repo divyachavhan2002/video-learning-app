@@ -11,6 +11,10 @@ export default function Courses() {
   
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState(categoryQuery || null);
+  const [searchMode, setSearchMode] = useState('courses'); // 'courses' or 'youtube'
+  const [youtubeResults, setYoutubeResults] = useState([]);
+  const [youtubeLoading, setYoutubeLoading] = useState(false);
+  const [youtubeError, setYoutubeError] = useState(null);
 
   // Update selected category when URL changes
   useEffect(() => {
@@ -60,10 +64,67 @@ export default function Courses() {
 
   const handleSearchChange = (e) => {
     setSearchQuery(e.target.value);
+    if (searchMode === 'youtube') {
+      setYoutubeResults([]);
+      setYoutubeError(null);
+    }
   };
 
   const clearSearch = () => {
     setSearchQuery('');
+    setYoutubeResults([]);
+    setYoutubeError(null);
+  };
+
+  const toggleSearchMode = () => {
+    const newMode = searchMode === 'courses' ? 'youtube' : 'courses';
+    setSearchMode(newMode);
+    setSearchQuery('');
+    setYoutubeResults([]);
+    setYoutubeError(null);
+  };
+
+  const searchYouTube = async (e) => {
+    e.preventDefault();
+    
+    if (!searchQuery.trim()) return;
+
+    setYoutubeLoading(true);
+    setYoutubeError(null);
+
+    try {
+      const apiKey = process.env.NEXT_PUBLIC_YOUTUBE_API_KEY;
+      
+      if (!apiKey) {
+        throw new Error('YouTube API key not configured. Add NEXT_PUBLIC_YOUTUBE_API_KEY to .env.local');
+      }
+
+      const response = await fetch(
+        `https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=12&q=${encodeURIComponent(searchQuery)}&type=video&key=${apiKey}`
+      );
+
+      if (!response.ok) {
+        throw new Error('Failed to search YouTube');
+      }
+
+      const data = await response.json();
+      
+      if (data.error) {
+        throw new Error(data.error.message);
+      }
+
+      setYoutubeResults(data.items || []);
+    } catch (err) {
+      console.error('YouTube search error:', err);
+      setYoutubeError(err.message || 'Failed to search YouTube');
+    } finally {
+      setYoutubeLoading(false);
+    }
+  };
+
+  const handleYouTubeVideoClick = (video) => {
+    const videoUrl = `https://www.youtube.com/watch?v=${video.id.videoId}`;
+    window.open(videoUrl, '_blank');
   };
 
   return (
@@ -82,28 +143,103 @@ export default function Courses() {
           </p>
         </section>
 
-        {/* Show search only when category is selected or search is active */}
-        {(selectedCategory || searchQuery) && (
-          <section className={styles.searchSection}>
-            <div className={styles.searchContainer}>
-              <input
-                type="text"
-                placeholder="Search courses, topics, or technologies..."
-                value={searchQuery}
-                onChange={handleSearchChange}
-                className={styles.searchInput}
-              />
-              {searchQuery && (
-                <button onClick={clearSearch} className={styles.clearButton}>
-                  ✕
-                </button>
-              )}
-              <span className={styles.searchIcon}>🔍</span>
+        {/* Unified Search - Always visible */}
+        <section className={styles.unifiedSearchSection}>
+          <div className={styles.searchModeToggle}>
+            <button 
+              onClick={toggleSearchMode}
+              className={styles.modeToggleBtn}
+            >
+              {searchMode === 'courses' ? '🎥 Switch to YouTube' : '📚 Switch to Courses'}
+            </button>
+          </div>
+
+          <form onSubmit={searchMode === 'youtube' ? searchYouTube : (e) => e.preventDefault()} className={styles.searchContainer}>
+            <input
+              type="text"
+              placeholder={searchMode === 'courses' ? 'Search courses, topics, or technologies...' : 'Search YouTube videos...'}
+              value={searchQuery}
+              onChange={handleSearchChange}
+              className={styles.searchInput}
+            />
+            {searchQuery && (
+              <button type="button" onClick={clearSearch} className={styles.clearButton}>
+                ✕
+              </button>
+            )}
+            {searchMode === 'youtube' && searchQuery && (
+              <button type="submit" disabled={youtubeLoading} className={styles.youtubeSearchSubmit}>
+                {youtubeLoading ? '⏳' : '🔍'}
+              </button>
+            )}
+            <span className={styles.searchIcon}>
+              {searchMode === 'courses' ? '🔍' : '🎥'}
+            </span>
+          </form>
+
+          {/* Search Mode Indicator */}
+          <div className={styles.searchModeIndicator}>
+            <span className={searchMode === 'courses' ? styles.activeMode : ''}>
+              � Courses
+            </span>
+            <span className={styles.modeSeparator}>|</span>
+            <span className={searchMode === 'youtube' ? styles.activeMode : ''}>
+              🎥 YouTube
+            </span>
+          </div>
+
+          {/* YouTube Error */}
+          {youtubeError && (
+            <div className={styles.youtubeError}>
+              {youtubeError}
+            </div>
+          )}
+        </section>
+
+        {/* YouTube Results */}
+        {searchMode === 'youtube' && youtubeResults.length > 0 && (
+          <section className={styles.youtubeResultsSection}>
+            <h2 className={styles.resultsTitle}>YouTube Results ({youtubeResults.length})</h2>
+            <div className={styles.youtubeGrid}>
+              {youtubeResults.map((video) => (
+                <div
+                  key={video.id.videoId}
+                  className={styles.youtubeCard}
+                  onClick={() => handleYouTubeVideoClick(video)}
+                >
+                  <div className={styles.youtubeThumbnail}>
+                    <img
+                      src={video.snippet.thumbnails.medium.url}
+                      alt={video.snippet.title}
+                    />
+                    <div className={styles.playOverlay}>▶️</div>
+                  </div>
+                  <div className={styles.youtubeInfo}>
+                    <h3 className={styles.youtubeTitle}>{video.snippet.title}</h3>
+                    <p className={styles.youtubeDescription}>
+                      {video.snippet.description.substring(0, 100)}...
+                    </p>
+                  </div>
+                </div>
+              ))}
             </div>
           </section>
         )}
 
-        {/* Show Categories only when no category is selected */}
+        {/* Course Content - Only show in courses mode */}
+        {searchMode === 'courses' && (
+          <>
+            {/* Show search only when category is selected or searching */}
+            {(selectedCategory || searchQuery) && searchQuery && (
+              <div className={styles.searchResults}>
+                <p>
+                  Found <strong>{filteredCourses.length}</strong> course{filteredCourses.length !== 1 ? 's' : ''} 
+                  matching "<strong>{searchQuery}</strong>"
+                </p>
+              </div>
+            )}
+
+            {/* Show Categories only when no category is selected */}
         {!selectedCategory && !searchQuery && (
           <section className={styles.categoriesSection}>
             <h2 className={styles.categoriesTitle}>Browse by Category</h2>
@@ -188,6 +324,8 @@ export default function Courses() {
               </>
             )}
           </div>
+        )}
+          </>
         )}
       </div>
     </>
