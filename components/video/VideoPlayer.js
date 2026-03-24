@@ -1,6 +1,25 @@
 import { useState, useRef, useEffect } from 'react';
-import ReactPlayer from 'react-player';
 import styles from './VideoPlayer.module.css';
+
+// Extract YouTube video ID from URL
+const getYouTubeVideoId = (url) => {
+  if (!url) return null;
+  
+  // Handle different YouTube URL formats
+  const patterns = [
+    /(?:youtube\.com\/watch\?v=|youtu\.be\/)([^&\n?#]+)/,
+    /youtube\.com\/embed\/([^&\n?#]+)/,
+  ];
+  
+  for (const pattern of patterns) {
+    const match = url.match(pattern);
+    if (match && match[1]) {
+      return match[1];
+    }
+  }
+  
+  return null;
+};
 
 export default function VideoPlayer({ 
   url, 
@@ -8,257 +27,169 @@ export default function VideoPlayer({
   onEnded, 
   initialProgress = 0 
 }) {
-  const [playing, setPlaying] = useState(false);
-  const [volume, setVolume] = useState(0.8);
-  const [muted, setMuted] = useState(false);
-  const [played, setPlayed] = useState(initialProgress);
-  const [duration, setDuration] = useState(0);
-  const [playbackRate, setPlaybackRate] = useState(1);
-  const [showSpeedMenu, setShowSpeedMenu] = useState(false);
+  const [ready, setReady] = useState(false);
+  const [error, setError] = useState(null);
   const playerRef = useRef(null);
-  const containerRef = useRef(null);
+  const iframeRef = useRef(null);
+  const progressIntervalRef = useRef(null);
 
-  // Keyboard shortcuts
+  const videoId = getYouTubeVideoId(url);
+
+  // Load YouTube IFrame API
   useEffect(() => {
-    const handleKeyPress = (e) => {
-      if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+    // Check if API is already loaded
+    if (window.YT && window.YT.Player) {
+      return;
+    }
 
-      switch(e.key) {
-        case ' ':
-          e.preventDefault();
-          handlePlayPause();
-          break;
-        case 'ArrowRight':
-          e.preventDefault();
-          skipForward();
-          break;
-        case 'ArrowLeft':
-          e.preventDefault();
-          skipBackward();
-          break;
-        case 'f':
-        case 'F':
-          e.preventDefault();
-          toggleFullscreen();
-          break;
-        case 'm':
-        case 'M':
-          e.preventDefault();
-          toggleMute();
-          break;
-        default:
-          break;
+    // Load the IFrame Player API code asynchronously
+    const tag = document.createElement('script');
+    tag.src = 'https://www.youtube.com/iframe_api';
+    const firstScriptTag = document.getElementsByTagName('script')[0];
+    firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+    // API will call this function when ready
+    window.onYouTubeIframeAPIReady = () => {
+      console.log('YouTube IFrame API ready');
+    };
+  }, []);
+
+  // Initialize player when video ID changes
+  useEffect(() => {
+    if (!videoId) {
+      setError('Invalid YouTube URL');
+      return;
+    }
+
+    console.log('Loading video:', videoId);
+    setReady(false);
+    setError(null);
+
+    // Wait for API to be ready
+    const initPlayer = () => {
+      if (!window.YT || !window.YT.Player) {
+        setTimeout(initPlayer, 100);
+        return;
+      }
+
+      // Destroy existing player
+      if (playerRef.current) {
+        playerRef.current.destroy();
+      }
+
+      // Create new player
+      try {
+        playerRef.current = new window.YT.Player(iframeRef.current, {
+          videoId: videoId,
+          width: '100%',
+          height: '100%',
+          playerVars: {
+            autoplay: 0,
+            controls: 1,
+            modestbranding: 1,
+            rel: 0,
+            enablejsapi: 1,
+            origin: window.location.origin,
+            // Allow ads to play
+            disablekb: 0,
+            fs: 1,
+            playsinline: 1
+          },
+          events: {
+            onReady: handlePlayerReady,
+            onStateChange: handleStateChange,
+            onError: handlePlayerError
+          }
+        });
+      } catch (err) {
+        console.error('Failed to create player:', err);
+        setError('Failed to initialize player');
       }
     };
 
-    window.addEventListener('keydown', handleKeyPress);
-    return () => window.removeEventListener('keydown', handleKeyPress);
-  }, [playing, played]);
+    initPlayer();
 
-  const handlePlayPause = () => {
-    setPlaying(!playing);
-  };
+    // Cleanup
+    return () => {
+      if (progressIntervalRef.current) {
+        clearInterval(progressIntervalRef.current);
+      }
+      if (playerRef.current && playerRef.current.destroy) {
+        playerRef.current.destroy();
+      }
+    };
+  }, [videoId]);
 
-  const handleProgress = (state) => {
-    setPlayed(state.played);
+  const handlePlayerReady = (event) => {
+    console.log('Player ready');
+    setReady(true);
+    setError(null);
+
+    // Start tracking progress
     if (onProgress) {
-      onProgress(state.played, state.playedSeconds);
+      progressIntervalRef.current = setInterval(() => {
+        if (playerRef.current && playerRef.current.getCurrentTime) {
+          try {
+            const currentTime = playerRef.current.getCurrentTime();
+            const duration = playerRef.current.getDuration();
+            if (duration > 0) {
+              const played = currentTime / duration;
+              onProgress(played, currentTime);
+            }
+          } catch (err) {
+            console.error('Progress tracking error:', err);
+          }
+        }
+      }, 1000);
     }
   };
 
-  const handleDuration = (duration) => {
-    setDuration(duration);
-  };
-
-  const handleSeek = (e) => {
-    const seekTo = parseFloat(e.target.value);
-    setPlayed(seekTo);
-    playerRef.current.seekTo(seekTo);
-  };
-
-  const handleVolumeChange = (e) => {
-    setVolume(parseFloat(e.target.value));
-    setMuted(false);
-  };
-
-  const toggleMute = () => {
-    setMuted(!muted);
-  };
-
-  const handleEnded = () => {
-    setPlaying(false);
-    if (onEnded) {
+  const handleStateChange = (event) => {
+    // YouTube Player States
+    // -1: unstarted, 0: ended, 1: playing, 2: paused, 3: buffering, 5: video cued
+    if (event.data === 0 && onEnded) {
+      // Video ended
       onEnded();
     }
   };
 
-  const skipForward = () => {
-    const newTime = Math.min(played + (10 / duration), 0.999999);
-    setPlayed(newTime);
-    playerRef.current.seekTo(newTime);
+  const handlePlayerError = (event) => {
+    console.error('YouTube player error:', event.data);
+    const errorMessages = {
+      2: 'Invalid video ID',
+      5: 'HTML5 player error',
+      100: 'Video not found or private',
+      101: 'Video owner does not allow embedding',
+      150: 'Video owner does not allow embedding'
+    };
+    
+    const message = errorMessages[event.data] || 'Failed to load video';
+    setError(message);
+    setReady(true);
   };
 
-  const skipBackward = () => {
-    const newTime = Math.max(played - (10 / duration), 0);
-    setPlayed(newTime);
-    playerRef.current.seekTo(newTime);
-  };
-
-  const changePlaybackRate = (rate) => {
-    setPlaybackRate(rate);
-    setShowSpeedMenu(false);
-  };
-
-  const toggleFullscreen = () => {
-    if (!document.fullscreenElement) {
-      containerRef.current?.requestFullscreen();
-    } else {
-      document.exitFullscreen();
-    }
-  };
-
-  const formatTime = (seconds) => {
-    const date = new Date(seconds * 1000);
-    const hh = date.getUTCHours();
-    const mm = date.getUTCMinutes();
-    const ss = ('0' + date.getUTCSeconds()).slice(-2);
-    if (hh) {
-      return `${hh}:${('0' + mm).slice(-2)}:${ss}`;
-    }
-    return `${mm}:${ss}`;
-  };
+  if (!videoId) {
+    return (
+      <div className={styles.videoContainer}>
+        <div className={styles.error}>Invalid YouTube URL</div>
+      </div>
+    );
+  }
 
   return (
-    <div className={styles.videoContainer} ref={containerRef}>
+    <div className={styles.videoContainer}>
       <div className={styles.playerWrapper}>
-        <ReactPlayer
-          ref={playerRef}
-          url={url}
-          width="100%"
-          height="100%"
-          playing={playing}
-          volume={volume}
-          muted={muted}
-          playbackRate={playbackRate}
-          onProgress={handleProgress}
-          onDuration={handleDuration}
-          onEnded={handleEnded}
-          controls={false}
-          className={styles.reactPlayer}
-          config={{
-            youtube: {
-              playerVars: {
-                showinfo: 1,
-                modestbranding: 1,
-                rel: 0
-              }
-            }
-          }}
-        />
-      </div>
-
-      <div className={styles.controls}>
-        <button 
-          onClick={handlePlayPause} 
-          className={styles.playButton}
-          aria-label={playing ? 'Pause' : 'Play'}
-          title="Play/Pause (Space)"
-        >
-          {playing ? '⏸️' : '▶️'}
-        </button>
-
-        <button 
-          onClick={skipBackward} 
-          className={styles.skipButton}
-          aria-label="Rewind 10 seconds"
-          title="Rewind 10s (←)"
-        >
-          ⏪
-        </button>
-
-        <button 
-          onClick={skipForward} 
-          className={styles.skipButton}
-          aria-label="Forward 10 seconds"
-          title="Forward 10s (→)"
-        >
-          ⏩
-        </button>
-
-        <div className={styles.progressContainer}>
-          <input
-            type="range"
-            min={0}
-            max={0.999999}
-            step="any"
-            value={played}
-            onChange={handleSeek}
-            className={styles.progressBar}
-          />
-          <div 
-            className={styles.progressFill} 
-            style={{ width: `${played * 100}%` }}
-          />
-        </div>
-
-        <div className={styles.timeDisplay}>
-          <span>{formatTime(duration * played)}</span>
-          <span className={styles.timeSeparator}>/</span>
-          <span>{formatTime(duration)}</span>
-        </div>
-
-        <div className={styles.volumeControl}>
-          <button 
-            onClick={toggleMute} 
-            className={styles.volumeButton}
-            aria-label={muted ? 'Unmute' : 'Mute'}
-            title="Mute (M)"
-          >
-            {muted ? '🔇' : volume > 0.5 ? '🔊' : '🔉'}
-          </button>
-          <input
-            type="range"
-            min={0}
-            max={1}
-            step={0.1}
-            value={muted ? 0 : volume}
-            onChange={handleVolumeChange}
-            className={styles.volumeSlider}
-          />
-        </div>
-
-        <div className={styles.speedControl}>
-          <button 
-            onClick={() => setShowSpeedMenu(!showSpeedMenu)}
-            className={styles.speedButton}
-            aria-label="Playback speed"
-            title="Playback Speed"
-          >
-            {playbackRate}x
-          </button>
-          {showSpeedMenu && (
-            <div className={styles.speedMenu}>
-              {[0.5, 0.75, 1, 1.25, 1.5, 1.75, 2].map(rate => (
-                <button
-                  key={rate}
-                  onClick={() => changePlaybackRate(rate)}
-                  className={`${styles.speedOption} ${playbackRate === rate ? styles.active : ''}`}
-                >
-                  {rate}x
-                </button>
-              ))}
-            </div>
-          )}
-        </div>
-
-        <button 
-          onClick={toggleFullscreen} 
-          className={styles.fullscreenButton}
-          aria-label="Toggle fullscreen"
-          title="Fullscreen (F)"
-        >
-          ⛶
-        </button>
+        {!ready && !error && (
+          <div className={styles.loadingOverlay}>
+            <div className={styles.loadingSpinner}>Loading video...</div>
+          </div>
+        )}
+        {error && (
+          <div className={styles.errorOverlay}>
+            <div className={styles.errorMessage}>{error}</div>
+          </div>
+        )}
+        <div ref={iframeRef} className={styles.youtubePlayer}></div>
       </div>
     </div>
   );

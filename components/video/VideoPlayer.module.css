@@ -20,6 +20,75 @@
   background-color: var(--bg-dark);
 }
 
+.youtubePlayer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.youtubePlayer iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+}
+
+.loadingOverlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(0, 0, 0, 0.8);
+  z-index: 10;
+}
+
+.loadingSpinner {
+  color: white;
+  font-size: 1.125rem;
+  animation: pulse 1.5s ease-in-out infinite;
+}
+
+.errorOverlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.9);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+}
+
+.errorMessage {
+  color: #ff4444;
+  font-size: 1.2rem;
+  text-align: center;
+  padding: 20px;
+}
+
+.error {
+  color: #ff4444;
+  padding: 40px;
+  text-align: center;
+  font-size: 1.2rem;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
 .reactPlayer {
   position: absolute;
   top: 0;

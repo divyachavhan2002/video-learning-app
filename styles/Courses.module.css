@@ -30,6 +30,38 @@
   transition: color 0.3s ease;
 }
 
+/* YouTube Search Toggle */
+.youtubeSearchToggle {
+  margin-top: 1.5rem;
+}
+
+.youtubeSearchBtn {
+  padding: 14px 28px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border: none;
+  border-radius: 10px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+}
+
+.youtubeSearchBtn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 20px rgba(102, 126, 234, 0.5);
+}
+
+.youtubeSearchSection {
+  margin: 2rem 0;
+  padding: 2rem;
+  background-color: var(--card-bg);
+  border-radius: 16px;
+  box-shadow: var(--shadow-card);
+  border: 2px solid var(--border-color);
+}
+
 /* Search Section */
 .searchSection {
   margin-bottom: 2.5rem;

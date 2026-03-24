@@ -104,6 +104,46 @@
   gap: 1.5rem;
 }
 
+/* Video Controls */
+.videoControls {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.searchToggleBtn,
+.resetBtn {
+  padding: 12px 20px;
+  border: none;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.searchToggleBtn {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+}
+
+.searchToggleBtn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+}
+
+.resetBtn {
+  background-color: var(--card-bg);
+  color: var(--text-primary);
+  border: 2px solid var(--border-color);
+}
+
+.resetBtn:hover {
+  background-color: var(--hover-bg);
+  border-color: var(--primary-color);
+  color: var(--primary-color);
+}
+
 .videoInfo {
   padding: 1.5rem;
   background-color: var(--card-bg);
@@ -131,6 +171,15 @@
 
 .metaDivider {
   color: var(--text-light);
+}
+
+.customBadge {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  padding: 4px 12px;
+  border-radius: 12px;
+  font-size: 0.85rem;
+  font-weight: 600;
 }
 
 .courseInfo {
