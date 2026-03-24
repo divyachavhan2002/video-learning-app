@@ -177,21 +177,12 @@ export default function Courses() {
           </p>
         </section>
 
-        {/* Unified Search - Always visible */}
-        <section className={styles.unifiedSearchSection}>
-          <div className={styles.searchModeToggle}>
-            <button 
-              onClick={toggleSearchMode}
-              className={styles.modeToggleBtn}
-            >
-              {searchMode === 'courses' ? '🎥 Switch to YouTube' : '📚 Switch to Courses'}
-            </button>
-          </div>
-
-          <form onSubmit={searchMode === 'youtube' ? searchYouTube : (e) => e.preventDefault()} className={styles.searchContainer}>
+        {/* Smart Search - Auto switches between courses and YouTube */}
+        <section className={styles.searchSection}>
+          <form onSubmit={(e) => e.preventDefault()} className={styles.searchContainer}>
             <input
               type="text"
-              placeholder={searchMode === 'courses' ? 'Search courses, topics, or technologies...' : 'Search YouTube videos...'}
+              placeholder="Search courses, topics, or technologies..."
               value={searchQuery}
               onChange={handleSearchChange}
               className={styles.searchInput}
@@ -201,26 +192,11 @@ export default function Courses() {
                 ✕
               </button>
             )}
-            {searchMode === 'youtube' && searchQuery && (
-              <button type="submit" disabled={youtubeLoading} className={styles.youtubeSearchSubmit}>
-                {youtubeLoading ? '⏳' : '🔍'}
-              </button>
+            {youtubeLoading && (
+              <span className={styles.loadingIcon}>⏳</span>
             )}
-            <span className={styles.searchIcon}>
-              {searchMode === 'courses' ? '🔍' : '🎥'}
-            </span>
+            <span className={styles.searchIcon}>🔍</span>
           </form>
-
-          {/* Search Mode Indicator */}
-          <div className={styles.searchModeIndicator}>
-            <span className={searchMode === 'courses' ? styles.activeMode : ''}>
-              � Courses
-            </span>
-            <span className={styles.modeSeparator}>|</span>
-            <span className={searchMode === 'youtube' ? styles.activeMode : ''}>
-              🎥 YouTube
-            </span>
-          </div>
 
           {/* YouTube Error */}
           {youtubeError && (
@@ -230,41 +206,7 @@ export default function Courses() {
           )}
         </section>
 
-        {/* YouTube Results */}
-        {searchMode === 'youtube' && youtubeResults.length > 0 && (
-          <section className={styles.youtubeResultsSection}>
-            <h2 className={styles.resultsTitle}>YouTube Results ({youtubeResults.length})</h2>
-            <div className={styles.youtubeGrid}>
-              {youtubeResults.map((video) => (
-                <div
-                  key={video.id.videoId}
-                  className={styles.youtubeCard}
-                  onClick={() => handleYouTubeVideoClick(video)}
-                >
-                  <div className={styles.youtubeThumbnail}>
-                    <img
-                      src={video.snippet.thumbnails.medium.url}
-                      alt={video.snippet.title}
-                    />
-                    <div className={styles.playOverlay}>▶️</div>
-                  </div>
-                  <div className={styles.youtubeInfo}>
-                    <h3 className={styles.youtubeTitle}>{video.snippet.title}</h3>
-                    <p className={styles.youtubeDescription}>
-                      {video.snippet.description.substring(0, 100)}...
-                    </p>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </section>
-        )}
 
-        {/* Course Content - Only show in courses mode */}
-        {searchMode === 'courses' && (
-          <>
-          </>
-        )}
 
         {/* Show Categories only when no search and no category selected */}
         {!selectedCategory && !searchQuery && (
