@@ -98,7 +98,109 @@
 .youtubeVideoSection {
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
+  gap: 2rem;
+}
+
+.youtubeVideoInfo {
+  background: var(--card-bg);
+  border-radius: 12px;
+  padding: 2rem;
+  box-shadow: var(--shadow-card);
+}
+
+.youtubeTitleSection {
+  margin-bottom: 1.5rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.youtubeVideoTitle {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 1rem;
+  line-height: 1.3;
+}
+
+.youtubeChannelInfo {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-size: 1rem;
+  color: var(--text-gray);
+}
+
+.channelIcon {
+  font-size: 1.25rem;
+}
+
+.channelName {
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.youtubeDescription {
+  margin-bottom: 2rem;
+}
+
+.descriptionTitle {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 0.75rem;
+}
+
+.descriptionText {
+  font-size: 0.95rem;
+  line-height: 1.7;
+  color: var(--text-gray);
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+
+.youtubeActions {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.backToCourses,
+.watchOnYoutube {
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  border: none;
+  font-size: 0.95rem;
+}
+
+.backToCourses {
+  background: var(--card-bg);
+  color: var(--text-primary);
+  border: 2px solid var(--border-color);
+}
+
+.backToCourses:hover {
+  background: var(--primary-color);
+  color: white;
+  border-color: var(--primary-color);
+  transform: translateY(-2px);
+}
+
+.watchOnYoutube {
+  background: #ff0000;
+  color: white;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.watchOnYoutube:hover {
+  background: #cc0000;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(255, 0, 0, 0.3);
 }
 
 /* Watch Layout */
@@ -381,6 +483,25 @@
   .lessonTitle {
     font-size: 0.9rem;
   }
+
+  .youtubeVideoInfo {
+    padding: 1.5rem;
+  }
+
+  .youtubeVideoTitle {
+    font-size: 1.5rem;
+  }
+
+  .youtubeActions {
+    flex-direction: column;
+  }
+
+  .backToCourses,
+  .watchOnYoutube {
+    width: 100%;
+    text-align: center;
+    justify-content: center;
+  }
 }
 
 @media (max-width: 480px) {
@@ -394,5 +515,21 @@
 
   .lessonsSidebar {
     max-height: 300px;
+  }
+
+  .youtubeVideoInfo {
+    padding: 1rem;
+  }
+
+  .youtubeVideoTitle {
+    font-size: 1.25rem;
+  }
+
+  .descriptionTitle {
+    font-size: 1rem;
+  }
+
+  .descriptionText {
+    font-size: 0.9rem;
   }
 }

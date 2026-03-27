@@ -111,12 +111,38 @@ export default function Watch() {
                 initialProgress={watchProgress[currentLesson]?.played || 0}
               />
 
-              <div className={styles.videoInfo}>
-                <h1 className={styles.videoTitle}>{currentVideo.title}</h1>
-                <p className={styles.instructor}>By {course.instructor}</p>
-                {course.description && (
-                  <p className={styles.description}>{course.description}</p>
+              <div className={styles.youtubeVideoInfo}>
+                <div className={styles.youtubeTitleSection}>
+                  <h1 className={styles.youtubeVideoTitle}>{currentVideo.title}</h1>
+                  <div className={styles.youtubeChannelInfo}>
+                    <span className={styles.channelIcon}>👤</span>
+                    <span className={styles.channelName}>{course.instructor}</span>
+                  </div>
+                </div>
+
+                {course.description && course.description.trim() && (
+                  <div className={styles.youtubeDescription}>
+                    <h3 className={styles.descriptionTitle}>About this video</h3>
+                    <p className={styles.descriptionText}>{course.description}</p>
+                  </div>
                 )}
+
+                <div className={styles.youtubeActions}>
+                  <button 
+                    onClick={() => router.push('/courses')} 
+                    className={styles.backToCourses}
+                  >
+                    ← Back to Courses
+                  </button>
+                  <a 
+                    href={currentVideo.videoUrl} 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className={styles.watchOnYoutube}
+                  >
+                    Watch on YouTube ↗
+                  </a>
+                </div>
               </div>
             </div>
           </div>
