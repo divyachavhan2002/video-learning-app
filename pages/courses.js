@@ -228,7 +228,9 @@ export default function Courses() {
                     </div>
                     <h3 className={styles.categoryName}>{category.name}</h3>
                     <p className={styles.categoryDescription}>{category.description}</p>
-                    <span className={styles.categoryCount}>{count} courses</span>
+                    <button className={styles.exploreCourseButton}>
+                      Explore Courses
+                    </button>
                   </button>
                 );
               })}

@@ -24,7 +24,6 @@ export default function Footer() {
           <div className={styles.section}>
             <h4>Follow Us</h4>
             <ul className={styles.links}>
-              <li><a href="#" target="_blank">Twitter</a></li>
               <li><a href="#" target="_blank">LinkedIn</a></li>
               <li><a href="#" target="_blank">GitHub</a></li>
             </ul>
