@@ -1,6 +1,4 @@
 import Head from 'next/head';
-import Header from '@/components/layout/Header';
-import Footer from '@/components/layout/Footer';
 import styles from '@/styles/About.module.css';
 
 export default function About() {
@@ -10,8 +8,6 @@ export default function About() {
         <title>About Us - LearnHub</title>
         <meta name="description" content="Learn more about LearnHub - Your gateway to quality online education" />
       </Head>
-
-      <Header />
 
       <div className={styles.aboutContainer}>
         {/* Hero Section */}
@@ -128,8 +124,6 @@ export default function About() {
           </div>
         </section>
       </div>
-
-      <Footer />
     </>
   );
 }
