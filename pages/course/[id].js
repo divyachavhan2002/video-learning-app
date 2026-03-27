@@ -41,10 +41,10 @@ export default function CourseDetail() {
     try {
       await enrollInCourse(parseInt(id));
       setEnrolled(true);
-      setMessage('Successfully enrolled! Redirecting to dashboard...');
+      setMessage('Successfully enrolled! Starting course...');
       setTimeout(() => {
-        router.push('/dashboard');
-      }, 2000);
+        router.push(`/course/${id}/watch`);
+      }, 1000);
     } catch (error) {
       setMessage('Failed to enroll. Please try again.');
     } finally {

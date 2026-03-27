@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import Head from 'next/head';
 import Link from 'next/link';
+import SEO from '@/components/common/SEO';
 import { useAuth } from '@/context/AuthContext';
 import { coursesData } from '@/data/courses';
 import styles from '@/styles/Dashboard.module.css';

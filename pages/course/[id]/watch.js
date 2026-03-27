@@ -13,8 +13,19 @@ export default function Watch() {
   const { user, loading } = useAuth();
   const [currentLesson, setCurrentLesson] = useState(0);
   const [watchProgress, setWatchProgress] = useState({});
+  const [videoError, setVideoError] = useState(null);
 
-  const course = coursesData.find(c => c.id === parseInt(id));
+  // Check for YouTube video from sessionStorage
+  const [tempCourse, setTempCourse] = useState(null);
+  
+  useEffect(() => {
+    const stored = sessionStorage.getItem('tempCourse');
+    if (stored && id?.startsWith('youtube-')) {
+      setTempCourse(JSON.parse(stored));
+    }
+  }, [id]);
+
+  const course = tempCourse || coursesData.find(c => c.id === parseInt(id));
 
   // Redirect to login if not authenticated
   useEffect(() => {
@@ -63,9 +74,53 @@ export default function Watch() {
 
   const selectLesson = (index) => {
     setCurrentLesson(index);
+    setVideoError(null); // Reset error when changing lessons
+  };
+
+  const handleVideoError = (error) => {
+    setVideoError(error);
   };
 
   const currentVideo = course.lessons[currentLesson];
+  const isYouTubeVideo = course.isYouTube || id?.startsWith('youtube-');
+
+  // Show error state if video cannot be played
+  if (videoError) {
+    return (
+      <>
+        <SEO 
+          title="Video Error - LearnHub"
+          description="Unable to play this video"
+        />
+        <div className={styles.container}>
+          <div className={styles.errorContainer}>
+            <div className={styles.errorIcon}>⚠️</div>
+            <h1 className={styles.errorTitle}>Unable to Play Video</h1>
+            <p className={styles.errorMessage}>{videoError}</p>
+            <p className={styles.errorDescription}>
+              This video cannot be played in embedded mode. The video owner has restricted playback on external websites.
+            </p>
+            <div className={styles.errorActions}>
+              <button 
+                onClick={() => router.push('/courses')} 
+                className={styles.backToCoursesBtn}
+              >
+                ← Back to Courses
+              </button>
+              <a 
+                href={currentVideo.videoUrl} 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className={styles.watchOnYoutubeBtn}
+              >
+                Watch on YouTube ↗
+              </a>
+            </div>
+          </div>
+        </div>
+      </>
+    );
+  }
 
   return (
     <>
@@ -80,18 +135,71 @@ export default function Watch() {
         <div className={styles.breadcrumb}>
           <Link href="/courses">Courses</Link>
           <span className={styles.separator}>›</span>
-          <Link href={`/course/${id}`}>{course.title}</Link>
-          <span className={styles.separator}>›</span>
+          {!isYouTubeVideo && (
+            <>
+              <Link href={`/course/${id}`}>{course.title}</Link>
+              <span className={styles.separator}>›</span>
+            </>
+          )}
           <span className={styles.current}>Watch</span>
         </div>
 
-        <div className={styles.watchLayout}>
+        {/* Full-width layout for YouTube videos */}
+        {isYouTubeVideo ? (
+          <div className={styles.youtubeLayout}>
+            <div className={styles.youtubeVideoSection}>
+              <VideoPlayer
+                url={currentVideo.videoUrl}
+                onProgress={handleProgress}
+                onEnded={handleVideoEnded}
+                onError={handleVideoError}
+                initialProgress={watchProgress[currentLesson]?.played || 0}
+              />
+
+              <div className={styles.youtubeVideoInfo}>
+                <div className={styles.youtubeTitleSection}>
+                  <h1 className={styles.youtubeVideoTitle}>{currentVideo.title}</h1>
+                  <div className={styles.youtubeChannelInfo}>
+                    <span className={styles.channelIcon}>👤</span>
+                    <span className={styles.channelName}>{course.instructor}</span>
+                  </div>
+                </div>
+
+                {course.description && course.description.trim() && (
+                  <div className={styles.youtubeDescription}>
+                    <h3 className={styles.descriptionTitle}>About this video</h3>
+                    <p className={styles.descriptionText}>{course.description}</p>
+                  </div>
+                )}
+
+                <div className={styles.youtubeActions}>
+                  <button 
+                    onClick={() => router.push('/courses')} 
+                    className={styles.backToCourses}
+                  >
+                    ← Back to Courses
+                  </button>
+                  <a 
+                    href={currentVideo.videoUrl} 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className={styles.watchOnYoutube}
+                  >
+                    Watch on YouTube ↗
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        ) : (
+          <div className={styles.watchLayout}>
           {/* Video Section */}
           <div className={styles.videoSection}>
             <VideoPlayer
               url={currentVideo.videoUrl}
               onProgress={handleProgress}
               onEnded={handleVideoEnded}
+              onError={handleVideoError}
               initialProgress={watchProgress[currentLesson]?.played || 0}
             />
 
@@ -144,6 +252,7 @@ export default function Watch() {
             </div>
           </div>
         </div>
+        )}
       </div>
     </>
   );

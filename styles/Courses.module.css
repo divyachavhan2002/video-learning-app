@@ -8,7 +8,7 @@
 .header {
   text-align: center;
   padding: 3rem 2rem;
-  margin-bottom: 3rem;
+  margin-bottom: 2rem;
   background-color: var(--card-bg);
   border-radius: 12px;
   transition: background-color 0.3s ease;
@@ -30,6 +30,241 @@
   transition: color 0.3s ease;
 }
 
+/* YouTube Search Toggle */
+.youtubeSearchToggle {
+  margin-top: 1.5rem;
+}
+
+.youtubeSearchBtn {
+  padding: 14px 28px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border: none;
+  border-radius: 10px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+}
+
+.youtubeSearchBtn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 20px rgba(102, 126, 234, 0.5);
+}
+
+.youtubeSearchSection {
+  margin: 2rem 0;
+  padding: 2rem;
+  background-color: var(--card-bg);
+  border-radius: 16px;
+  box-shadow: var(--shadow-card);
+  border: 2px solid var(--border-color);
+}
+
+/* Search Section */
+.searchSection {
+  margin-bottom: 2.5rem;
+  max-width: 800px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.searchContainer {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.searchInput {
+  width: 100%;
+  padding: 1rem 3.5rem 1rem 1rem;
+  font-size: 1rem;
+  border: 2px solid var(--border-color);
+  border-radius: 50px;
+  background-color: var(--card-bg);
+  color: var(--text-primary);
+  transition: all 0.3s ease;
+}
+
+.searchInput:focus {
+  outline: none;
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 3px var(--overlay-white-10);
+}
+
+.searchInput::placeholder {
+  color: var(--text-gray);
+}
+
+.searchIcon {
+  position: absolute;
+  right: 1.25rem;
+  font-size: 1.25rem;
+  pointer-events: none;
+  opacity: 0.6;
+}
+
+.clearButton {
+  position: absolute;
+  right: 3.5rem;
+  background: none;
+  border: none;
+  font-size: 1.25rem;
+  color: var(--text-gray);
+  cursor: pointer;
+  padding: 0.25rem 0.5rem;
+  border-radius: 50%;
+  transition: all 0.2s ease;
+}
+
+.clearButton:hover {
+  background-color: var(--overlay-white-10);
+  color: var(--text-primary);
+}
+
+/* Categories Section */
+.categoriesSection {
+  margin-bottom: 3rem;
+}
+
+.categoriesTitle {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+
+.categoriesGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 1.5rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.categoryCard {
+  background-color: var(--card-bg);
+  border: 2px solid var(--border-color);
+  border-radius: 12px;
+  padding: 1.5rem;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.categoryCard:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-card);
+  border-color: var(--primary-color);
+}
+
+.categoryCard.active {
+  border-color: var(--primary-color);
+  background: var(--gradient-primary);
+  color: white;
+}
+
+.categoryCard.active .categoryName,
+.categoryCard.active .categoryDescription,
+.categoryCard.active .categoryCount {
+  color: white;
+}
+
+.categoryIcon {
+  font-size: 2.5rem;
+  color: var(--primary-color);
+  transition: all 0.3s ease;
+}
+
+.categoryCard.active .categoryIcon {
+  color: white;
+}
+
+.categoryName {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin: 0;
+}
+
+.categoryDescription {
+  font-size: 0.875rem;
+  color: var(--text-gray);
+  margin: 0 0 1rem 0;
+}
+
+.exploreCourseButton {
+  padding: 10px 24px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-top: auto;
+}
+
+.categoryCard:hover .exploreCourseButton {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+}
+
+/* Search Results */
+.searchResults {
+  text-align: center;
+  margin-bottom: 2rem;
+  padding: 1rem;
+  background-color: var(--card-bg);
+  border-radius: 8px;
+  color: var(--text-gray);
+}
+
+.searchResults strong {
+  color: var(--primary-color);
+}
+
+/* Category Header */
+.categoryHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+  padding-bottom: 1rem;
+  border-bottom: 2px solid var(--border-color);
+}
+
+.categoryHeader h2 {
+  font-size: 1.75rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin: 0;
+}
+
+.viewAllButton {
+  padding: 0.5rem 1.25rem;
+  background-color: var(--primary-color);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.viewAllButton:hover {
+  background-color: var(--primary-hover);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-card);
+}
+
 /* Courses Section */
 .coursesSection {
   margin-bottom: 4rem;
@@ -48,8 +283,44 @@
   text-align: center;
   padding: 4rem 2rem;
   color: var(--text-gray);
+  background-color: var(--card-bg);
+  border-radius: 12px;
+  max-width: 600px;
+  margin: 2rem auto;
+}
+
+.emptyIcon {
+  font-size: 4rem;
+  margin-bottom: 1rem;
+}
+
+.emptyState h3 {
+  font-size: 1.5rem;
+  color: var(--text-primary);
+  margin-bottom: 0.5rem;
+}
+
+.emptyState p {
   font-size: 1.125rem;
-  transition: color 0.3s ease;
+  margin-bottom: 1.5rem;
+}
+
+.clearSearchButton {
+  padding: 0.75rem 1.5rem;
+  background-color: var(--primary-color);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.clearSearchButton:hover {
+  background-color: var(--primary-hover);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-card);
 }
 
 /* Responsive Design */
@@ -121,6 +392,97 @@
   .container {
     padding: 0 0.5rem;
   }
+}
+
+/* YouTube Results Section */
+.youtubeResultsSection {
+  margin: 2rem 0;
+  padding: 2rem;
+  background-color: var(--card-bg);
+  border-radius: 16px;
+  box-shadow: var(--shadow-card);
+}
+
+.youtubeGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1.5rem;
+}
+
+.youtubeCard {
+  background-color: var(--card-bg);
+  border-radius: 12px;
+  overflow: hidden;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border: 2px solid var(--border-color);
+}
+
+.youtubeCard:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  border-color: var(--primary-color);
+}
+
+.youtubeThumbnail {
+  position: relative;
+  width: 100%;
+  padding-top: 56.25%; /* 16:9 aspect ratio */
+  overflow: hidden;
+}
+
+.youtubeThumbnail img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.playOverlay {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 3rem;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.youtubeCard:hover .playOverlay {
+  opacity: 0.9;
+}
+
+.youtubeInfo {
+  padding: 1rem;
+}
+
+.youtubeTitle {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 0.5rem;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  line-height: 1.4;
+}
+
+.youtubeChannel {
+  font-size: 0.85rem;
+  color: var(--text-gray);
+}
+
+.youtubeError {
+  padding: 1rem;
+  margin: 1rem 0;
+  background-color: #fee;
+  border: 1px solid #fcc;
+  border-radius: 8px;
+  color: #c33;
+  text-align: center;
 }
 
 /* Landscape Orientation */

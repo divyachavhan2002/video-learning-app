@@ -6,6 +6,11 @@
   overflow: hidden;
   box-shadow: var(--shadow-card);
   transition: all 0.3s ease;
+  position: relative;
+}
+
+.videoContainer:fullscreen {
+  border-radius: 0;
 }
 
 /* Player Wrapper */
@@ -13,6 +18,112 @@
   position: relative;
   padding-top: 56.25%; /* 16:9 Aspect Ratio */
   background-color: var(--bg-dark);
+}
+
+.youtubePlayer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.youtubePlayer iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+}
+
+.loadingOverlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(0, 0, 0, 0.8);
+  z-index: 10;
+}
+
+.loadingSpinner {
+  color: white;
+  font-size: 1.125rem;
+  animation: pulse 1.5s ease-in-out infinite;
+}
+
+.errorOverlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.95);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  z-index: 10;
+  padding: 2rem;
+}
+
+.errorIcon {
+  font-size: 3rem;
+  margin-bottom: 0.5rem;
+}
+
+.errorMessage {
+  color: #ff6b6b;
+  font-size: 1.25rem;
+  font-weight: 600;
+  text-align: center;
+}
+
+.errorDescription {
+  color: #aaa;
+  font-size: 0.95rem;
+  text-align: center;
+  margin: 0;
+  max-width: 400px;
+}
+
+.watchOnYoutubeBtn {
+  margin-top: 1rem;
+  padding: 0.75rem 1.5rem;
+  background: #ff0000;
+  color: white;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 0.95rem;
+  transition: all 0.3s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.watchOnYoutubeBtn:hover {
+  background: #cc0000;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(255, 0, 0, 0.3);
+}
+
+.error {
+  color: #ff4444;
+  padding: 40px;
+  text-align: center;
+  font-size: 1.2rem;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
 }
 
 .reactPlayer {
@@ -32,7 +143,11 @@
   transition: all 0.3s ease;
 }
 
-.playButton {
+.playButton,
+.skipButton,
+.volumeButton,
+.speedButton,
+.fullscreenButton {
   background: none;
   border: none;
   font-size: 1.5rem;
@@ -43,11 +158,20 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  color: var(--text-primary);
 }
 
-.playButton:hover {
+.playButton:hover,
+.skipButton:hover,
+.volumeButton:hover,
+.speedButton:hover,
+.fullscreenButton:hover {
   background-color: var(--overlay-white-10);
   transform: scale(1.1);
+}
+
+.skipButton {
+  font-size: 1.25rem;
 }
 
 /* Progress Bar */
@@ -110,21 +234,6 @@
   gap: 0.5rem;
 }
 
-.volumeButton {
-  background: none;
-  border: none;
-  font-size: 1.25rem;
-  cursor: pointer;
-  padding: 0.5rem;
-  border-radius: 8px;
-  transition: all 0.3s ease;
-}
-
-.volumeButton:hover {
-  background-color: var(--overlay-white-10);
-  transform: scale(1.1);
-}
-
 .volumeSlider {
   width: 80px;
   height: 4px;
@@ -168,21 +277,91 @@
   background: var(--primary-hover);
 }
 
+/* Speed Control */
+.speedControl {
+  position: relative;
+}
+
+.speedButton {
+  font-size: 1rem;
+  min-width: 50px;
+  font-weight: 600;
+}
+
+.speedMenu {
+  position: absolute;
+  bottom: 100%;
+  right: 0;
+  margin-bottom: 0.5rem;
+  background-color: var(--card-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  box-shadow: var(--shadow-card);
+  overflow: hidden;
+  z-index: 10;
+}
+
+.speedOption {
+  display: block;
+  width: 100%;
+  padding: 0.5rem 1rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 0.875rem;
+  color: var(--text-primary);
+  transition: all 0.2s ease;
+  text-align: left;
+}
+
+.speedOption:hover {
+  background-color: var(--overlay-white-10);
+}
+
+.speedOption.active {
+  background-color: var(--primary-color);
+  color: white;
+  font-weight: 600;
+}
+
+/* Fullscreen Button */
+.fullscreenButton {
+  font-size: 1.25rem;
+}
+
 /* Responsive Design */
 @media (max-width: 768px) {
   .controls {
     gap: 0.5rem;
     padding: 0.75rem;
+    flex-wrap: wrap;
   }
 
-  .playButton {
+  .playButton,
+  .skipButton,
+  .volumeButton,
+  .speedButton,
+  .fullscreenButton {
     font-size: 1.25rem;
     padding: 0.375rem;
+  }
+
+  .skipButton {
+    font-size: 1rem;
   }
 
   .timeDisplay {
     font-size: 0.75rem;
     min-width: 80px;
+    order: 3;
+    width: 100%;
+    justify-content: center;
+  }
+
+  .progressContainer {
+    order: 2;
+    width: 100%;
+    flex: initial;
   }
 
   .volumeControl {
@@ -193,9 +372,15 @@
     width: 60px;
   }
 
-  .volumeButton {
-    font-size: 1rem;
-    padding: 0.375rem;
+  .speedButton {
+    min-width: 45px;
+    font-size: 0.875rem;
+  }
+
+  .speedMenu {
+    right: auto;
+    left: 50%;
+    transform: translateX(-50%);
   }
 }
 
