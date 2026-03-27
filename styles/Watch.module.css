@@ -89,6 +89,18 @@
   transition: color 0.3s ease;
 }
 
+/* YouTube Video Layout - Full width */
+.youtubeLayout {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.youtubeVideoSection {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
 /* Watch Layout */
 .watchLayout {
   display: grid;

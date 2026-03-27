@@ -123,6 +123,9 @@ export default function Courses() {
         throw new Error(data.error.message);
       }
 
+      console.log('YouTube API Response:', data);
+      console.log('YouTube items:', data.items);
+      
       setYoutubeResults(data.items || []);
       setShowYoutubeResults(true);
     } catch (err) {
@@ -134,9 +137,19 @@ export default function Courses() {
   };
 
   const handleYouTubeVideoClick = (video) => {
+    const videoId = typeof video.id === 'string' ? video.id : video.id?.videoId;
+    
+    if (!videoId) {
+      console.error('No video ID found:', video);
+      return;
+    }
+    
+    console.log('Clicked video:', video);
+    console.log('Video ID:', videoId);
+    
     // Create a temporary course object for the YouTube video
     const tempCourse = {
-      id: `youtube-${video.id.videoId}`,
+      id: `youtube-${videoId}`,
       title: video.snippet.title,
       description: video.snippet.description,
       instructor: video.snippet.channelTitle,
@@ -144,12 +157,13 @@ export default function Courses() {
       level: 'External',
       category: 'youtube',
       tech: 'video',
+      isYouTube: true,
       lessons: [
         {
           id: 1,
           title: video.snippet.title,
           duration: 'Video',
-          videoUrl: `https://www.youtube.com/watch?v=${video.id.videoId}`
+          videoUrl: `https://www.youtube.com/watch?v=${videoId}`
         }
       ]
     };
@@ -158,7 +172,7 @@ export default function Courses() {
     sessionStorage.setItem('tempCourse', JSON.stringify(tempCourse));
     
     // Navigate to watch page
-    router.push(`/course/youtube-${video.id.videoId}/watch`);
+    router.push(`/course/youtube-${videoId}/watch`);
   };
 
   return (
@@ -256,25 +270,30 @@ export default function Courses() {
             </div>
             <section className={styles.youtubeResultsSection}>
               <div className={styles.youtubeGrid}>
-                {youtubeResults.map((video) => (
-                  <div
-                    key={video.id.videoId}
-                    className={styles.youtubeCard}
-                    onClick={() => handleYouTubeVideoClick(video)}
-                  >
-                    <div className={styles.youtubeThumbnail}>
-                      <img
-                        src={video.snippet.thumbnails.medium.url}
-                        alt={video.snippet.title}
-                      />
-                      <div className={styles.playOverlay}>▶️</div>
+                {youtubeResults.map((video) => {
+                  const videoId = typeof video.id === 'string' ? video.id : video.id?.videoId;
+                  if (!videoId) return null;
+                  
+                  return (
+                    <div
+                      key={videoId}
+                      className={styles.youtubeCard}
+                      onClick={() => handleYouTubeVideoClick(video)}
+                    >
+                      <div className={styles.youtubeThumbnail}>
+                        <img
+                          src={video.snippet.thumbnails.medium.url}
+                          alt={video.snippet.title}
+                        />
+                        <div className={styles.playOverlay}>▶️</div>
+                      </div>
+                      <div className={styles.youtubeInfo}>
+                        <h3 className={styles.youtubeTitle}>{video.snippet.title}</h3>
+                        <p className={styles.youtubeChannel}>{video.snippet.channelTitle}</p>
+                      </div>
                     </div>
-                    <div className={styles.youtubeInfo}>
-                      <h3 className={styles.youtubeTitle}>{video.snippet.title}</h3>
-                      <p className={styles.youtubeChannel}>{video.snippet.channelTitle}</p>
-                    </div>
-                  </div>
-                ))}
+                  );
+                })}
               </div>
             </section>
           </>

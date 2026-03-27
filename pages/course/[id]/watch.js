@@ -76,6 +76,7 @@ export default function Watch() {
   };
 
   const currentVideo = course.lessons[currentLesson];
+  const isYouTubeVideo = course.isYouTube || id?.startsWith('youtube-');
 
   return (
     <>
@@ -90,12 +91,37 @@ export default function Watch() {
         <div className={styles.breadcrumb}>
           <Link href="/courses">Courses</Link>
           <span className={styles.separator}>›</span>
-          <Link href={`/course/${id}`}>{course.title}</Link>
-          <span className={styles.separator}>›</span>
+          {!isYouTubeVideo && (
+            <>
+              <Link href={`/course/${id}`}>{course.title}</Link>
+              <span className={styles.separator}>›</span>
+            </>
+          )}
           <span className={styles.current}>Watch</span>
         </div>
 
-        <div className={styles.watchLayout}>
+        {/* Full-width layout for YouTube videos */}
+        {isYouTubeVideo ? (
+          <div className={styles.youtubeLayout}>
+            <div className={styles.youtubeVideoSection}>
+              <VideoPlayer
+                url={currentVideo.videoUrl}
+                onProgress={handleProgress}
+                onEnded={handleVideoEnded}
+                initialProgress={watchProgress[currentLesson]?.played || 0}
+              />
+
+              <div className={styles.videoInfo}>
+                <h1 className={styles.videoTitle}>{currentVideo.title}</h1>
+                <p className={styles.instructor}>By {course.instructor}</p>
+                {course.description && (
+                  <p className={styles.description}>{course.description}</p>
+                )}
+              </div>
+            </div>
+          </div>
+        ) : (
+          <div className={styles.watchLayout}>
           {/* Video Section */}
           <div className={styles.videoSection}>
             <VideoPlayer
@@ -153,7 +179,8 @@ export default function Watch() {
               ))}
             </div>
           </div>
-        </div>
+          </div>
+        )}
       </div>
     </>
   );
