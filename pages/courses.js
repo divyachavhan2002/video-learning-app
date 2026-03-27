@@ -122,9 +122,6 @@ export default function Courses() {
       if (data.error) {
         throw new Error(data.error.message);
       }
-
-      console.log('YouTube API Response:', data);
-      console.log('YouTube items:', data.items);
       
       setYoutubeResults(data.items || []);
       setShowYoutubeResults(true);
@@ -143,9 +140,6 @@ export default function Courses() {
       console.error('No video ID found:', video);
       return;
     }
-    
-    console.log('Clicked video:', video);
-    console.log('Video ID:', videoId);
     
     // Create a temporary course object for the YouTube video
     const tempCourse = {
@@ -252,8 +246,8 @@ export default function Courses() {
           </section>
         )}
 
-        {/* Search Results Info */}
-        {searchQuery && (
+        {/* Search Results Info - Only show for course matches or YouTube results */}
+        {searchQuery && filteredCourses.length > 0 && (
           <div className={styles.searchResults}>
             <p>
               Found <strong>{filteredCourses.length}</strong> course{filteredCourses.length !== 1 ? 's' : ''} 
@@ -266,7 +260,10 @@ export default function Courses() {
         {showYoutubeResults && youtubeResults.length > 0 && filteredCourses.length === 0 && (
           <>
             <div className={styles.searchResults}>
-              <p>No courses found. Showing <strong>{youtubeResults.length}</strong> YouTube videos:</p>
+              <p>
+                We found <strong>{youtubeResults.length}</strong> YouTube video{youtubeResults.length !== 1 ? 's' : ''} matching "<strong>{searchQuery}</strong>". 
+                Select a course and start learning!
+              </p>
             </div>
             <section className={styles.youtubeResultsSection}>
               <div className={styles.youtubeGrid}>
