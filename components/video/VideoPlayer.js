@@ -186,7 +186,19 @@ export default function VideoPlayer({
         )}
         {error && (
           <div className={styles.errorOverlay}>
+            <div className={styles.errorIcon}>⚠️</div>
             <div className={styles.errorMessage}>{error}</div>
+            <p className={styles.errorDescription}>
+              This video cannot be played in embedded mode.
+            </p>
+            <a 
+              href={url} 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className={styles.watchOnYoutubeBtn}
+            >
+              Watch on YouTube ↗
+            </a>
           </div>
         )}
         <div ref={iframeRef} className={styles.youtubePlayer}></div>

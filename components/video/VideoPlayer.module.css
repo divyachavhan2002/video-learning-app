@@ -59,18 +59,55 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background: rgba(0, 0, 0, 0.9);
+  background: rgba(0, 0, 0, 0.95);
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
+  gap: 1rem;
   z-index: 10;
+  padding: 2rem;
+}
+
+.errorIcon {
+  font-size: 3rem;
+  margin-bottom: 0.5rem;
 }
 
 .errorMessage {
-  color: #ff4444;
-  font-size: 1.2rem;
+  color: #ff6b6b;
+  font-size: 1.25rem;
+  font-weight: 600;
   text-align: center;
-  padding: 20px;
+}
+
+.errorDescription {
+  color: #aaa;
+  font-size: 0.95rem;
+  text-align: center;
+  margin: 0;
+  max-width: 400px;
+}
+
+.watchOnYoutubeBtn {
+  margin-top: 1rem;
+  padding: 0.75rem 1.5rem;
+  background: #ff0000;
+  color: white;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 0.95rem;
+  transition: all 0.3s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.watchOnYoutubeBtn:hover {
+  background: #cc0000;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(255, 0, 0, 0.3);
 }
 
 .error {
