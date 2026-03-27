@@ -24,7 +24,8 @@ const getYouTubeVideoId = (url) => {
 export default function VideoPlayer({ 
   url, 
   onProgress, 
-  onEnded, 
+  onEnded,
+  onError,
   initialProgress = 0 
 }) {
   const [ready, setReady] = useState(false);
@@ -166,6 +167,11 @@ export default function VideoPlayer({
     const message = errorMessages[event.data] || 'Failed to load video';
     setError(message);
     setReady(true);
+    
+    // Call parent error handler if provided
+    if (onError) {
+      onError(message);
+    }
   };
 
   if (!videoId) {

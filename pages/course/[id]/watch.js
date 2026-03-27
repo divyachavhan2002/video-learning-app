@@ -13,6 +13,7 @@ export default function Watch() {
   const { user, loading } = useAuth();
   const [currentLesson, setCurrentLesson] = useState(0);
   const [watchProgress, setWatchProgress] = useState({});
+  const [videoError, setVideoError] = useState(null);
 
   // Check for YouTube video from sessionStorage
   const [tempCourse, setTempCourse] = useState(null);
@@ -73,10 +74,53 @@ export default function Watch() {
 
   const selectLesson = (index) => {
     setCurrentLesson(index);
+    setVideoError(null); // Reset error when changing lessons
+  };
+
+  const handleVideoError = (error) => {
+    setVideoError(error);
   };
 
   const currentVideo = course.lessons[currentLesson];
   const isYouTubeVideo = course.isYouTube || id?.startsWith('youtube-');
+
+  // Show error state if video cannot be played
+  if (videoError) {
+    return (
+      <>
+        <SEO 
+          title="Video Error - LearnHub"
+          description="Unable to play this video"
+        />
+        <div className={styles.container}>
+          <div className={styles.errorContainer}>
+            <div className={styles.errorIcon}>⚠️</div>
+            <h1 className={styles.errorTitle}>Unable to Play Video</h1>
+            <p className={styles.errorMessage}>{videoError}</p>
+            <p className={styles.errorDescription}>
+              This video cannot be played in embedded mode. The video owner has restricted playback on external websites.
+            </p>
+            <div className={styles.errorActions}>
+              <button 
+                onClick={() => router.push('/courses')} 
+                className={styles.backToCoursesBtn}
+              >
+                ← Back to Courses
+              </button>
+              <a 
+                href={currentVideo.videoUrl} 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className={styles.watchOnYoutubeBtn}
+              >
+                Watch on YouTube ↗
+              </a>
+            </div>
+          </div>
+        </div>
+      </>
+    );
+  }
 
   return (
     <>
@@ -108,6 +152,7 @@ export default function Watch() {
                 url={currentVideo.videoUrl}
                 onProgress={handleProgress}
                 onEnded={handleVideoEnded}
+                onError={handleVideoError}
                 initialProgress={watchProgress[currentLesson]?.played || 0}
               />
 
@@ -154,6 +199,7 @@ export default function Watch() {
               url={currentVideo.videoUrl}
               onProgress={handleProgress}
               onEnded={handleVideoEnded}
+              onError={handleVideoError}
               initialProgress={watchProgress[currentLesson]?.played || 0}
             />
 
