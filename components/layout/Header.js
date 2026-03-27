@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import { useAuth } from '@/context/AuthContext';
 import ThemeToggle from '@/components/ui/ThemeToggle';
-import { STRINGS, getSiteInfo, isNavVisible, isFeatureEnabled } from '@/config';
+import { strings, getSiteInfo, isNavVisible, isFeatureEnabled } from '@/config';
 import styles from './Header.module.css';
 
 export default function Header() {
@@ -24,24 +24,24 @@ export default function Header() {
       <div className={styles.container}>
         <div className={styles.logo}>
           <Link href="/">
-            <h2>{siteInfo.logo} {STRINGS.appName}</h2>
+            <h2>{siteInfo.logo} {strings.appName}</h2>
           </Link>
         </div>
 
         <nav className={styles.nav}>
           {isNavVisible('Home') && (
             <Link href="/" className={styles.navLink}>
-              {STRINGS.nav.home}
+              {strings.nav.home}
             </Link>
           )}
           {isNavVisible('Courses') && (
             <Link href="/courses" className={styles.navLink}>
-              {STRINGS.nav.courses}
+              {strings.nav.courses}
             </Link>
           )}
           {user && showDashboard && (
             <Link href="/dashboard" className={styles.navLink}>
-              {STRINGS.nav.dashboard}
+              {strings.nav.dashboard}
             </Link>
           )}
         </nav>
@@ -57,16 +57,16 @@ export default function Header() {
                     {user.displayName || 'User'}
                   </span>
                   <button onClick={handleLogout} className={styles.logoutBtn}>
-                    {STRINGS.nav.logout}
+                    {strings.nav.logout}
                   </button>
                 </>
               ) : (
                 <>
                   <Link href="/auth/login" className={styles.loginBtn}>
-                    {STRINGS.nav.login}
+                    {strings.nav.login}
                   </Link>
                   <Link href="/auth/signup" className={styles.signupBtn}>
-                    {STRINGS.nav.signup}
+                    {strings.nav.signup}
                   </Link>
                 </>
               )}

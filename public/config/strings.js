@@ -1,9 +1,9 @@
 /**
- * Application Strings Configuration
+ * Application strings Configuration
  * Centralized string management for easy updates and localization
  */
 
-const STRINGS = {
+const strings = {
   // App Name & Branding
   appName: 'LearnHub',
   appTagline: 'Your gateway to quality online education',
@@ -256,4 +256,4 @@ const STRINGS = {
   },
 };
 
-export default STRINGS;
+export default strings;

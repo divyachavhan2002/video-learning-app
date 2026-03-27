@@ -4,7 +4,7 @@
  * Set to false to hide components/sections
  */
 
-const APP_CONFIG = {
+const appConfig = {
   // Site Information
   site: {
     name: 'LearnHub',
@@ -166,4 +166,4 @@ const APP_CONFIG = {
   },
 };
 
-export default APP_CONFIG;
+export default appConfig;

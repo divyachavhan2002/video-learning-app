@@ -3,8 +3,8 @@
  * Helper functions to access app configuration and strings
  */
 
-import APP_CONFIG from './app.config';
-import STRINGS from './strings';
+import appConfig from './config';
+import strings from './strings';
 
 /**
  * Get a configuration value by path
@@ -14,7 +14,7 @@ import STRINGS from './strings';
  */
 export const getConfig = (path, defaultValue = null) => {
   const keys = path.split('.');
-  let value = APP_CONFIG;
+  let value = appConfig;
 
   for (const key of keys) {
     if (value && typeof value === 'object' && key in value) {
@@ -29,13 +29,13 @@ export const getConfig = (path, defaultValue = null) => {
 
 /**
  * Get a string value by path
- * @param {string} path - Dot notation path (e.g., 'COURSES.PAGE_TITLE')
+ * @param {string} path - Dot notation path (e.g., 'courses.pageTitle')
  * @param {string} defaultValue - Default value if path not found
  * @returns {string} String value
  */
 export const getString = (path, defaultValue = '') => {
   const keys = path.split('.');
-  let value = STRINGS;
+  let value = strings;
 
   for (const key of keys) {
     if (value && typeof value === 'object' && key in value) {
@@ -101,7 +101,7 @@ export const getYouTubeConfig = () => {
 };
 
 // Export configuration objects
-export { APP_CONFIG, STRINGS };
+export { appConfig, strings };
 
 // Export default utility object
 export default {
@@ -113,6 +113,6 @@ export default {
   getVisibleCategories,
   getSiteInfo,
   getYouTubeConfig,
-  APP_CONFIG,
-  STRINGS,
+  appConfig,
+  strings,
 };

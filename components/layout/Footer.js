@@ -1,4 +1,4 @@
-import { STRINGS, getConfig, getSiteInfo } from '@/config';
+import { strings, getConfig, getSiteInfo } from '@/config';
 import styles from './Footer.module.css';
 
 export default function Footer() {
@@ -14,24 +14,24 @@ export default function Footer() {
       <div className={styles.container}>
         <div className={styles.content}>
           <div className={styles.section}>
-            <h3>{siteInfo.logo} {STRINGS.appName}</h3>
-            <p>{STRINGS.footer.tagline}</p>
+            <h3>{siteInfo.logo} {strings.appName}</h3>
+            <p>{strings.footer.tagline}</p>
           </div>
 
           {showQuickLinks && (
             <div className={styles.section}>
-              <h4>{STRINGS.footer.quickLinks}</h4>
+              <h4>{strings.footer.quickLinks}</h4>
               <ul className={styles.links}>
-                <li><a href="/courses">{STRINGS.nav.courses}</a></li>
-                <li><a href="/about">{STRINGS.nav.about}</a></li>
-                <li><a href="/contact">{STRINGS.nav.contact}</a></li>
+                <li><a href="/courses">{strings.nav.courses}</a></li>
+                <li><a href="/about">{strings.nav.about}</a></li>
+                <li><a href="/contact">{strings.nav.contact}</a></li>
               </ul>
             </div>
           )}
 
           {showSocialLinks && (
             <div className={styles.section}>
-              <h4>{STRINGS.footer.followUs}</h4>
+              <h4>{strings.footer.followUs}</h4>
               <ul className={styles.links}>
                 {getConfig('footer.socialLinks.linkedin', true) && (
                   <li>
@@ -40,7 +40,7 @@ export default function Footer() {
                       target="_blank" 
                       rel="noopener noreferrer"
                     >
-                      {STRINGS.footer.linkedin}
+                      {strings.footer.linkedin}
                     </a>
                   </li>
                 )}
@@ -51,7 +51,7 @@ export default function Footer() {
                       target="_blank" 
                       rel="noopener noreferrer"
                     >
-                      {STRINGS.footer.github}
+                      {strings.footer.github}
                     </a>
                   </li>
                 )}
@@ -62,9 +62,9 @@ export default function Footer() {
 
         {showCopyright && (
           <div className={styles.copyright}>
-            <p>&copy; {currentYear} {STRINGS.appName}. {STRINGS.footer.copyright}</p>
+            <p>&copy; {currentYear} {strings.appName}. {strings.footer.copyright}</p>
             {showMadeBy && (
-              <p className={styles.madeBy}>{STRINGS.footer.madeBy}</p>
+              <p className={styles.madeBy}>{strings.footer.madeBy}</p>
             )}
           </div>
         )}
