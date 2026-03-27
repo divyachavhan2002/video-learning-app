@@ -1,6 +1,5 @@
-import { useState } from 'react';
 import Head from 'next/head';
-import Navbar from '@/components/layout/Navbar';
+import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
 import styles from '@/styles/About.module.css';
 
@@ -12,7 +11,7 @@ export default function About() {
         <meta name="description" content="Learn more about LearnHub - Your gateway to quality online education" />
       </Head>
 
-      <Navbar />
+      <Header />
 
       <div className={styles.aboutContainer}>
         {/* Hero Section */}

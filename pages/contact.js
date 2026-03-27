@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import Head from 'next/head';
-import Navbar from '@/components/layout/Navbar';
+import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
 import styles from '@/styles/Contact.module.css';
 
@@ -69,7 +69,7 @@ export default function Contact() {
         <meta name="description" content="Get in touch with LearnHub team. We're here to help!" />
       </Head>
 
-      <Navbar />
+      <Header />
 
       <div className={styles.contactContainer}>
         {/* Hero Section */}
