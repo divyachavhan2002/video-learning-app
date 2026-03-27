@@ -248,6 +248,38 @@ export default function Courses() {
           </div>
         )}
 
+        {/* YouTube Results Section */}
+        {showYoutubeResults && youtubeResults.length > 0 && filteredCourses.length === 0 && (
+          <>
+            <div className={styles.searchResults}>
+              <p>No courses found. Showing <strong>{youtubeResults.length}</strong> YouTube videos:</p>
+            </div>
+            <section className={styles.youtubeResultsSection}>
+              <div className={styles.youtubeGrid}>
+                {youtubeResults.map((video) => (
+                  <div
+                    key={video.id.videoId}
+                    className={styles.youtubeCard}
+                    onClick={() => handleYouTubeVideoClick(video)}
+                  >
+                    <div className={styles.youtubeThumbnail}>
+                      <img
+                        src={video.snippet.thumbnails.medium.url}
+                        alt={video.snippet.title}
+                      />
+                      <div className={styles.playOverlay}>▶️</div>
+                    </div>
+                    <div className={styles.youtubeInfo}>
+                      <h3 className={styles.youtubeTitle}>{video.snippet.title}</h3>
+                      <p className={styles.youtubeChannel}>{video.snippet.channelTitle}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </section>
+          </>
+        )}
+
         {/* Courses Grid - Show when category selected or course search has results */}
         {(selectedCategory || (searchQuery && filteredCourses.length > 0)) && (
           <section className={styles.coursesSection}>
