@@ -24,8 +24,8 @@ export default function Footer() {
           <div className={styles.section}>
             <h4>Follow Us</h4>
             <ul className={styles.links}>
-              <li><a href="#" target="_blank">LinkedIn</a></li>
-              <li><a href="#" target="_blank">GitHub</a></li>
+              <li><a href="https://www.linkedin.com/in/divya-chavhan-8a91b7315" target="_blank" rel="noopener noreferrer">LinkedIn</a></li>
+              <li><a href="https://github.com/divyachavhan2002" target="_blank" rel="noopener noreferrer">GitHub</a></li>
             </ul>
           </div>
         </div>
