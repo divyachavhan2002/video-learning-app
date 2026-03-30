@@ -4,7 +4,7 @@ import SEO from '@/components/common/SEO';
 import Link from 'next/link';
 import { coursesData } from '@/data/courses';
 import { useAuth } from '@/context/AuthContext';
-import { getString } from '@/config';
+import { getString, ROUTES } from '@/config';
 import styles from '@/styles/CourseDetail.module.css';
 
 export default function CourseDetail() {
@@ -34,8 +34,8 @@ export default function CourseDetail() {
   const handleEnroll = async () => {
     if (!user) {
       // Save redirect URL so login page can bring user back
-      sessionStorage.setItem('redirectAfterLogin', `/course/${id}`);
-      router.push('/auth/login');
+      sessionStorage.setItem('redirectAfterLogin', ROUTES.COURSE_DETAIL(id));
+      router.push(ROUTES.LOGIN);
       return;
     }
 
@@ -47,14 +47,14 @@ export default function CourseDetail() {
       
       if (result?.alreadyEnrolled) {
         // Already enrolled — go straight to watch page
-        router.push(`/course/${id}/watch`);
+        router.push(ROUTES.COURSE_WATCH(id));
         return;
       }
 
       setEnrolled(true);
       setMessage(getString('course.enrollmentSuccess'));
       setTimeout(() => {
-        router.push(`/course/${id}/watch`);
+        router.push(ROUTES.COURSE_WATCH(id));
       }, 1000);
     } catch (error) {
       setMessage(getString('course.enrollmentError'));
@@ -100,7 +100,7 @@ export default function CourseDetail() {
       <div className={styles.notFound}>
         <h1>{getString('courseDetail.notFoundTitle')}</h1>
         <p>{getString('courseDetail.notFoundDesc')}</p>
-        <Link href="/courses" className={styles.backBtn}>
+        <Link href={ROUTES.COURSES} className={styles.backBtn}>
           {getString('messages.backToCourses')}
         </Link>
       </div>
@@ -118,7 +118,7 @@ export default function CourseDetail() {
       <div className={styles.container}>
         <div className={styles.header}>
           <div className={styles.breadcrumb}>
-            <Link href="/courses">{getString('nav.courses')}</Link>
+            <Link href={ROUTES.COURSES}>{getString('nav.courses')}</Link>
             <span className={styles.separator}>{getString('courseDetail.breadcrumbSeparator')}</span>
             <span className={styles.current}>{course.title}</span>
           </div>
@@ -157,7 +157,7 @@ export default function CourseDetail() {
               <div className={styles.actions}>
                 {enrolled ? (
                   <>
-                    <Link href={`/course/${id}/watch`} className={styles.startLearningBtn}>
+                    <Link href={ROUTES.COURSE_WATCH(id)} className={styles.startLearningBtn}>
                       {getString('course.startLearning')}
                     </Link>
                     <button className={styles.enrolledBtn} disabled>

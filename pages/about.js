@@ -1,5 +1,5 @@
 import Head from 'next/head';
-import { getString } from '@/config';
+import { getString, ROUTES } from '@/config';
 import styles from '@/styles/About.module.css';
 
 export default function About() {
@@ -112,10 +112,10 @@ export default function About() {
               {getString('about.ctaText')}
             </p>
             <div className={styles.ctaButtons}>
-              <a href="/courses" className={styles.primaryButton}>
+              <a href={ROUTES.COURSES} className={styles.primaryButton}>
                 {getString('about.ctaBrowse')}
               </a>
-              <a href="/contact" className={styles.secondaryButton}>
+              <a href={ROUTES.CONTACT} className={styles.secondaryButton}>
                 {getString('about.ctaContact')}
               </a>
             </div>

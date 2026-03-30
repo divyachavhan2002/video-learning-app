@@ -5,6 +5,7 @@
 
 import appConfig from './config';
 import strings from './strings';
+import ROUTES from './routes';
 
 /**
  * Get a configuration value by path
@@ -101,7 +102,7 @@ export const getYouTubeConfig = () => {
 };
 
 // Export configuration objects
-export { appConfig, strings };
+export { appConfig, strings, ROUTES };
 
 // Export default utility object
 export default {
@@ -115,4 +116,5 @@ export default {
   getYouTubeConfig,
   appConfig,
   strings,
+  ROUTES,
 };

@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { useAuth } from '@/context/AuthContext';
 import { coursesData } from '@/data/courses';
 import VideoPlayer from '@/components/video/VideoPlayer';
-import { getString } from '@/config';
+import { getString, ROUTES } from '@/config';
 import styles from '@/styles/Watch.module.css';
 
 export default function Watch() {
@@ -32,8 +32,8 @@ export default function Watch() {
   // Redirect to login if not authenticated
   useEffect(() => {
     if (!loading && !user) {
-      sessionStorage.setItem('redirectAfterLogin', `/course/${id}/watch`);
-      router.push('/auth/login');
+      sessionStorage.setItem('redirectAfterLogin', ROUTES.COURSE_WATCH(id));
+      router.push(ROUTES.LOGIN);
     }
   }, [user, loading, router, id]);
 
@@ -54,7 +54,7 @@ export default function Watch() {
       <div className={styles.notFound}>
         <h1>{getString('courseDetail.notFoundTitle')}</h1>
         <p>This course doesn&apos;t have any video lessons yet.</p>
-        <Link href="/courses" className={styles.backBtn}>
+        <Link href={ROUTES.COURSES} className={styles.backBtn}>
           {getString('messages.backToCourses')}
         </Link>
       </div>
@@ -136,7 +136,7 @@ export default function Watch() {
             </p>
             <div className={styles.errorActions}>
               <button 
-                onClick={() => router.push('/courses')} 
+                onClick={() => router.push(ROUTES.COURSES)} 
                 className={styles.backToCoursesBtn}
               >
                 {getString('watch.backToCourses')}
@@ -167,11 +167,11 @@ export default function Watch() {
       <div className={styles.container}>
         {/* Breadcrumb */}
         <div className={styles.breadcrumb}>
-          <Link href="/courses">{getString('nav.courses')}</Link>
+          <Link href={ROUTES.COURSES}>{getString('nav.courses')}</Link>
           <span className={styles.separator}>{getString('courseDetail.breadcrumbSeparator')}</span>
           {!isYouTubeVideo && (
             <>
-              <Link href={`/course/${id}`}>{course.title}</Link>
+              <Link href={ROUTES.COURSE_DETAIL(id)}>{course.title}</Link>
               <span className={styles.separator}>{getString('courseDetail.breadcrumbSeparator')}</span>
             </>
           )}
@@ -208,7 +208,7 @@ export default function Watch() {
 
                 <div className={styles.youtubeActions}>
                   <button 
-                    onClick={() => router.push('/courses')} 
+                    onClick={() => router.push(ROUTES.COURSES)} 
                     className={styles.backToCourses}
                   >
                     {getString('watch.backToCourses')}

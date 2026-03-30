@@ -3,7 +3,7 @@ import { useRouter } from 'next/router';
 import Link from 'next/link';
 import { useAuth } from '@/context/AuthContext';
 import { getAuthErrorMessage } from '@/lib/authUtils';
-import { getString } from '@/config';
+import { getString, ROUTES } from '@/config';
 import styles from '@/styles/Auth.module.css';
 
 export default function Login() {
@@ -21,7 +21,7 @@ export default function Login() {
       sessionStorage.removeItem('redirectAfterLogin');
       router.push(redirect);
     } else {
-      router.push('/dashboard');
+      router.push(ROUTES.DASHBOARD);
     }
   };
 
@@ -118,7 +118,7 @@ export default function Login() {
 
         <p className={styles.switchAuth}>
           {getString('auth.noAccount')}{' '}
-          <Link href="/auth/signup">{getString('nav.signup')}</Link>
+          <Link href={ROUTES.SIGNUP}>{getString('nav.signup')}</Link>
         </p>
       </div>
     </div>

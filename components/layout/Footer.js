@@ -1,4 +1,4 @@
-import { strings, getConfig, getSiteInfo } from '@/config';
+import { strings, getConfig, getSiteInfo, ROUTES } from '@/config';
 import styles from './Footer.module.css';
 
 export default function Footer() {
@@ -22,9 +22,9 @@ export default function Footer() {
             <div className={styles.section}>
               <h4>{strings.footer.quickLinks}</h4>
               <ul className={styles.links}>
-                <li><a href="/courses">{strings.nav.courses}</a></li>
-                <li><a href="/about">{strings.nav.about}</a></li>
-                <li><a href="/contact">{strings.nav.contact}</a></li>
+                <li><a href={ROUTES.COURSES}>{strings.nav.courses}</a></li>
+                <li><a href={ROUTES.ABOUT}>{strings.nav.about}</a></li>
+                <li><a href={ROUTES.CONTACT}>{strings.nav.contact}</a></li>
               </ul>
             </div>
           )}

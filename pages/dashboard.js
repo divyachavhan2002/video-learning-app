@@ -5,7 +5,7 @@ import Link from 'next/link';
 import SEO from '@/components/common/SEO';
 import { useAuth } from '@/context/AuthContext';
 import { coursesData } from '@/data/courses';
-import { getString } from '@/config';
+import { getString, ROUTES } from '@/config';
 import styles from '@/styles/Dashboard.module.css';
 
 export default function Dashboard() {
@@ -17,7 +17,7 @@ export default function Dashboard() {
   // Redirect to login if not authenticated
   useEffect(() => {
     if (!loading && !user) {
-      router.push('/auth/login');
+      router.push(ROUTES.LOGIN);
     }
   }, [user, loading, router]);
 
@@ -28,7 +28,7 @@ export default function Dashboard() {
         setLoadingCourses(true);
         try {
           const enrolled = await getEnrolledCourses();
-          
+
           // Map enrolled course IDs to actual course data
           const coursesWithData = enrolled.map(enrolledCourse => {
             const courseData = coursesData.find(c => c.id === enrolledCourse.courseId);
@@ -40,7 +40,7 @@ export default function Dashboard() {
               totalWatchTime: enrolledCourse.totalWatchTime || 0,
             };
           }).filter(course => course.id); // Filter out any courses not found
-          
+
           setEnrolledCourses(coursesWithData);
         } catch (error) {
           console.error('Error fetching enrolled courses:', error);
@@ -56,7 +56,7 @@ export default function Dashboard() {
   const handleLogout = async () => {
     try {
       await logout();
-      router.push('/');
+      router.push(ROUTES.HOME);
     } catch (error) {
       console.error('Logout error:', error);
     }
@@ -76,7 +76,7 @@ export default function Dashboard() {
 
   return (
     <>
-      <SEO 
+      <SEO
         title={getString('pageTitles.dashboard')}
         description={getString('pageDescriptions.dashboard')}
       />
@@ -96,7 +96,7 @@ export default function Dashboard() {
 
         <section className={styles.section}>
           <h2 className={styles.sectionTitle}>{getString('dashboard.myCourses')}</h2>
-          
+
           {loadingCourses ? (
             <div className={styles.loadingCourses}>
               <p>{getString('messages.loadingYourCourses')}</p>
@@ -109,8 +109,8 @@ export default function Dashboard() {
                   <h3 className={styles.courseTitle}>{course.title}</h3>
                   <p className={styles.courseCategory}>{course.category}</p>
                   <div className={styles.progressBar}>
-                    <div 
-                      className={styles.progressFill} 
+                    <div
+                      className={styles.progressFill}
                       style={{ width: `${course.progress}%` }}
                     ></div>
                   </div>
@@ -118,7 +118,7 @@ export default function Dashboard() {
                     {course.progress}% {getString('dashboard.completed')}
                   </p>
                   <div className={styles.courseActions}>
-                    <Link href={`/course/${course.id}`} className={styles.continueBtn}>
+                    <Link href={ROUTES.COURSE_DETAIL(course.id)} className={styles.continueBtn}>
                       {getString('dashboard.continueLearning')}
                     </Link>
                   </div>
@@ -132,7 +132,7 @@ export default function Dashboard() {
             <div className={styles.emptyState}>
               <div className={styles.emptyIcon}>📖</div>
               <p>{getString('dashboard.noCourses')}</p>
-              <Link href="/courses" className={styles.browseBtn}>
+              <Link href={ROUTES.COURSES} className={styles.browseBtn}>
                 {getString('dashboard.browseCourses')}
               </Link>
             </div>
