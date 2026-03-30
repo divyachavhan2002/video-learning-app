@@ -15,11 +15,16 @@ export default function Watch() {
   const [currentLesson, setCurrentLesson] = useState(0);
   const [watchProgress, setWatchProgress] = useState({});
   const [videoError, setVideoError] = useState(null);
+  const [progressLoaded, setProgressLoaded] = useState(false);
+
+  // Auto-next countdown state
+  const [autoNextCountdown, setAutoNextCountdown] = useState(null); // null = not showing, number = seconds left
+  const countdownTimerRef = useRef(null);
 
   // Use refs for tracking to avoid stale closure issues
-  const lessonWatchTimeRef = useRef(0);    // Accumulated real watch time for current lesson (seconds)
-  const lastTickRef = useRef(0);           // Last playedSeconds value for computing deltas
-  const savedRef = useRef({});             // Which lessons have been saved this session
+  const lessonWatchTimeRef = useRef(0);
+  const lastTickRef = useRef(0);
+  const savedRef = useRef({});
 
   // Check for YouTube video from sessionStorage
   const [tempCourse, setTempCourse] = useState(null);
@@ -39,7 +44,7 @@ export default function Watch() {
   const isYouTubeSearch = course?.isYouTube || id?.startsWith('youtube-');
   const courseId = !isYouTubeSearch ? parseInt(id) : null;
 
-  // Load previously completed lessons from Firestore on mount
+  // Load previously completed lessons from Firestore on mount and resume position
   useEffect(() => {
     if (!user || !courseId) return;
 
@@ -54,9 +59,28 @@ export default function Watch() {
           }
           setWatchProgress(restored);
           savedRef.current = { ...savedRef.current, ...Object.fromEntries(entry.completedLessons.map(i => [i, true])) };
+
+          // Auto-resume: find the first uncompleted lesson
+          const courseData = coursesData.find(c => c.id === courseId);
+          if (courseData?.lessons) {
+            const totalLessons = courseData.lessons.length;
+            const completedSet = new Set(entry.completedLessons);
+            let resumeIndex = 0;
+            for (let i = 0; i < totalLessons; i++) {
+              if (!completedSet.has(i)) {
+                resumeIndex = i;
+                break;
+              }
+              // If all done, stay on last lesson
+              if (i === totalLessons - 1) resumeIndex = i;
+            }
+            setCurrentLesson(resumeIndex);
+          }
         }
       } catch (err) {
         console.error('Error loading saved progress:', err);
+      } finally {
+        setProgressLoaded(true);
       }
     };
     loadProgress();
@@ -92,6 +116,40 @@ export default function Watch() {
       saveCurrentProgress();
     };
   }, [saveCurrentProgress]);
+
+  // Go to next lesson (shared by auto-next countdown and skip button)
+  const goToNextLesson = useCallback(() => {
+    // Clear any running countdown
+    if (countdownTimerRef.current) {
+      clearInterval(countdownTimerRef.current);
+      countdownTimerRef.current = null;
+    }
+    setAutoNextCountdown(null);
+
+    if (!course?.lessons || currentLesson >= course.lessons.length - 1) return;
+    saveCurrentProgress();
+    lessonWatchTimeRef.current = 0;
+    lastTickRef.current = 0;
+    setCurrentLesson(prev => prev + 1);
+  }, [course, currentLesson, saveCurrentProgress]);
+
+  // Cancel auto-next countdown
+  const cancelAutoNext = useCallback(() => {
+    if (countdownTimerRef.current) {
+      clearInterval(countdownTimerRef.current);
+      countdownTimerRef.current = null;
+    }
+    setAutoNextCountdown(null);
+  }, []);
+
+  // Clean up countdown timer on unmount
+  useEffect(() => {
+    return () => {
+      if (countdownTimerRef.current) {
+        clearInterval(countdownTimerRef.current);
+      }
+    };
+  }, []);
 
   if (loading) {
     return (
@@ -156,17 +214,33 @@ export default function Watch() {
       lessonWatchTimeRef.current = 0;
     }
 
-    // Auto-play next lesson
-    if (currentLesson < course.lessons.length - 1) {
-      // Save any unsaved watch time before switching
-      saveCurrentProgress();
-      lessonWatchTimeRef.current = 0;
-      lastTickRef.current = 0;
-      setCurrentLesson(currentLesson + 1);
+    // Mark current lesson as completed in watchProgress
+    setWatchProgress(prev => ({
+      ...prev,
+      [currentLesson]: { ...prev[currentLesson], played: 1, saved: true }
+    }));
+
+    // Start auto-next countdown if there are more lessons
+    if (course?.lessons && currentLesson < course.lessons.length - 1) {
+      setAutoNextCountdown(5);
+      countdownTimerRef.current = setInterval(() => {
+        setAutoNextCountdown(prev => {
+          if (prev === null || prev <= 1) {
+            clearInterval(countdownTimerRef.current);
+            countdownTimerRef.current = null;
+            // Trigger next lesson on next tick to avoid setState during render
+            setTimeout(() => goToNextLesson(), 0);
+            return null;
+          }
+          return prev - 1;
+        });
+      }, 1000);
     }
   };
 
   const selectLesson = (index) => {
+    // Cancel any running auto-next countdown
+    cancelAutoNext();
     // Save progress for current lesson before switching
     saveCurrentProgress();
     lessonWatchTimeRef.current = 0;
@@ -179,8 +253,10 @@ export default function Watch() {
     setVideoError(error);
   };
 
-  const currentVideo = course.lessons[currentLesson];
+  const currentVideo = course?.lessons?.[currentLesson];
   const isYouTubeVideo = isYouTubeSearch;
+  const hasNextLesson = course?.lessons && currentLesson < course.lessons.length - 1;
+  const nextLesson = hasNextLesson ? course.lessons[currentLesson + 1] : null;
 
   // Show error state if video cannot be played
   if (videoError) {
@@ -246,13 +322,49 @@ export default function Watch() {
         {isYouTubeVideo ? (
           <div className={styles.youtubeLayout}>
             <div className={styles.youtubeVideoSection}>
-              <VideoPlayer
-                url={currentVideo.videoUrl}
-                onProgress={handleProgress}
-                onEnded={handleVideoEnded}
-                onError={handleVideoError}
-                initialProgress={watchProgress[currentLesson]?.played || 0}
-              />
+              <div className={styles.videoPlayerWrapper}>
+                <VideoPlayer
+                  url={currentVideo.videoUrl}
+                  onProgress={handleProgress}
+                  onEnded={handleVideoEnded}
+                  onError={handleVideoError}
+                  initialProgress={watchProgress[currentLesson]?.played || 0}
+                />
+
+                {autoNextCountdown !== null && (
+                  <div className={styles.autoNextOverlay}>
+                    <div className={styles.autoNextContent}>
+                      <span className={styles.autoNextLabel}>{getString('watch.upNext')}</span>
+                      <h3 className={styles.autoNextLessonTitle}>{nextLesson?.title}</h3>
+                      <div className={styles.countdownTimer}>
+                        {getString('watch.nextIn')} <span className={styles.countdownNumber}>{autoNextCountdown}</span>{getString('watch.seconds')}
+                      </div>
+                      <div className={styles.countdownBar}>
+                        <div
+                          className={styles.countdownProgress}
+                          style={{ width: `${((5 - autoNextCountdown) / 5) * 100}%` }}
+                        />
+                      </div>
+                      <div className={styles.autoNextActions}>
+                        <button onClick={goToNextLesson} className={styles.playNowBtn}>
+                          {getString('watch.playNow')}
+                        </button>
+                        <button onClick={cancelAutoNext} className={styles.cancelBtn}>
+                          {getString('watch.cancelAutoplay')}
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                )}
+
+                {!hasNextLesson && watchProgress[currentLesson]?.played >= 0.9 && autoNextCountdown === null && (
+                  <div className={styles.autoNextOverlay}>
+                    <div className={styles.autoNextContent}>
+                      <p className={styles.allDoneMessage}>{getString('watch.allLessonsCompleted')}</p>
+                    </div>
+                  </div>
+                )}
+              </div>
 
               <div className={styles.youtubeVideoInfo}>
                 <div className={styles.youtubeTitleSection}>
@@ -293,13 +405,49 @@ export default function Watch() {
           <div className={styles.watchLayout}>
           {/* Video Section */}
           <div className={styles.videoSection}>
-            <VideoPlayer
-              url={currentVideo.videoUrl}
-              onProgress={handleProgress}
-              onEnded={handleVideoEnded}
-              onError={handleVideoError}
-              initialProgress={watchProgress[currentLesson]?.played || 0}
-            />
+            <div className={styles.videoPlayerWrapper}>
+              <VideoPlayer
+                url={currentVideo.videoUrl}
+                onProgress={handleProgress}
+                onEnded={handleVideoEnded}
+                onError={handleVideoError}
+                initialProgress={watchProgress[currentLesson]?.played || 0}
+              />
+
+              {autoNextCountdown !== null && (
+                <div className={styles.autoNextOverlay}>
+                  <div className={styles.autoNextContent}>
+                    <span className={styles.autoNextLabel}>{getString('watch.upNext')}</span>
+                    <h3 className={styles.autoNextLessonTitle}>{nextLesson?.title}</h3>
+                    <div className={styles.countdownTimer}>
+                      {getString('watch.nextIn')} <span className={styles.countdownNumber}>{autoNextCountdown}</span>{getString('watch.seconds')}
+                    </div>
+                    <div className={styles.countdownBar}>
+                      <div
+                        className={styles.countdownProgress}
+                        style={{ width: `${((5 - autoNextCountdown) / 5) * 100}%` }}
+                      />
+                    </div>
+                    <div className={styles.autoNextActions}>
+                      <button onClick={goToNextLesson} className={styles.playNowBtn}>
+                        {getString('watch.playNow')}
+                      </button>
+                      <button onClick={cancelAutoNext} className={styles.cancelBtn}>
+                        {getString('watch.cancelAutoplay')}
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              {!hasNextLesson && watchProgress[currentLesson]?.played >= 0.9 && autoNextCountdown === null && (
+                <div className={styles.autoNextOverlay}>
+                  <div className={styles.autoNextContent}>
+                    <p className={styles.allDoneMessage}>{getString('watch.allLessonsCompleted')}</p>
+                  </div>
+                </div>
+              )}
+            </div>
 
             <div className={styles.videoInfo}>
               <h1 className={styles.videoTitle}>{currentVideo.title}</h1>

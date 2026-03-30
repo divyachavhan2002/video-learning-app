@@ -128,6 +128,12 @@ const strings = {
     watchOnYoutube: 'Watch on YouTube ↗',
     aboutVideo: 'About this video',
     by: 'By',
+    upNext: 'Up Next',
+    nextIn: 'Playing in',
+    seconds: 's',
+    playNow: 'Play Now',
+    cancelAutoplay: 'Cancel',
+    allLessonsCompleted: '🎉 All lessons completed!',
   },
 
   // Dashboard

@@ -640,3 +640,163 @@
     justify-content: center;
   }
 }
+
+/* ==========================================
+   Auto-Next Countdown Overlay
+   ========================================== */
+
+.videoPlayerWrapper {
+  position: relative;
+}
+
+.autoNextOverlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.85);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+  border-radius: 12px;
+  animation: fadeInOverlay 0.3s ease;
+}
+
+@keyframes fadeInOverlay {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.autoNextContent {
+  text-align: center;
+  color: #fff;
+  max-width: 400px;
+  padding: 2rem;
+}
+
+.autoNextLabel {
+  display: inline-block;
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  color: rgba(255, 255, 255, 0.6);
+  margin-bottom: 0.5rem;
+}
+
+.autoNextLessonTitle {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #fff;
+  margin: 0 0 1.25rem;
+  line-height: 1.4;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.countdownTimer {
+  font-size: 1rem;
+  color: rgba(255, 255, 255, 0.8);
+  margin-bottom: 1rem;
+}
+
+.countdownNumber {
+  font-size: 1.75rem;
+  font-weight: 800;
+  color: var(--primary-color);
+  margin: 0 4px;
+}
+
+.countdownBar {
+  width: 100%;
+  height: 4px;
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 4px;
+  overflow: hidden;
+  margin-bottom: 1.5rem;
+}
+
+.countdownProgress {
+  height: 100%;
+  background: var(--primary-color);
+  border-radius: 4px;
+  transition: width 1s linear;
+}
+
+.autoNextActions {
+  display: flex;
+  gap: 0.75rem;
+  justify-content: center;
+}
+
+.playNowBtn {
+  padding: 0.6rem 1.5rem;
+  border: none;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  font-weight: 700;
+  cursor: pointer;
+  background: var(--primary-color);
+  color: #fff;
+  transition: all 0.3s ease;
+}
+
+.playNowBtn:hover {
+  background: var(--primary-hover);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+}
+
+.cancelBtn {
+  padding: 0.6rem 1.5rem;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-radius: 8px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  background: transparent;
+  color: rgba(255, 255, 255, 0.8);
+  transition: all 0.3s ease;
+}
+
+.cancelBtn:hover {
+  border-color: rgba(255, 255, 255, 0.6);
+  color: #fff;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.allDoneMessage {
+  font-size: 1.5rem;
+  margin: 0;
+  line-height: 1.5;
+}
+
+/* Auto-next responsive */
+@media (max-width: 768px) {
+  .autoNextContent {
+    padding: 1.25rem;
+  }
+
+  .autoNextLessonTitle {
+    font-size: 1.05rem;
+  }
+
+  .countdownNumber {
+    font-size: 1.5rem;
+  }
+
+  .autoNextActions {
+    flex-direction: column;
+  }
+
+  .playNowBtn,
+  .cancelBtn {
+    width: 100%;
+  }
+}
