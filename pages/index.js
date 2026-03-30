@@ -24,7 +24,7 @@ export default function Home() {
             <Link href="/courses" className={styles.primaryBtn}>
               {getString('home.ctaPrimary')}
             </Link>
-            <Link href="/auth/signup" className={styles.secondaryBtn}>
+            <Link href="/about" className={styles.secondaryBtn}>
               {getString('home.ctaSecondary')}
             </Link>
           </div>

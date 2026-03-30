@@ -14,6 +14,7 @@ export default function CourseDetail() {
   const [enrolled, setEnrolled] = useState(false);
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState('');
+  const [showShareMenu, setShowShareMenu] = useState(false);
 
   // Find course by ID from URL parameter
   const course = coursesData.find(c => c.id === parseInt(id));
@@ -60,6 +61,38 @@ export default function CourseDetail() {
     } finally {
       setLoading(false);
     }
+  };
+
+  // Share course functionality
+  const getCourseUrl = () => {
+    if (typeof window !== 'undefined') {
+      return window.location.href;
+    }
+    return '';
+  };
+
+  const handleCopyLink = async () => {
+    try {
+      await navigator.clipboard.writeText(getCourseUrl());
+      setMessage(getString('courseDetail.linkCopied'));
+      setTimeout(() => setMessage(''), 2000);
+    } catch {
+      setMessage(getString('courseDetail.linkCopyFailed'));
+    }
+    setShowShareMenu(false);
+  };
+
+  const handleShareWhatsApp = () => {
+    const text = `${getString('courseDetail.shareText')} ${course.title} - ${getCourseUrl()}`;
+    window.open(`https://wa.me/?text=${encodeURIComponent(text)}`, '_blank');
+    setShowShareMenu(false);
+  };
+
+  const handleShareEmail = () => {
+    const subject = `${getString('courseDetail.shareText')} ${course.title}`;
+    const body = `${course.description}\n\n${getCourseUrl()}`;
+    window.open(`mailto:?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`);
+    setShowShareMenu(false);
   };
 
   if (!course) {
@@ -140,9 +173,27 @@ export default function CourseDetail() {
                     {loading ? getString('course.enrolling') : `${getString('courseDetail.enrollFor')} ${course.price}`}
                   </button>
                 )}
-                <button className={styles.shareBtn}>
-                  {getString('courseDetail.shareCourse')}
-                </button>
+                <div className={styles.shareContainer}>
+                  <button 
+                    className={styles.shareBtn}
+                    onClick={() => setShowShareMenu(!showShareMenu)}
+                  >
+                    {getString('courseDetail.shareCourse')}
+                  </button>
+                  {showShareMenu && (
+                    <div className={styles.shareMenu}>
+                      <button onClick={handleCopyLink} className={styles.shareOption}>
+                        🔗 {getString('courseDetail.copyLink')}
+                      </button>
+                      <button onClick={handleShareWhatsApp} className={styles.shareOption}>
+                        💬 {getString('courseDetail.shareWhatsApp')}
+                      </button>
+                      <button onClick={handleShareEmail} className={styles.shareOption}>
+                        ✉️ {getString('courseDetail.shareEmail')}
+                      </button>
+                    </div>
+                  )}
+                </div>
               </div>
             </div>
 
