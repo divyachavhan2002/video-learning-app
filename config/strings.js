@@ -139,6 +139,7 @@ const strings = {
     noCourses: 'You haven\'t enrolled in any courses yet',
     browseCourses: 'Browse Available Courses',
     continueLearning: 'Continue Learning',
+    viewCourse: 'View Course',
     progress: 'Progress',
     completed: 'Completed',
     profileTitle: 'Profile',
@@ -146,6 +147,20 @@ const strings = {
     profileEmail: 'Email',
     profileMemberSince: 'Member since',
     profileNotSet: 'Not set',
+    // Enhanced card
+    lessonsCompleted: 'lessons completed',
+    watchTime: 'watched',
+    statusCompleted: 'Completed',
+    statusInProgress: 'In Progress',
+    statusNotStarted: 'Not Started',
+    removeCourse: 'Remove Course',
+    removeCourseConfirmTitle: 'Remove Course?',
+    removeCourseConfirmText: 'Are you sure you want to remove this course from your dashboard? Your progress will be lost.',
+    removeCourseConfirmBtn: 'Yes, Remove',
+    removeCourseCancel: 'Cancel',
+    removing: 'Removing...',
+    lessonsSuffix: 'lessons',
+    ofTotal: 'of',
   },
 
   // About Page

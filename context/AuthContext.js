@@ -134,7 +134,6 @@ export const AuthProvider = ({ children }) => {
   }, [user]);
 
   // Unenroll from a course
-  // Unenroll from a course
   const unenrollFromCourse = useCallback(async (courseId) => {
     if (!user) {
       throw new Error('You must be logged in');
@@ -143,11 +142,11 @@ export const AuthProvider = ({ children }) => {
     try {
       const userRef = doc(db, 'users', user.uid);
       const userDoc = await getDoc(userRef);
-      
+
       if (userDoc.exists()) {
         const enrolledCourses = userDoc.data().enrolledCourses || [];
         const updatedCourses = enrolledCourses.filter(course => course.courseId !== courseId);
-        
+
         await updateDoc(userRef, {
           enrolledCourses: updatedCourses,
         });
@@ -217,7 +216,7 @@ export const AuthProvider = ({ children }) => {
     try {
       const userRef = doc(db, 'users', user.uid);
       const userDoc = await getDoc(userRef);
-      
+
       if (userDoc.exists()) {
         const enrolledCourses = userDoc.data().enrolledCourses || [];
 
