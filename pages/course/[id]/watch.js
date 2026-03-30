@@ -74,7 +74,8 @@ export default function Watch() {
               // If all done, stay on last lesson
               if (i === totalLessons - 1) resumeIndex = i;
             }
-            setCurrentLesson(resumeIndex);
+            // Clamp to valid range
+            setCurrentLesson(Math.min(resumeIndex, totalLessons - 1));
           }
         }
       } catch (err) {
@@ -258,6 +259,15 @@ export default function Watch() {
   const hasNextLesson = course?.lessons && currentLesson < course.lessons.length - 1;
   const nextLesson = hasNextLesson ? course.lessons[currentLesson + 1] : null;
 
+  // Guard against out-of-bounds currentLesson (e.g. during async resume)
+  if (!currentVideo) {
+    return (
+      <div className={styles.loading}>
+        <p>{getString('messages.loading')}</p>
+      </div>
+    );
+  }
+
   // Show error state if video cannot be played
   if (videoError) {
     return (
@@ -282,7 +292,7 @@ export default function Watch() {
                 {getString('watch.backToCourses')}
               </button>
               <a 
-                href={currentVideo.videoUrl} 
+                href={currentVideo?.videoUrl} 
                 target="_blank" 
                 rel="noopener noreferrer"
                 className={styles.watchOnYoutubeBtn}

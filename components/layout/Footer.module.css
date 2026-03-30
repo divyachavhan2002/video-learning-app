@@ -57,12 +57,19 @@
   color: var(--text-gray);
   text-decoration: none;
   transition: color 0.3s ease;
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
   padding: 0.25rem 0;
 }
 
 .links a:hover {
   color: var(--primary-color);
+}
+
+.linkIcon {
+  font-size: 1.1rem;
+  flex-shrink: 0;
 }
 
 /* Copyright */

@@ -1,4 +1,6 @@
 import { strings, getConfig, getSiteInfo, ROUTES } from '@/config';
+import { FaLinkedinIn, FaGithub } from 'react-icons/fa';
+import { MdMenuBook, MdInfoOutline, MdMailOutline } from 'react-icons/md';
 import styles from './Footer.module.css';
 
 export default function Footer() {
@@ -22,9 +24,24 @@ export default function Footer() {
             <div className={styles.section}>
               <h4>{strings.footer.quickLinks}</h4>
               <ul className={styles.links}>
-                <li><a href={ROUTES.COURSES}>{strings.nav.courses}</a></li>
-                <li><a href={ROUTES.ABOUT}>{strings.nav.about}</a></li>
-                <li><a href={ROUTES.CONTACT}>{strings.nav.contact}</a></li>
+                <li>
+                  <a href={ROUTES.COURSES}>
+                    <MdMenuBook className={styles.linkIcon} />
+                    {strings.nav.courses}
+                  </a>
+                </li>
+                <li>
+                  <a href={ROUTES.ABOUT}>
+                    <MdInfoOutline className={styles.linkIcon} />
+                    {strings.nav.about}
+                  </a>
+                </li>
+                <li>
+                  <a href={ROUTES.CONTACT}>
+                    <MdMailOutline className={styles.linkIcon} />
+                    {strings.nav.contact}
+                  </a>
+                </li>
               </ul>
             </div>
           )}
@@ -40,6 +57,7 @@ export default function Footer() {
                       target="_blank" 
                       rel="noopener noreferrer"
                     >
+                      <FaLinkedinIn className={styles.linkIcon} />
                       {strings.footer.linkedin}
                     </a>
                   </li>
@@ -51,6 +69,7 @@ export default function Footer() {
                       target="_blank" 
                       rel="noopener noreferrer"
                     >
+                      <FaGithub className={styles.linkIcon} />
                       {strings.footer.github}
                     </a>
                   </li>
