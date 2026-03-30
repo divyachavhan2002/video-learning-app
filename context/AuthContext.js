@@ -96,7 +96,7 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  // Enroll user in a course
+  // Enroll user in a course (prevents duplicates)
   const enrollInCourse = async (courseId) => {
     if (!user) {
       throw new Error('You must be logged in to enroll in a course');
@@ -104,13 +104,28 @@ export const AuthProvider = ({ children }) => {
 
     try {
       const userRef = doc(db, 'users', user.uid);
+      const userDoc = await getDoc(userRef);
+
+      if (userDoc.exists()) {
+        const enrolledCourses = userDoc.data().enrolledCourses || [];
+        const alreadyEnrolled = enrolledCourses.some(c => c.courseId === courseId);
+
+        if (alreadyEnrolled) {
+          return { alreadyEnrolled: true };
+        }
+      }
+
       await updateDoc(userRef, {
         enrolledCourses: arrayUnion({
           courseId,
           enrolledAt: new Date().toISOString(),
           progress: 0,
+          completedLessons: [],
+          totalWatchTime: 0,
         }),
       });
+
+      return { alreadyEnrolled: false };
     } catch (error) {
       console.error('Enrollment error:', error);
       throw error;
@@ -141,7 +156,57 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  // Get user's enrolled courses
+  // Update course progress (lesson completion and watch time)
+  const updateCourseProgress = async (courseId, lessonIndex, watchTimeSeconds, totalLessons) => {
+    if (!user) return;
+
+    try {
+      const userRef = doc(db, 'users', user.uid);
+      const userDoc = await getDoc(userRef);
+
+      if (userDoc.exists()) {
+        const enrolledCourses = userDoc.data().enrolledCourses || [];
+        const courseIndex = enrolledCourses.findIndex(c => c.courseId === courseId);
+
+        if (courseIndex === -1) return;
+
+        const course = { ...enrolledCourses[courseIndex] };
+        const completedLessons = course.completedLessons || [];
+
+        // Add lesson to completed if not already there
+        if (!completedLessons.includes(lessonIndex)) {
+          completedLessons.push(lessonIndex);
+        }
+
+        // Calculate progress percentage
+        const progress = totalLessons > 0
+          ? Math.round((completedLessons.length / totalLessons) * 100)
+          : 0;
+
+        // Accumulate total watch time in seconds
+        const totalWatchTime = (course.totalWatchTime || 0) + (watchTimeSeconds || 0);
+
+        // Update the course entry
+        const updatedCourses = [...enrolledCourses];
+        updatedCourses[courseIndex] = {
+          ...course,
+          completedLessons,
+          progress,
+          totalWatchTime,
+        };
+
+        await updateDoc(userRef, {
+          enrolledCourses: updatedCourses,
+        });
+
+        return { progress, completedLessons, totalWatchTime };
+      }
+    } catch (error) {
+      console.error('Error updating course progress:', error);
+    }
+  };
+
+  // Get user's enrolled courses (with deduplication)
   const getEnrolledCourses = async () => {
     if (!user) {
       return [];
@@ -152,7 +217,34 @@ export const AuthProvider = ({ children }) => {
       const userDoc = await getDoc(userRef);
       
       if (userDoc.exists()) {
-        return userDoc.data().enrolledCourses || [];
+        const enrolledCourses = userDoc.data().enrolledCourses || [];
+
+        // Deduplicate by courseId — keep the earliest enrollment
+        const seen = new Map();
+        for (const course of enrolledCourses) {
+          if (!seen.has(course.courseId)) {
+            seen.set(course.courseId, course);
+          } else {
+            // Merge: keep earliest enrolledAt, highest progress, union of completedLessons
+            const existing = seen.get(course.courseId);
+            seen.set(course.courseId, {
+              ...existing,
+              enrolledAt: existing.enrolledAt < course.enrolledAt ? existing.enrolledAt : course.enrolledAt,
+              progress: Math.max(existing.progress || 0, course.progress || 0),
+              completedLessons: [...new Set([...(existing.completedLessons || []), ...(course.completedLessons || [])])],
+              totalWatchTime: Math.max(existing.totalWatchTime || 0, course.totalWatchTime || 0),
+            });
+          }
+        }
+
+        const deduplicated = Array.from(seen.values());
+
+        // If duplicates were found, clean up Firestore
+        if (deduplicated.length < enrolledCourses.length) {
+          await updateDoc(userRef, { enrolledCourses: deduplicated });
+        }
+
+        return deduplicated;
       }
       return [];
     } catch (error) {
@@ -201,6 +293,7 @@ export const AuthProvider = ({ children }) => {
     unenrollFromCourse,
     getEnrolledCourses,
     isEnrolled,
+    updateCourseProgress,
   };
 
   return (

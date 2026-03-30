@@ -36,6 +36,8 @@ export default function Dashboard() {
               ...courseData,
               enrolledAt: enrolledCourse.enrolledAt,
               progress: enrolledCourse.progress || 0,
+              completedLessons: enrolledCourse.completedLessons || [],
+              totalWatchTime: enrolledCourse.totalWatchTime || 0,
             };
           }).filter(course => course.id); // Filter out any courses not found
           
@@ -161,7 +163,16 @@ export default function Dashboard() {
             </div>
             <div className={styles.statCard}>
               <div className={styles.statIcon}>{getString('dashboardStats.hoursIcon')}</div>
-              <div className={styles.statValue}>0h</div>
+              <div className={styles.statValue}>
+                {(() => {
+                  const totalSeconds = enrolledCourses.reduce((sum, c) => sum + (c.totalWatchTime || 0), 0);
+                  const hours = Math.floor(totalSeconds / 3600);
+                  const minutes = Math.floor((totalSeconds % 3600) / 60);
+                  if (hours > 0) return `${hours}h ${minutes}m`;
+                  if (minutes > 0) return `${minutes}m`;
+                  return '0h';
+                })()}
+              </div>
               <div className={styles.statLabel}>{getString('dashboardStats.hoursLearnedLabel')}</div>
             </div>
           </div>

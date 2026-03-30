@@ -11,10 +11,11 @@ import styles from '@/styles/Watch.module.css';
 export default function Watch() {
   const router = useRouter();
   const { id } = router.query;
-  const { user, loading } = useAuth();
+  const { user, loading, updateCourseProgress } = useAuth();
   const [currentLesson, setCurrentLesson] = useState(0);
   const [watchProgress, setWatchProgress] = useState({});
   const [videoError, setVideoError] = useState(null);
+  const [sessionWatchTime, setSessionWatchTime] = useState(0);
 
   // Check for YouTube video from sessionStorage
   const [tempCourse, setTempCourse] = useState(null);
@@ -31,9 +32,10 @@ export default function Watch() {
   // Redirect to login if not authenticated
   useEffect(() => {
     if (!loading && !user) {
+      sessionStorage.setItem('redirectAfterLogin', `/course/${id}/watch`);
       router.push('/auth/login');
     }
-  }, [user, loading, router]);
+  }, [user, loading, router, id]);
 
   if (loading) {
     return (
@@ -60,13 +62,44 @@ export default function Watch() {
   }
 
   const handleProgress = (played, playedSeconds) => {
+    const prevSeconds = watchProgress[currentLesson]?.playedSeconds || 0;
+    const timeDelta = playedSeconds > prevSeconds ? playedSeconds - prevSeconds : 0;
+    
     setWatchProgress(prev => ({
       ...prev,
       [currentLesson]: { played, playedSeconds }
     }));
+
+    // Accumulate session watch time
+    if (timeDelta > 0 && timeDelta < 5) {
+      setSessionWatchTime(prev => prev + timeDelta);
+    }
+
+    // Save progress when lesson is >90% complete
+    if (played > 0.9 && !watchProgress[currentLesson]?.saved && !course.isYouTube) {
+      setWatchProgress(prev => ({
+        ...prev,
+        [currentLesson]: { ...prev[currentLesson], saved: true }
+      }));
+      
+      const courseId = parseInt(id);
+      if (courseId && course.lessons) {
+        updateCourseProgress(courseId, currentLesson, Math.round(playedSeconds), course.lessons.length);
+      }
+    }
   };
 
   const handleVideoEnded = () => {
+    // Save watch time for completed lesson
+    if (!course.isYouTube) {
+      const courseId = parseInt(id);
+      const playedSeconds = watchProgress[currentLesson]?.playedSeconds || 0;
+      
+      if (courseId && course.lessons && !watchProgress[currentLesson]?.saved) {
+        updateCourseProgress(courseId, currentLesson, Math.round(playedSeconds), course.lessons.length);
+      }
+    }
+
     // Auto-play next lesson
     if (currentLesson < course.lessons.length - 1) {
       setCurrentLesson(currentLesson + 1);

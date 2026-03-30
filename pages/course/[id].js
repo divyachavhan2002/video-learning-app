@@ -32,6 +32,8 @@ export default function CourseDetail() {
   // Handle course enrollment
   const handleEnroll = async () => {
     if (!user) {
+      // Save redirect URL so login page can bring user back
+      sessionStorage.setItem('redirectAfterLogin', `/course/${id}`);
       router.push('/auth/login');
       return;
     }
@@ -40,7 +42,14 @@ export default function CourseDetail() {
     setMessage('');
 
     try {
-      await enrollInCourse(parseInt(id));
+      const result = await enrollInCourse(parseInt(id));
+      
+      if (result?.alreadyEnrolled) {
+        // Already enrolled — go straight to watch page
+        router.push(`/course/${id}/watch`);
+        return;
+      }
+
       setEnrolled(true);
       setMessage(getString('course.enrollmentSuccess'));
       setTimeout(() => {

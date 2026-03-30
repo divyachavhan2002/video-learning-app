@@ -14,6 +14,17 @@ export default function Login() {
   const { login, loginWithGoogle } = useAuth();
   const router = useRouter();
 
+  // Redirect to saved URL or dashboard after login
+  const redirectAfterLogin = () => {
+    const redirect = sessionStorage.getItem('redirectAfterLogin');
+    if (redirect) {
+      sessionStorage.removeItem('redirectAfterLogin');
+      router.push(redirect);
+    } else {
+      router.push('/dashboard');
+    }
+  };
+
   // Handle email/password login form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -22,7 +33,7 @@ export default function Login() {
 
     try {
       await login(email, password);
-      router.push('/dashboard');
+      redirectAfterLogin();
     } catch (error) {
       setError(getAuthErrorMessage(error.code));
     } finally {
@@ -37,7 +48,7 @@ export default function Login() {
 
     try {
       await loginWithGoogle();
-      router.push('/dashboard');
+      redirectAfterLogin();
     } catch (error) {
       setError(getAuthErrorMessage(error.code));
     } finally {

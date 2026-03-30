@@ -16,6 +16,17 @@ export default function Signup() {
   const { signup, loginWithGoogle } = useAuth();
   const router = useRouter();
 
+  // Redirect to saved URL or dashboard after signup
+  const redirectAfterAuth = () => {
+    const redirect = sessionStorage.getItem('redirectAfterLogin');
+    if (redirect) {
+      sessionStorage.removeItem('redirectAfterLogin');
+      router.push(redirect);
+    } else {
+      router.push('/dashboard');
+    }
+  };
+
   // Handle signup form submission with validation
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -31,7 +42,7 @@ export default function Signup() {
 
     try {
       await signup(email, password, name);
-      router.push('/dashboard');
+      redirectAfterAuth();
     } catch (error) {
       setError(getAuthErrorMessage(error.code));
     } finally {
@@ -46,7 +57,7 @@ export default function Signup() {
 
     try {
       await loginWithGoogle();
-      router.push('/dashboard');
+      redirectAfterAuth();
     } catch (error) {
       setError(getAuthErrorMessage(error.code));
     } finally {
