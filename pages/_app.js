@@ -11,9 +11,9 @@ export default function App({ Component, pageProps }) {
       <AuthProvider>
         <Layout>
           <Component {...pageProps} />
-          <SpeedInsights />
-          <Analytics />
         </Layout>
+        <SpeedInsights />
+        <Analytics />
       </AuthProvider>
     </ThemeProvider>
   );
