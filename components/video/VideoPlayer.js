@@ -39,6 +39,16 @@ export default function VideoPlayer({
   const playerElIdRef = useRef(null);      // ID of the imperatively-created div for YT.Player
   const progressIntervalRef = useRef(null);
 
+  // Store callbacks in refs so the player init effect doesn't depend on them
+  const onProgressRef = useRef(onProgress);
+  const onEndedRef = useRef(onEnded);
+  const onErrorRef = useRef(onError);
+
+  // Keep refs in sync with latest props
+  useEffect(() => { onProgressRef.current = onProgress; }, [onProgress]);
+  useEffect(() => { onEndedRef.current = onEnded; }, [onEnded]);
+  useEffect(() => { onErrorRef.current = onError; }, [onError]);
+
   const videoId = getYouTubeVideoId(url);
 
   // Load YouTube IFrame API
@@ -59,40 +69,39 @@ export default function VideoPlayer({
   }, []);
 
   // Define event handlers before the effect that uses them
-  const handlePlayerReady = useCallback((event) => {
+  const handlePlayerReady = useCallback(() => {
     setReady(true);
     setError(null);
 
     // Start tracking progress (clear any existing interval first)
-    if (onProgress) {
-      if (progressIntervalRef.current) {
-        clearInterval(progressIntervalRef.current);
-      }
-      progressIntervalRef.current = setInterval(() => {
-        if (playerRef.current && playerRef.current.getCurrentTime) {
-          try {
-            const currentTime = playerRef.current.getCurrentTime();
-            const duration = playerRef.current.getDuration();
-            if (duration > 0) {
-              const played = currentTime / duration;
-              onProgress(played, currentTime);
-            }
-          } catch (err) {
-            console.error('Progress tracking error:', err);
-          }
-        }
-      }, 1000);
+    if (progressIntervalRef.current) {
+      clearInterval(progressIntervalRef.current);
     }
-  }, [onProgress]);
+    progressIntervalRef.current = setInterval(() => {
+      if (playerRef.current && playerRef.current.getCurrentTime) {
+        try {
+          const currentTime = playerRef.current.getCurrentTime();
+          const duration = playerRef.current.getDuration();
+          if (duration > 0) {
+            const played = currentTime / duration;
+            // Use ref to always call the latest onProgress callback
+            if (onProgressRef.current) {
+              onProgressRef.current(played, currentTime);
+            }
+          }
+        } catch (err) {
+          console.error('Progress tracking error:', err);
+        }
+      }
+    }, 1000);
+  }, []); // No deps — uses refs for callbacks
 
   const handleStateChange = useCallback((event) => {
-    // YouTube Player States
-    // -1: unstarted, 0: ended, 1: playing, 2: paused, 3: buffering, 5: video cued
-    if (event.data === 0 && onEnded) {
-      // Video ended
-      onEnded();
+    // YouTube Player States: 0 = ended
+    if (event.data === 0 && onEndedRef.current) {
+      onEndedRef.current();
     }
-  }, [onEnded]);
+  }, []);
 
   const handlePlayerError = useCallback((event) => {
     console.error('YouTube player error:', event.data);
@@ -108,11 +117,10 @@ export default function VideoPlayer({
     setError(message);
     setReady(true);
     
-    // Call parent error handler if provided
-    if (onError) {
-      onError(message);
+    if (onErrorRef.current) {
+      onErrorRef.current(message);
     }
-  }, [onError]);
+  }, []);
 
   // Initialize player when video ID changes
   useEffect(() => {
@@ -203,7 +211,8 @@ export default function VideoPlayer({
         playerRef.current = null;
       }
     };
-  }, [videoId, handlePlayerReady, handleStateChange, handlePlayerError]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [videoId]); // Only re-init when the video ID changes — handlers use stable refs
 
   if (!videoId) {
     return (
