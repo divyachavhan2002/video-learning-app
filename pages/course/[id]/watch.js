@@ -164,6 +164,15 @@ export default function Watch() {
     return null;
   }
 
+  // Wait for Firestore progress to load before rendering (avoids flash at lesson 0)
+  if (courseId && !progressLoaded) {
+    return (
+      <div className={styles.loading}>
+        <p>{getString('messages.loading')}</p>
+      </div>
+    );
+  }
+
   if (!course || !course.lessons || course.lessons.length === 0) {
     return (
       <div className={styles.notFound}>
