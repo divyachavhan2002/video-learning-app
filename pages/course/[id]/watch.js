@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import { useRouter } from 'next/router';
 import SEO from '@/components/common/SEO';
 import Link from 'next/link';
@@ -11,11 +11,15 @@ import styles from '@/styles/Watch.module.css';
 export default function Watch() {
   const router = useRouter();
   const { id } = router.query;
-  const { user, loading, updateCourseProgress } = useAuth();
+  const { user, loading, updateCourseProgress, getEnrolledCourses } = useAuth();
   const [currentLesson, setCurrentLesson] = useState(0);
   const [watchProgress, setWatchProgress] = useState({});
   const [videoError, setVideoError] = useState(null);
-  const [sessionWatchTime, setSessionWatchTime] = useState(0);
+
+  // Use refs for tracking to avoid stale closure issues
+  const lessonWatchTimeRef = useRef(0);    // Accumulated real watch time for current lesson (seconds)
+  const lastTickRef = useRef(0);           // Last playedSeconds value for computing deltas
+  const savedRef = useRef({});             // Which lessons have been saved this session
 
   // Check for YouTube video from sessionStorage
   const [tempCourse, setTempCourse] = useState(null);
@@ -32,6 +36,31 @@ export default function Watch() {
   }, [id]);
 
   const course = tempCourse || coursesData.find(c => c.id === parseInt(id));
+  const isYouTubeSearch = course?.isYouTube || id?.startsWith('youtube-');
+  const courseId = !isYouTubeSearch ? parseInt(id) : null;
+
+  // Load previously completed lessons from Firestore on mount
+  useEffect(() => {
+    if (!user || !courseId) return;
+
+    const loadProgress = async () => {
+      try {
+        const enrolled = await getEnrolledCourses();
+        const entry = enrolled.find(c => c.courseId === courseId);
+        if (entry?.completedLessons?.length > 0) {
+          const restored = {};
+          for (const lessonIdx of entry.completedLessons) {
+            restored[lessonIdx] = { played: 1, playedSeconds: 0, saved: true };
+          }
+          setWatchProgress(restored);
+          savedRef.current = { ...savedRef.current, ...Object.fromEntries(entry.completedLessons.map(i => [i, true])) };
+        }
+      } catch (err) {
+        console.error('Error loading saved progress:', err);
+      }
+    };
+    loadProgress();
+  }, [user, courseId, getEnrolledCourses]);
 
   // Redirect to login if not authenticated
   useEffect(() => {
@@ -40,6 +69,29 @@ export default function Watch() {
       router.push(ROUTES.LOGIN);
     }
   }, [user, loading, router, id]);
+
+  // Save unsaved watch time on unmount (page leave, navigation)
+  const saveCurrentProgress = useCallback(() => {
+    if (!courseId || !course?.lessons || isYouTubeSearch) return;
+    const watchTime = lessonWatchTimeRef.current;
+    if (watchTime > 0 && !savedRef.current[currentLesson]) {
+      // Fire-and-forget save of accumulated watch time
+      updateCourseProgress(courseId, currentLesson, Math.round(watchTime), course.lessons.length);
+      savedRef.current[currentLesson] = true;
+      lessonWatchTimeRef.current = 0;
+    }
+  }, [courseId, course, currentLesson, isYouTubeSearch, updateCourseProgress]);
+
+  // Save on page unload (browser close/navigate away)
+  useEffect(() => {
+    const handleBeforeUnload = () => saveCurrentProgress();
+    window.addEventListener('beforeunload', handleBeforeUnload);
+    return () => {
+      window.removeEventListener('beforeunload', handleBeforeUnload);
+      // Also save on component unmount (Next.js navigation)
+      saveCurrentProgress();
+    };
+  }, [saveCurrentProgress]);
 
   if (loading) {
     return (
@@ -66,53 +118,61 @@ export default function Watch() {
   }
 
   const handleProgress = (played, playedSeconds) => {
-    const prevSeconds = watchProgress[currentLesson]?.playedSeconds || 0;
+    // Calculate real time delta (only count forward seeking up to 3s gaps as real watching)
+    const prevSeconds = lastTickRef.current;
     const timeDelta = playedSeconds > prevSeconds ? playedSeconds - prevSeconds : 0;
+    lastTickRef.current = playedSeconds;
     
     setWatchProgress(prev => ({
       ...prev,
       [currentLesson]: { played, playedSeconds }
     }));
 
-    // Accumulate session watch time
-    if (timeDelta > 0 && timeDelta < 5) {
-      setSessionWatchTime(prev => prev + timeDelta);
+    // Accumulate actual watch time (ignore large jumps from seeking)
+    if (timeDelta > 0 && timeDelta < 3) {
+      lessonWatchTimeRef.current += timeDelta;
     }
 
     // Save progress when lesson is >90% complete
-    if (played > 0.9 && !watchProgress[currentLesson]?.saved && !course.isYouTube) {
+    if (played > 0.9 && !savedRef.current[currentLesson] && !isYouTubeSearch) {
+      savedRef.current[currentLesson] = true;
       setWatchProgress(prev => ({
         ...prev,
         [currentLesson]: { ...prev[currentLesson], saved: true }
       }));
       
-      const courseId = parseInt(id);
       if (courseId && course.lessons) {
-        updateCourseProgress(courseId, currentLesson, Math.round(playedSeconds), course.lessons.length);
+        updateCourseProgress(courseId, currentLesson, Math.round(lessonWatchTimeRef.current), course.lessons.length);
+        lessonWatchTimeRef.current = 0;
       }
     }
   };
 
   const handleVideoEnded = () => {
     // Save watch time for completed lesson
-    if (!course.isYouTube) {
-      const courseId = parseInt(id);
-      const playedSeconds = watchProgress[currentLesson]?.playedSeconds || 0;
-      
-      if (courseId && course.lessons && !watchProgress[currentLesson]?.saved) {
-        updateCourseProgress(courseId, currentLesson, Math.round(playedSeconds), course.lessons.length);
-      }
+    if (!isYouTubeSearch && courseId && course.lessons && !savedRef.current[currentLesson]) {
+      savedRef.current[currentLesson] = true;
+      updateCourseProgress(courseId, currentLesson, Math.round(lessonWatchTimeRef.current), course.lessons.length);
+      lessonWatchTimeRef.current = 0;
     }
 
     // Auto-play next lesson
     if (currentLesson < course.lessons.length - 1) {
+      // Save any unsaved watch time before switching
+      saveCurrentProgress();
+      lessonWatchTimeRef.current = 0;
+      lastTickRef.current = 0;
       setCurrentLesson(currentLesson + 1);
     }
   };
 
   const selectLesson = (index) => {
+    // Save progress for current lesson before switching
+    saveCurrentProgress();
+    lessonWatchTimeRef.current = 0;
+    lastTickRef.current = 0;
     setCurrentLesson(index);
-    setVideoError(null); // Reset error when changing lessons
+    setVideoError(null);
   };
 
   const handleVideoError = (error) => {
@@ -120,7 +180,7 @@ export default function Watch() {
   };
 
   const currentVideo = course.lessons[currentLesson];
-  const isYouTubeVideo = course.isYouTube || id?.startsWith('youtube-');
+  const isYouTubeVideo = isYouTubeSearch;
 
   // Show error state if video cannot be played
   if (videoError) {

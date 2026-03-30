@@ -62,8 +62,11 @@ export default function VideoPlayer({
     setReady(true);
     setError(null);
 
-    // Start tracking progress
+    // Start tracking progress (clear any existing interval first)
     if (onProgress) {
+      if (progressIntervalRef.current) {
+        clearInterval(progressIntervalRef.current);
+      }
       progressIntervalRef.current = setInterval(() => {
         if (playerRef.current && playerRef.current.getCurrentTime) {
           try {
