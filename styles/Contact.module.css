@@ -1,6 +1,6 @@
 .contactContainer {
   min-height: 100vh;
-  background: #f7fafc;
+  background: var(--background);
 }
 
 .heroSection {
@@ -41,15 +41,16 @@
 }
 
 .formSection {
-  background: white;
+  background: var(--card-bg);
   padding: 40px;
   border-radius: 12px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  box-shadow: var(--shadow-md);
+  border: 1px solid var(--border-color);
 }
 
 .sectionTitle {
   font-size: 2rem;
-  color: #1a202c;
+  color: var(--text-primary);
   margin-bottom: 30px;
   font-weight: 700;
 }
@@ -67,7 +68,7 @@
 
 .label {
   font-size: 1rem;
-  color: #2d3748;
+  color: var(--text-primary);
   margin-bottom: 8px;
   font-weight: 600;
 }
@@ -76,8 +77,10 @@
 .textarea {
   padding: 12px 16px;
   font-size: 1rem;
-  border: 2px solid #e2e8f0;
+  border: 2px solid var(--border-color);
   border-radius: 8px;
+  background-color: var(--background);
+  color: var(--text-primary);
   transition: border-color 0.3s ease, box-shadow 0.3s ease;
   font-family: inherit;
 }
@@ -149,10 +152,11 @@
 }
 
 .contactCard {
-  background: white;
+  background: var(--card-bg);
   padding: 30px;
   border-radius: 12px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  box-shadow: var(--shadow-md);
+  border: 1px solid var(--border-color);
   transition: transform 0.3s ease;
 }
 
@@ -167,13 +171,13 @@
 
 .contactMethodTitle {
   font-size: 1.25rem;
-  color: #1a202c;
+  color: var(--text-primary);
   margin-bottom: 10px;
   font-weight: 600;
 }
 
 .contactText {
-  color: #4a5568;
+  color: var(--text-secondary);
   margin-bottom: 10px;
   font-size: 1rem;
 }
@@ -191,7 +195,7 @@
 }
 
 .contactDesc {
-  color: #718096;
+  color: var(--text-gray);
   font-size: 0.9rem;
   line-height: 1.5;
 }
@@ -225,15 +229,16 @@
 }
 
 .faqSection {
-  background: white;
+  background: var(--card-bg);
   padding: 30px;
   border-radius: 12px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  box-shadow: var(--shadow-md);
+  border: 1px solid var(--border-color);
 }
 
 .faqTitle {
   font-size: 1.25rem;
-  color: #1a202c;
+  color: var(--text-primary);
   margin-bottom: 20px;
   font-weight: 600;
 }
@@ -248,7 +253,7 @@
 }
 
 .faqList li {
-  color: #4a5568;
+  color: var(--text-secondary);
   font-size: 1rem;
   display: flex;
   align-items: center;
