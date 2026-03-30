@@ -35,7 +35,8 @@ export default function VideoPlayer({
   const [ready, setReady] = useState(false);
   const [error, setError] = useState(null);
   const playerRef = useRef(null);
-  const iframeRef = useRef(null);
+  const containerRef = useRef(null);       // React-managed container
+  const playerElIdRef = useRef(null);      // ID of the imperatively-created div for YT.Player
   const progressIntervalRef = useRef(null);
 
   const videoId = getYouTubeVideoId(url);
@@ -138,14 +139,32 @@ export default function VideoPlayer({
         return;
       }
 
-      // Destroy existing player
+      // Destroy existing player and clean up old DOM element
       if (playerRef.current) {
-        playerRef.current.destroy();
+        try { playerRef.current.destroy(); } catch { /* already destroyed */ }
+        playerRef.current = null;
       }
 
-      // Create new player
+      // Remove any previous player element from the container
+      if (containerRef.current) {
+        containerRef.current.innerHTML = '';
+      }
+
+      // Create a fresh div for YT.Player (outside React's reconciliation)
+      const playerEl = document.createElement('div');
+      const elId = `yt-player-${Date.now()}`;
+      playerEl.id = elId;
+      playerEl.style.width = '100%';
+      playerEl.style.height = '100%';
+      playerElIdRef.current = elId;
+
+      if (containerRef.current) {
+        containerRef.current.appendChild(playerEl);
+      }
+
+      // Create new player targeting the imperatively-created div
       try {
-        playerRef.current = new window.YT.Player(iframeRef.current, {
+        playerRef.current = new window.YT.Player(elId, {
           videoId: videoId,
           width: '100%',
           height: '100%',
@@ -156,7 +175,6 @@ export default function VideoPlayer({
             rel: 0,
             enablejsapi: 1,
             origin: window.location.origin,
-            // Allow ads to play
             disablekb: 0,
             fs: 1,
             playsinline: 1
@@ -180,8 +198,9 @@ export default function VideoPlayer({
       if (progressIntervalRef.current) {
         clearInterval(progressIntervalRef.current);
       }
-      if (playerRef.current && playerRef.current.destroy) {
-        playerRef.current.destroy();
+      if (playerRef.current) {
+        try { playerRef.current.destroy(); } catch { /* already destroyed */ }
+        playerRef.current = null;
       }
     };
   }, [videoId, handlePlayerReady, handleStateChange, handlePlayerError]);
@@ -219,7 +238,8 @@ export default function VideoPlayer({
             </a>
           </div>
         )}
-        <div ref={iframeRef} className={styles.youtubePlayer}></div>
+        {/* Container for YouTube player - managed imperatively to avoid React DOM conflicts */}
+        <div ref={containerRef} className={styles.youtubePlayer}></div>
       </div>
     </div>
   );
