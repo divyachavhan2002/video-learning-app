@@ -5,14 +5,14 @@ const ThemeContext = createContext({});
 export const useTheme = () => useContext(ThemeContext);
 
 export const ThemeProvider = ({ children }) => {
-    const [theme, setTheme] = useState('system');
+    // Use lazy initializer to read localStorage once, avoiding setState-in-effect
+    const [theme, setTheme] = useState(() => {
+        if (typeof window !== 'undefined') {
+            return localStorage.getItem('theme') || 'system';
+        }
+        return 'system';
+    });
     const [actualTheme, setActualTheme] = useState('light');
-
-    // Load saved theme preference from localStorage
-    useEffect(() => {
-        const savedTheme = localStorage.getItem('theme') || 'system';
-        setTheme(savedTheme);
-    }, []);
 
     // Apply theme to document and listen for system preference changes
     useEffect(() => {

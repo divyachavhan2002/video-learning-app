@@ -1,4 +1,4 @@
-import { useState, useMemo, useEffect } from 'react';
+import { useState, useMemo, useEffect, useRef } from 'react';
 import { useRouter } from 'next/router';
 import SEO from '@/components/common/SEO';
 import CourseCard from '@/components/course/CourseCard';
@@ -16,6 +16,7 @@ export default function Courses() {
   const [youtubeLoading, setYoutubeLoading] = useState(false);
   const [youtubeError, setYoutubeError] = useState(null);
   const [showYoutubeResults, setShowYoutubeResults] = useState(false);
+  const searchTimeoutRef = useRef(null);
 
   // Update selected category when URL changes
   useEffect(() => {
@@ -74,8 +75,8 @@ export default function Courses() {
     
     // Auto-search YouTube if no courses found after typing stops
     if (query.trim()) {
-      clearTimeout(window.searchTimeout);
-      window.searchTimeout = setTimeout(() => {
+      clearTimeout(searchTimeoutRef.current);
+      searchTimeoutRef.current = setTimeout(() => {
         autoSearchYouTube(query);
       }, 1000); // Wait 1 second after user stops typing
     }

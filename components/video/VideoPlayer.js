@@ -1,6 +1,9 @@
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect, useCallback } from 'react';
 import { getString } from '@/config';
 import styles from './VideoPlayer.module.css';
+
+// Maximum retries when waiting for YouTube IFrame API to load
+const MAX_INIT_RETRIES = 50; // 50 × 100ms = 5 seconds
 
 // Extract YouTube video ID from URL
 const getYouTubeVideoId = (url) => {
@@ -54,6 +57,59 @@ export default function VideoPlayer({
     window.onYouTubeIframeAPIReady = () => {};
   }, []);
 
+  // Define event handlers before the effect that uses them
+  const handlePlayerReady = useCallback((event) => {
+    setReady(true);
+    setError(null);
+
+    // Start tracking progress
+    if (onProgress) {
+      progressIntervalRef.current = setInterval(() => {
+        if (playerRef.current && playerRef.current.getCurrentTime) {
+          try {
+            const currentTime = playerRef.current.getCurrentTime();
+            const duration = playerRef.current.getDuration();
+            if (duration > 0) {
+              const played = currentTime / duration;
+              onProgress(played, currentTime);
+            }
+          } catch (err) {
+            console.error('Progress tracking error:', err);
+          }
+        }
+      }, 1000);
+    }
+  }, [onProgress]);
+
+  const handleStateChange = useCallback((event) => {
+    // YouTube Player States
+    // -1: unstarted, 0: ended, 1: playing, 2: paused, 3: buffering, 5: video cued
+    if (event.data === 0 && onEnded) {
+      // Video ended
+      onEnded();
+    }
+  }, [onEnded]);
+
+  const handlePlayerError = useCallback((event) => {
+    console.error('YouTube player error:', event.data);
+    const errorMessages = {
+      2: getString('video.errorInvalidUrl'),
+      5: getString('video.errorHtml5'),
+      100: getString('video.errorNotFound'),
+      101: getString('video.errorEmbedDisabled'),
+      150: getString('video.errorEmbedDisabled'),
+    };
+    
+    const message = errorMessages[event.data] || getString('video.errorGeneric');
+    setError(message);
+    setReady(true);
+    
+    // Call parent error handler if provided
+    if (onError) {
+      onError(message);
+    }
+  }, [onError]);
+
   // Initialize player when video ID changes
   useEffect(() => {
     if (!videoId) {
@@ -64,9 +120,17 @@ export default function VideoPlayer({
     setReady(false);
     setError(null);
 
-    // Wait for API to be ready
+    let retryCount = 0;
+
+    // Wait for API to be ready (with retry limit)
     const initPlayer = () => {
       if (!window.YT || !window.YT.Player) {
+        retryCount++;
+        if (retryCount >= MAX_INIT_RETRIES) {
+          console.error('YouTube IFrame API failed to load after max retries');
+          setError(getString('video.errorGeneric'));
+          return;
+        }
         setTimeout(initPlayer, 100);
         return;
       }
@@ -117,59 +181,7 @@ export default function VideoPlayer({
         playerRef.current.destroy();
       }
     };
-  }, [videoId]);
-
-  const handlePlayerReady = (event) => {
-    setReady(true);
-    setError(null);
-
-    // Start tracking progress
-    if (onProgress) {
-      progressIntervalRef.current = setInterval(() => {
-        if (playerRef.current && playerRef.current.getCurrentTime) {
-          try {
-            const currentTime = playerRef.current.getCurrentTime();
-            const duration = playerRef.current.getDuration();
-            if (duration > 0) {
-              const played = currentTime / duration;
-              onProgress(played, currentTime);
-            }
-          } catch (err) {
-            console.error('Progress tracking error:', err);
-          }
-        }
-      }, 1000);
-    }
-  };
-
-  const handleStateChange = (event) => {
-    // YouTube Player States
-    // -1: unstarted, 0: ended, 1: playing, 2: paused, 3: buffering, 5: video cued
-    if (event.data === 0 && onEnded) {
-      // Video ended
-      onEnded();
-    }
-  };
-
-  const handlePlayerError = (event) => {
-    console.error('YouTube player error:', event.data);
-    const errorMessages = {
-      2: getString('video.errorInvalidUrl'),
-      5: getString('video.errorHtml5'),
-      100: getString('video.errorNotFound'),
-      101: getString('video.errorEmbedDisabled'),
-      150: getString('video.errorEmbedDisabled'),
-    };
-    
-    const message = errorMessages[event.data] || getString('video.errorGeneric');
-    setError(message);
-    setReady(true);
-    
-    // Call parent error handler if provided
-    if (onError) {
-      onError(message);
-    }
-  };
+  }, [videoId, handlePlayerReady, handleStateChange, handlePlayerError]);
 
   if (!videoId) {
     return (

@@ -23,7 +23,11 @@ export default function Watch() {
   useEffect(() => {
     const stored = sessionStorage.getItem('tempCourse');
     if (stored && id?.startsWith('youtube-')) {
-      setTempCourse(JSON.parse(stored));
+      try {
+        setTempCourse(JSON.parse(stored));
+      } catch {
+        sessionStorage.removeItem('tempCourse');
+      }
     }
   }, [id]);
 

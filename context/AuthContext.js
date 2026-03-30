@@ -1,4 +1,4 @@
-import { createContext, useContext, useState, useEffect } from 'react';
+import { createContext, useContext, useState, useEffect, useCallback } from 'react';
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
@@ -87,17 +87,18 @@ export const AuthProvider = ({ children }) => {
   };
 
   // Handle user logout
-  const logout = async () => {
+  // Handle user logout
+  const logout = useCallback(async () => {
     try {
       await signOut(auth);
     } catch (error) {
       console.error('Logout error:', error);
       throw error;
     }
-  };
+  }, []);
 
   // Enroll user in a course (prevents duplicates)
-  const enrollInCourse = async (courseId) => {
+  const enrollInCourse = useCallback(async (courseId) => {
     if (!user) {
       throw new Error('You must be logged in to enroll in a course');
     }
@@ -130,10 +131,11 @@ export const AuthProvider = ({ children }) => {
       console.error('Enrollment error:', error);
       throw error;
     }
-  };
+  }, [user]);
 
   // Unenroll from a course
-  const unenrollFromCourse = async (courseId) => {
+  // Unenroll from a course
+  const unenrollFromCourse = useCallback(async (courseId) => {
     if (!user) {
       throw new Error('You must be logged in');
     }
@@ -154,10 +156,10 @@ export const AuthProvider = ({ children }) => {
       console.error('Unenrollment error:', error);
       throw error;
     }
-  };
+  }, [user]);
 
   // Update course progress (lesson completion and watch time)
-  const updateCourseProgress = async (courseId, lessonIndex, watchTimeSeconds, totalLessons) => {
+  const updateCourseProgress = useCallback(async (courseId, lessonIndex, watchTimeSeconds, totalLessons) => {
     if (!user) return;
 
     try {
@@ -204,10 +206,10 @@ export const AuthProvider = ({ children }) => {
     } catch (error) {
       console.error('Error updating course progress:', error);
     }
-  };
+  }, [user]);
 
   // Get user's enrolled courses (with deduplication)
-  const getEnrolledCourses = async () => {
+  const getEnrolledCourses = useCallback(async () => {
     if (!user) {
       return [];
     }
@@ -251,22 +253,27 @@ export const AuthProvider = ({ children }) => {
       console.error('Error fetching enrolled courses:', error);
       return [];
     }
-  };
+  }, [user]);
 
-  // Check if user is enrolled in a specific course
-  const isEnrolled = async (courseId) => {
+  // Check if user is enrolled in a specific course (lightweight — no deduplication)
+  const isEnrolled = useCallback(async (courseId) => {
     if (!user) {
       return false;
     }
 
     try {
-      const enrolledCourses = await getEnrolledCourses();
-      return enrolledCourses.some(course => course.courseId === courseId);
+      const userRef = doc(db, 'users', user.uid);
+      const userDoc = await getDoc(userRef);
+      if (userDoc.exists()) {
+        const enrolledCourses = userDoc.data().enrolledCourses || [];
+        return enrolledCourses.some(course => course.courseId === courseId);
+      }
+      return false;
     } catch (error) {
       console.error('Error checking enrollment:', error);
       return false;
     }
-  };
+  }, [user]);
 
   // Monitor authentication state changes
   useEffect(() => {
