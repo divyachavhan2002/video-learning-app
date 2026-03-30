@@ -23,9 +23,6 @@ const appConfig = {
     progressTracking: true,
     youtubeSearch: true,
     darkMode: true,
-    socialShare: false, // Not implemented yet
-    comments: false, // Not implemented yet
-    ratings: false, // Not implemented yet
   },
 
   // Navigation
@@ -41,7 +38,6 @@ const appConfig = {
   homePage: {
     showHero: true,
     showFeatures: true,
-    showStats: true,
     showCTA: true,
   },
 
@@ -50,7 +46,7 @@ const appConfig = {
     showSearch: true,
     showCategories: true,
     showYouTubeSearch: true,
-    
+
     // Category Visibility - Set to false to hide specific categories
     categories: {
       frontend: true,
@@ -62,7 +58,7 @@ const appConfig = {
       cloud: true,
       ai: true,
     },
-    
+
     // Course Display Options
     coursesPerPage: 12,
     showInstructor: true,
@@ -88,7 +84,6 @@ const appConfig = {
     showCourseInfo: true,
     showLessonList: true,
     showProgress: true,
-    showAutoPlay: true,
     showBreadcrumb: true,
   },
 
@@ -97,8 +92,6 @@ const appConfig = {
     showWelcome: true,
     showEnrolledCourses: true,
     showProgress: true,
-    showStats: false, // Not implemented yet
-    showRecommendations: false, // Not implemented yet
   },
 
   // About Page
@@ -118,7 +111,7 @@ const appConfig = {
     showWhatsApp: true,
     showResponseTime: true,
     showFAQ: true,
-    whatsappNumber: '919356025183', // Replace with actual number
+    whatsappNumber: '919356025183',
   },
 
   // Footer
@@ -130,8 +123,6 @@ const appConfig = {
     socialLinks: {
       linkedin: true,
       github: true,
-      twitter: false,
-      facebook: false,
     },
   },
 
@@ -146,23 +137,7 @@ const appConfig = {
 
   // SEO
   seo: {
-    enableMetaTags: true,
-    enableOpenGraph: true,
-    enableTwitterCard: true,
     defaultImage: '/images/og-image.jpg',
-  },
-
-  // Performance
-  performance: {
-    enableImageOptimization: true,
-    enableCodeSplitting: true,
-    enablePrefetching: true,
-  },
-
-  // Development
-  development: {
-    showDebugInfo: false,
-    enableConsoleLogging: process.env.NODE_ENV === 'development',
   },
 };
 

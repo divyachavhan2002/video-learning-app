@@ -105,7 +105,7 @@ export default function Courses() {
 
     try {
       const ytConfig = getYouTubeConfig();
-      const apiKey = ytConfig.apiKey || process.env.NEXT_PUBLIC_YOUTUBE_API_KEY;
+      const apiKey = ytConfig.apiKey;
       
       if (!apiKey) {
         throw new Error(getString('youtube.apiKeyError'));

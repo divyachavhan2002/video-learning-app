@@ -51,9 +51,7 @@ export default function VideoPlayer({
     firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
 
     // API will call this function when ready
-    window.onYouTubeIframeAPIReady = () => {
-      console.log('YouTube IFrame API ready');
-    };
+    window.onYouTubeIframeAPIReady = () => {};
   }, []);
 
   // Initialize player when video ID changes
@@ -63,7 +61,6 @@ export default function VideoPlayer({
       return;
     }
 
-    console.log('Loading video:', videoId);
     setReady(false);
     setError(null);
 
@@ -123,7 +120,6 @@ export default function VideoPlayer({
   }, [videoId]);
 
   const handlePlayerReady = (event) => {
-    console.log('Player ready');
     setReady(true);
     setError(null);
 
