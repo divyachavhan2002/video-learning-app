@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { getString } from '@/config';
 import styles from './CourseCard.module.css';
 
 export default function CourseCard({ course }) {
@@ -36,7 +37,7 @@ export default function CourseCard({ course }) {
           </div>
           <div className={styles.metaItem}>
             <span className={styles.metaIcon}>👥</span>
-            <span>{course.students?.toLocaleString() || 0} students</span>
+            <span>{course.students?.toLocaleString() || 0} {getString('courseDetail.studentsLabel', 'students')}</span>
           </div>
           <div className={styles.metaItem}>
             <span className={styles.metaIcon}>⭐</span>
@@ -45,9 +46,9 @@ export default function CourseCard({ course }) {
         </div>
 
         <div className={styles.footer}>
-          <span className={styles.price}>{course.price || 'Free'}</span>
+          <span className={styles.price}>{course.price || getString('home.featureFreeTitle', 'Free')}</span>
           <Link href={`/course/${course.id}`} className={styles.enrollBtn}>
-            View Course
+            {getString('courseDetail.viewCourse', 'View Course')}
           </Link>
         </div>
       </div>

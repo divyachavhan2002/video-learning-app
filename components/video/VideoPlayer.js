@@ -1,4 +1,5 @@
 import { useState, useRef, useEffect } from 'react';
+import { getString } from '@/config';
 import styles from './VideoPlayer.module.css';
 
 // Extract YouTube video ID from URL
@@ -50,19 +51,16 @@ export default function VideoPlayer({
     firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
 
     // API will call this function when ready
-    window.onYouTubeIframeAPIReady = () => {
-      console.log('YouTube IFrame API ready');
-    };
+    window.onYouTubeIframeAPIReady = () => {};
   }, []);
 
   // Initialize player when video ID changes
   useEffect(() => {
     if (!videoId) {
-      setError('Invalid YouTube URL');
+      setError(getString('video.errorInvalidUrl'));
       return;
     }
 
-    console.log('Loading video:', videoId);
     setReady(false);
     setError(null);
 
@@ -104,7 +102,7 @@ export default function VideoPlayer({
         });
       } catch (err) {
         console.error('Failed to create player:', err);
-        setError('Failed to initialize player');
+        setError(getString('video.errorGeneric'));
       }
     };
 
@@ -122,7 +120,6 @@ export default function VideoPlayer({
   }, [videoId]);
 
   const handlePlayerReady = (event) => {
-    console.log('Player ready');
     setReady(true);
     setError(null);
 
@@ -157,14 +154,14 @@ export default function VideoPlayer({
   const handlePlayerError = (event) => {
     console.error('YouTube player error:', event.data);
     const errorMessages = {
-      2: 'Invalid video ID',
-      5: 'HTML5 player error',
-      100: 'Video not found or private',
-      101: 'Video owner does not allow embedding',
-      150: 'Video owner does not allow embedding'
+      2: getString('video.errorInvalidUrl'),
+      5: getString('video.errorHtml5'),
+      100: getString('video.errorNotFound'),
+      101: getString('video.errorEmbedDisabled'),
+      150: getString('video.errorEmbedDisabled'),
     };
     
-    const message = errorMessages[event.data] || 'Failed to load video';
+    const message = errorMessages[event.data] || getString('video.errorGeneric');
     setError(message);
     setReady(true);
     
@@ -177,7 +174,7 @@ export default function VideoPlayer({
   if (!videoId) {
     return (
       <div className={styles.videoContainer}>
-        <div className={styles.error}>Invalid YouTube URL</div>
+        <div className={styles.error}>{getString('video.errorInvalidUrl')}</div>
       </div>
     );
   }
@@ -187,7 +184,7 @@ export default function VideoPlayer({
       <div className={styles.playerWrapper}>
         {!ready && !error && (
           <div className={styles.loadingOverlay}>
-            <div className={styles.loadingSpinner}>Loading video...</div>
+            <div className={styles.loadingSpinner}>{getString('video.loading')}</div>
           </div>
         )}
         {error && (
@@ -195,7 +192,7 @@ export default function VideoPlayer({
             <div className={styles.errorIcon}>⚠️</div>
             <div className={styles.errorMessage}>{error}</div>
             <p className={styles.errorDescription}>
-              This video cannot be played in embedded mode.
+              {getString('watch.videoRestricted')}
             </p>
             <a 
               href={url} 
@@ -203,7 +200,7 @@ export default function VideoPlayer({
               rel="noopener noreferrer"
               className={styles.watchOnYoutubeBtn}
             >
-              Watch on YouTube ↗
+              {getString('watch.watchOnYoutube')}
             </a>
           </div>
         )}

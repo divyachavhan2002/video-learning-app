@@ -5,6 +5,7 @@ import Link from 'next/link';
 import SEO from '@/components/common/SEO';
 import { useAuth } from '@/context/AuthContext';
 import { coursesData } from '@/data/courses';
+import { getString } from '@/config';
 import styles from '@/styles/Dashboard.module.css';
 
 export default function Dashboard() {
@@ -62,7 +63,7 @@ export default function Dashboard() {
   if (loading) {
     return (
       <div className={styles.loading}>
-        <p>Loading...</p>
+        <p>{getString('messages.loading')}</p>
       </div>
     );
   }
@@ -74,27 +75,29 @@ export default function Dashboard() {
   return (
     <>
       <SEO 
-        title="Dashboard"
-        description="Your learning dashboard"
+        title={getString('pageTitles.dashboard')}
+        description={getString('pageDescriptions.dashboard')}
       />
 
       <div className={styles.container}>
         <div className={styles.header}>
           <div>
-            <h1 className={styles.title}>Welcome back, {user.displayName || 'Student'}!</h1>
-            <p className={styles.subtitle}>Continue your learning journey</p>
+            <h1 className={styles.title}>
+              {getString('dashboard.welcomeBack')}, {user.displayName || getString('messages.student')}!
+            </h1>
+            <p className={styles.subtitle}>{getString('dashboard.pageSubtitle')}</p>
           </div>
           <button onClick={handleLogout} className={styles.logoutBtn}>
-            Logout
+            {getString('nav.logout')}
           </button>
         </div>
 
         <section className={styles.section}>
-          <h2 className={styles.sectionTitle}>📚 My Courses</h2>
+          <h2 className={styles.sectionTitle}>{getString('dashboard.myCourses')}</h2>
           
           {loadingCourses ? (
             <div className={styles.loadingCourses}>
-              <p>Loading your courses...</p>
+              <p>{getString('messages.loadingYourCourses')}</p>
             </div>
           ) : enrolledCourses.length > 0 ? (
             <div className={styles.coursesGrid}>
@@ -109,14 +112,16 @@ export default function Dashboard() {
                       style={{ width: `${course.progress}%` }}
                     ></div>
                   </div>
-                  <p className={styles.progressText}>{course.progress}% Complete</p>
+                  <p className={styles.progressText}>
+                    {course.progress}% {getString('dashboard.completed')}
+                  </p>
                   <div className={styles.courseActions}>
                     <Link href={`/course/${course.id}`} className={styles.continueBtn}>
-                      Continue Learning
+                      {getString('dashboard.continueLearning')}
                     </Link>
                   </div>
                   <p className={styles.enrolledDate}>
-                    Enrolled: {new Date(course.enrolledAt).toLocaleDateString()}
+                    {getString('course.enrolled')}: {new Date(course.enrolledAt).toLocaleDateString()}
                   </p>
                 </div>
               ))}
@@ -124,49 +129,51 @@ export default function Dashboard() {
           ) : (
             <div className={styles.emptyState}>
               <div className={styles.emptyIcon}>📖</div>
-              <p>You haven't enrolled in any courses yet.</p>
+              <p>{getString('dashboard.noCourses')}</p>
               <Link href="/courses" className={styles.browseBtn}>
-                Browse Courses
+                {getString('dashboard.browseCourses')}
               </Link>
             </div>
           )}
         </section>
 
         <section className={styles.section}>
-          <h2 className={styles.sectionTitle}>📊 Learning Stats</h2>
+          <h2 className={styles.sectionTitle}>📊 {getString('dashboard.pageTitle')}</h2>
           <div className={styles.statsGrid}>
             <div className={styles.statCard}>
-              <div className={styles.statIcon}>📚</div>
+              <div className={styles.statIcon}>{getString('dashboardStats.enrolledIcon')}</div>
               <div className={styles.statValue}>{enrolledCourses.length}</div>
-              <div className={styles.statLabel}>Enrolled Courses</div>
+              <div className={styles.statLabel}>{getString('dashboardStats.enrolledCoursesLabel')}</div>
             </div>
             <div className={styles.statCard}>
-              <div className={styles.statIcon}>✅</div>
+              <div className={styles.statIcon}>{getString('dashboardStats.completedIcon')}</div>
               <div className={styles.statValue}>
                 {enrolledCourses.filter(c => c.progress === 100).length}
               </div>
-              <div className={styles.statLabel}>Completed</div>
+              <div className={styles.statLabel}>{getString('dashboardStats.completedLabel')}</div>
             </div>
             <div className={styles.statCard}>
-              <div className={styles.statIcon}>⏱️</div>
+              <div className={styles.statIcon}>{getString('dashboardStats.inProgressIcon')}</div>
+              <div className={styles.statValue}>
+                {enrolledCourses.filter(c => c.progress > 0 && c.progress < 100).length}
+              </div>
+              <div className={styles.statLabel}>{getString('dashboardStats.inProgressLabel')}</div>
+            </div>
+            <div className={styles.statCard}>
+              <div className={styles.statIcon}>{getString('dashboardStats.hoursIcon')}</div>
               <div className={styles.statValue}>0h</div>
-              <div className={styles.statLabel}>Learning Time</div>
-            </div>
-            <div className={styles.statCard}>
-              <div className={styles.statIcon}>🔥</div>
-              <div className={styles.statValue}>0</div>
-              <div className={styles.statLabel}>Day Streak</div>
+              <div className={styles.statLabel}>{getString('dashboardStats.hoursLearnedLabel')}</div>
             </div>
           </div>
         </section>
 
         <section className={styles.section}>
-          <h2 className={styles.sectionTitle}>👤 Profile</h2>
+          <h2 className={styles.sectionTitle}>👤 {getString('dashboard.profileTitle')}</h2>
           <div className={styles.profileCard}>
             <div className={styles.profileInfo}>
-              <p><strong>Name:</strong> {user.displayName || 'Not set'}</p>
-              <p><strong>Email:</strong> {user.email}</p>
-              <p><strong>Member since:</strong> {new Date(user.metadata.creationTime).toLocaleDateString()}</p>
+              <p><strong>{getString('dashboard.profileName')}:</strong> {user.displayName || getString('dashboard.profileNotSet')}</p>
+              <p><strong>{getString('dashboard.profileEmail')}:</strong> {user.email}</p>
+              <p><strong>{getString('dashboard.profileMemberSince')}:</strong> {new Date(user.metadata.creationTime).toLocaleDateString()}</p>
             </div>
           </div>
         </section>
