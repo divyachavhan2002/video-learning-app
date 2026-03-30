@@ -118,7 +118,7 @@ const appConfig = {
     showWhatsApp: true,
     showResponseTime: true,
     showFAQ: true,
-    whatsappNumber: '919876543210', // Replace with actual number
+    whatsappNumber: '919356025183', // Replace with actual number
   },
 
   // Footer
