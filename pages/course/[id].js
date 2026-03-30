@@ -4,6 +4,7 @@ import SEO from '@/components/common/SEO';
 import Link from 'next/link';
 import { coursesData } from '@/data/courses';
 import { useAuth } from '@/context/AuthContext';
+import { getString } from '@/config';
 import styles from '@/styles/CourseDetail.module.css';
 
 export default function CourseDetail() {
@@ -41,12 +42,12 @@ export default function CourseDetail() {
     try {
       await enrollInCourse(parseInt(id));
       setEnrolled(true);
-      setMessage('Successfully enrolled! Starting course...');
+      setMessage(getString('course.enrollmentSuccess'));
       setTimeout(() => {
         router.push(`/course/${id}/watch`);
       }, 1000);
     } catch (error) {
-      setMessage('Failed to enroll. Please try again.');
+      setMessage(getString('course.enrollmentError'));
     } finally {
       setLoading(false);
     }
@@ -55,10 +56,10 @@ export default function CourseDetail() {
   if (!course) {
     return (
       <div className={styles.notFound}>
-        <h1>Course Not Found</h1>
-        <p>The course you're looking for doesn't exist.</p>
+        <h1>{getString('courseDetail.notFoundTitle')}</h1>
+        <p>{getString('courseDetail.notFoundDesc')}</p>
         <Link href="/courses" className={styles.backBtn}>
-          Back to Courses
+          {getString('messages.backToCourses')}
         </Link>
       </div>
     );
@@ -67,7 +68,7 @@ export default function CourseDetail() {
   return (
     <>
       <SEO 
-        title={`${course.title} - LearnHub`}
+        title={`${course.title} - ${getString('appName')}`}
         description={course.description}
         keywords={`${course.title}, ${course.tech}, online course, ${course.category}, ${course.level}`}
       />
@@ -75,8 +76,8 @@ export default function CourseDetail() {
       <div className={styles.container}>
         <div className={styles.header}>
           <div className={styles.breadcrumb}>
-            <Link href="/courses">Courses</Link>
-            <span className={styles.separator}>›</span>
+            <Link href="/courses">{getString('nav.courses')}</Link>
+            <span className={styles.separator}>{getString('courseDetail.breadcrumbSeparator')}</span>
             <span className={styles.current}>{course.title}</span>
           </div>
 
@@ -115,10 +116,10 @@ export default function CourseDetail() {
                 {enrolled ? (
                   <>
                     <Link href={`/course/${id}/watch`} className={styles.startLearningBtn}>
-                      Start Learning
+                      {getString('course.startLearning')}
                     </Link>
                     <button className={styles.enrolledBtn} disabled>
-                      ✓ Enrolled
+                      {getString('courseDetail.enrolledBtn')}
                     </button>
                   </>
                 ) : (
@@ -127,11 +128,11 @@ export default function CourseDetail() {
                     onClick={handleEnroll}
                     disabled={loading}
                   >
-                    {loading ? 'Enrolling...' : `Enroll for ${course.price}`}
+                    {loading ? getString('course.enrolling') : `${getString('courseDetail.enrollFor')} ${course.price}`}
                   </button>
                 )}
                 <button className={styles.shareBtn}>
-                  Share Course
+                  {getString('courseDetail.shareCourse')}
                 </button>
               </div>
             </div>
@@ -146,52 +147,52 @@ export default function CourseDetail() {
 
         <div className={styles.content}>
           <section className={styles.section}>
-            <h2 className={styles.sectionTitle}>📖 What You'll Learn</h2>
+            <h2 className={styles.sectionTitle}>{getString('courseDetail.whatYouLearn')}</h2>
             <ul className={styles.learningList}>
-              <li>Master the fundamentals of {course.title}</li>
-              <li>Build real-world projects from scratch</li>
-              <li>Understand best practices and industry standards</li>
-              <li>Get hands-on experience with practical examples</li>
+              <li>{getString('courseDetail.masterFundamentals')} {course.title}</li>
+              <li>{getString('courseDetail.buildProjects')}</li>
+              <li>{getString('courseDetail.bestPractices')}</li>
+              <li>{getString('courseDetail.handsOnExperience')}</li>
             </ul>
           </section>
 
           <section className={styles.section}>
-            <h2 className={styles.sectionTitle}>📚 Course Curriculum</h2>
+            <h2 className={styles.sectionTitle}>{getString('courseDetail.courseCurriculum')}</h2>
             <div className={styles.curriculum}>
               <div className={styles.module}>
                 <h3 className={styles.moduleTitle}>
                   <span className={styles.moduleIcon}>▶️</span>
-                  Module 1: Introduction
+                  {getString('courseDetail.moduleIntro')}
                 </h3>
                 <ul className={styles.lessonList}>
                   <li className={styles.lesson}>
                     <span className={styles.lessonIcon}>🎥</span>
-                    <span className={styles.lessonTitle}>Welcome to the Course</span>
+                    <span className={styles.lessonTitle}>{getString('courseDetail.welcomeLesson')}</span>
                     <span className={styles.lessonDuration}>5 min</span>
                   </li>
                   <li className={styles.lesson}>
                     <span className={styles.lessonIcon}>🎥</span>
-                    <span className={styles.lessonTitle}>Setting Up Your Environment</span>
+                    <span className={styles.lessonTitle}>{getString('courseDetail.setupLesson')}</span>
                     <span className={styles.lessonDuration}>10 min</span>
                   </li>
                 </ul>
               </div>
 
               <div className={styles.comingSoon}>
-                <p>More modules coming soon! This course is under development.</p>
+                <p>{getString('courseDetail.comingSoon')}</p>
               </div>
             </div>
           </section>
 
           <section className={styles.section}>
-            <h2 className={styles.sectionTitle}>👨‍🏫 About the Instructor</h2>
+            <h2 className={styles.sectionTitle}>{getString('courseDetail.aboutInstructor')}</h2>
             <div className={styles.instructorCard}>
               <div className={styles.instructorAvatar}>
                 <span className={styles.avatarIcon}>👨‍💻</span>
               </div>
               <div className={styles.instructorInfo}>
                 <h3>{course.instructor}</h3>
-                <p>Expert instructor with years of experience in {course.category}</p>
+                <p>{getString('courseDetail.expertWith')} {course.category}</p>
               </div>
             </div>
           </section>

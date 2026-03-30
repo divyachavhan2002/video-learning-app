@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { getString, getYouTubeConfig } from '@/config';
 import styles from './YouTubeSearch.module.css';
 
 export default function YouTubeSearch({ onSelectVideo }) {
@@ -17,19 +18,19 @@ export default function YouTubeSearch({ onSelectVideo }) {
 
     try {
       // Using YouTube Data API v3
-      // Note: You'll need to add your API key in .env.local as NEXT_PUBLIC_YOUTUBE_API_KEY
-      const apiKey = process.env.NEXT_PUBLIC_YOUTUBE_API_KEY;
+      const ytConfig = getYouTubeConfig();
+      const apiKey = ytConfig.apiKey || process.env.NEXT_PUBLIC_YOUTUBE_API_KEY;
       
       if (!apiKey) {
-        throw new Error('YouTube API key not configured');
+        throw new Error(getString('youtube.apiKeyError'));
       }
 
       const response = await fetch(
-        `https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=10&q=${encodeURIComponent(searchQuery)}&type=video&key=${apiKey}`
+        `https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=${ytConfig.maxResults || 10}&q=${encodeURIComponent(searchQuery)}&type=video&key=${apiKey}`
       );
 
       if (!response.ok) {
-        throw new Error('Failed to search YouTube');
+        throw new Error(getString('youtube.searchFailed'));
       }
 
       const data = await response.json();
@@ -41,7 +42,7 @@ export default function YouTubeSearch({ onSelectVideo }) {
       setResults(data.items || []);
     } catch (err) {
       console.error('YouTube search error:', err);
-      setError(err.message || 'Failed to search YouTube');
+      setError(err.message || getString('youtube.searchFailed'));
     } finally {
       setLoading(false);
     }
@@ -67,20 +68,20 @@ export default function YouTubeSearch({ onSelectVideo }) {
           type="text"
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
-          placeholder="Search YouTube videos..."
+          placeholder={getString('youtube.searchPlaceholder')}
           className={styles.searchInput}
         />
         <button type="submit" disabled={loading} className={styles.searchButton}>
-          {loading ? 'Searching...' : 'Search'}
+          {loading ? getString('youtube.searching') : getString('youtube.searchBtn')}
         </button>
       </form>
 
       {error && (
         <div className={styles.error}>
           {error}
-          {error.includes('API key') && (
+          {error.includes(getString('youtube.apiKeyError')) && (
             <p className={styles.errorHint}>
-              Add NEXT_PUBLIC_YOUTUBE_API_KEY to your .env.local file
+              {getString('youtube.apiKeyHint')}
             </p>
           )}
         </div>
@@ -88,7 +89,7 @@ export default function YouTubeSearch({ onSelectVideo }) {
 
       {results.length > 0 && (
         <div className={styles.results}>
-          <h3>Search Results</h3>
+          <h3>{getString('youtube.searchResults')}</h3>
           <div className={styles.resultsList}>
             {results.map((video) => (
               <div

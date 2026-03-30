@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import Head from 'next/head';
+import { getString, getSiteInfo, getConfig } from '@/config';
 import styles from '@/styles/Contact.module.css';
 
 export default function Contact() {
@@ -11,6 +12,8 @@ export default function Contact() {
   });
   const [status, setStatus] = useState({ type: '', message: '' });
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const siteInfo = getSiteInfo();
+  const whatsappNumber = getConfig('contactPage.whatsappNumber', '919876543210');
 
   const handleChange = (e) => {
     setFormData({
@@ -26,7 +29,7 @@ export default function Contact() {
 
     try {
       // Create mailto link with form data
-      const mailtoLink = `mailto:divyachavhan234@gmail.com?subject=${encodeURIComponent(formData.subject)}&body=${encodeURIComponent(
+      const mailtoLink = `mailto:${siteInfo.authorEmail}?subject=${encodeURIComponent(formData.subject)}&body=${encodeURIComponent(
         `Name: ${formData.name}\nEmail: ${formData.email}\n\nMessage:\n${formData.message}`
       )}`;
       
@@ -34,7 +37,7 @@ export default function Contact() {
       
       setStatus({
         type: 'success',
-        message: 'Opening your email client...'
+        message: getString('contact.formSuccess')
       });
 
       // Reset form
@@ -45,7 +48,7 @@ export default function Contact() {
     } catch (error) {
       setStatus({
         type: 'error',
-        message: 'Failed to open email client. Please try again.'
+        message: getString('contact.formError')
       });
     } finally {
       setIsSubmitting(false);
@@ -53,27 +56,25 @@ export default function Contact() {
   };
 
   const handleWhatsAppClick = () => {
-    // Replace with your WhatsApp number (include country code without + or -)
-    const phoneNumber = '919876543210'; // Example: 919876543210 for +91 9876543210
-    const message = 'Hi! I have a question about LearnHub.';
-    const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
+    const message = getString('contact.whatsappMessage');
+    const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
     window.open(whatsappUrl, '_blank');
   };
 
   return (
     <>
       <Head>
-        <title>Contact Us - LearnHub</title>
-        <meta name="description" content="Get in touch with LearnHub team. We're here to help!" />
+        <title>{getString('pageTitles.contact')}</title>
+        <meta name="description" content={getString('pageDescriptions.contact')} />
       </Head>
 
       <div className={styles.contactContainer}>
         {/* Hero Section */}
         <section className={styles.heroSection}>
           <div className={styles.heroContent}>
-            <h1 className={styles.heroTitle}>Get In Touch</h1>
+            <h1 className={styles.heroTitle}>{getString('contact.heroTitle')}</h1>
             <p className={styles.heroSubtitle}>
-              Have questions? We'd love to hear from you. Send us a message!
+              {getString('contact.pageSubtitle')}
             </p>
           </div>
         </section>
@@ -82,11 +83,11 @@ export default function Contact() {
           <div className={styles.contactGrid}>
             {/* Contact Form */}
             <div className={styles.formSection}>
-              <h2 className={styles.sectionTitle}>Send us a Message</h2>
+              <h2 className={styles.sectionTitle}>{getString('contact.formTitle')}</h2>
               <form onSubmit={handleSubmit} className={styles.contactForm}>
                 <div className={styles.formGroup}>
                   <label htmlFor="name" className={styles.label}>
-                    Your Name *
+                    {getString('contact.formName')}
                   </label>
                   <input
                     type="text"
@@ -96,13 +97,13 @@ export default function Contact() {
                     onChange={handleChange}
                     required
                     className={styles.input}
-                    placeholder="John Doe"
+                    placeholder={getString('contact.formNamePlaceholder')}
                   />
                 </div>
 
                 <div className={styles.formGroup}>
                   <label htmlFor="email" className={styles.label}>
-                    Your Email *
+                    {getString('contact.formEmail')}
                   </label>
                   <input
                     type="email"
@@ -112,13 +113,13 @@ export default function Contact() {
                     onChange={handleChange}
                     required
                     className={styles.input}
-                    placeholder="john@example.com"
+                    placeholder={getString('contact.formEmailPlaceholder')}
                   />
                 </div>
 
                 <div className={styles.formGroup}>
                   <label htmlFor="subject" className={styles.label}>
-                    Subject *
+                    {getString('contact.formSubject')}
                   </label>
                   <input
                     type="text"
@@ -128,13 +129,13 @@ export default function Contact() {
                     onChange={handleChange}
                     required
                     className={styles.input}
-                    placeholder="How can we help you?"
+                    placeholder={getString('contact.formSubjectPlaceholder')}
                   />
                 </div>
 
                 <div className={styles.formGroup}>
                   <label htmlFor="message" className={styles.label}>
-                    Message *
+                    {getString('contact.formMessage')}
                   </label>
                   <textarea
                     id="message"
@@ -144,7 +145,7 @@ export default function Contact() {
                     required
                     rows="5"
                     className={styles.textarea}
-                    placeholder="Tell us more about your question..."
+                    placeholder={getString('contact.formMessagePlaceholder')}
                   />
                 </div>
 
@@ -159,63 +160,63 @@ export default function Contact() {
                   disabled={isSubmitting}
                   className={styles.submitButton}
                 >
-                  {isSubmitting ? 'Sending...' : 'Send Message'}
+                  {isSubmitting ? getString('contact.formSending') : getString('contact.formSubmit')}
                 </button>
               </form>
             </div>
 
             {/* Contact Info */}
             <div className={styles.infoSection}>
-              <h2 className={styles.sectionTitle}>Contact Information</h2>
+              <h2 className={styles.sectionTitle}>{getString('contact.contactInfoTitle')}</h2>
               
               <div className={styles.contactMethods}>
                 <div className={styles.contactCard}>
                   <div className={styles.contactIcon}>📧</div>
-                  <h3 className={styles.contactMethodTitle}>Email</h3>
+                  <h3 className={styles.contactMethodTitle}>{getString('contact.emailTitle')}</h3>
                   <p className={styles.contactText}>
-                    <a href="mailto:divyachavhan234@gmail.com" className={styles.contactLink}>
-                      divyachavhan234@gmail.com
+                    <a href={`mailto:${siteInfo.authorEmail}`} className={styles.contactLink}>
+                      {getString('contact.emailAddress')}
                     </a>
                   </p>
                   <p className={styles.contactDesc}>
-                    Send us an email anytime. We'll respond within 24 hours.
+                    {getString('contact.emailDesc')}
                   </p>
                 </div>
 
                 <div className={styles.contactCard}>
                   <div className={styles.contactIcon}>💬</div>
-                  <h3 className={styles.contactMethodTitle}>WhatsApp</h3>
+                  <h3 className={styles.contactMethodTitle}>{getString('contact.whatsappTitle')}</h3>
                   <button 
                     onClick={handleWhatsAppClick}
                     className={styles.whatsappButton}
                   >
                     <span className={styles.whatsappIcon}>📱</span>
-                    Chat with us on WhatsApp
+                    {getString('contact.whatsappBtn')}
                   </button>
                   <p className={styles.contactDesc}>
-                    Get instant responses to your questions via WhatsApp.
+                    {getString('contact.whatsappDesc')}
                   </p>
                 </div>
 
                 <div className={styles.contactCard}>
                   <div className={styles.contactIcon}>🕐</div>
-                  <h3 className={styles.contactMethodTitle}>Response Time</h3>
+                  <h3 className={styles.contactMethodTitle}>{getString('contact.responseTitle')}</h3>
                   <p className={styles.contactText}>
-                    Usually within 24 hours
+                    {getString('contact.responseTime')}
                   </p>
                   <p className={styles.contactDesc}>
-                    We strive to respond to all inquiries as quickly as possible.
+                    {getString('contact.responseDesc')}
                   </p>
                 </div>
               </div>
 
               <div className={styles.faqSection}>
-                <h3 className={styles.faqTitle}>Quick Questions?</h3>
+                <h3 className={styles.faqTitle}>{getString('contact.faqTitle')}</h3>
                 <ul className={styles.faqList}>
-                  <li>✓ All courses are 100% free</li>
-                  <li>✓ No registration required to browse</li>
-                  <li>✓ New courses added regularly</li>
-                  <li>✓ Available 24/7</li>
+                  <li>{getString('contact.faq1')}</li>
+                  <li>{getString('contact.faq2')}</li>
+                  <li>{getString('contact.faq3')}</li>
+                  <li>{getString('contact.faq4')}</li>
                 </ul>
               </div>
             </div>

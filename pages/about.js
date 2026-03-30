@@ -1,21 +1,22 @@
 import Head from 'next/head';
+import { getString } from '@/config';
 import styles from '@/styles/About.module.css';
 
 export default function About() {
   return (
     <>
       <Head>
-        <title>About Us - LearnHub</title>
-        <meta name="description" content="Learn more about LearnHub - Your gateway to quality online education" />
+        <title>{getString('pageTitles.about')}</title>
+        <meta name="description" content={getString('pageDescriptions.about')} />
       </Head>
 
       <div className={styles.aboutContainer}>
         {/* Hero Section */}
         <section className={styles.heroSection}>
           <div className={styles.heroContent}>
-            <h1 className={styles.heroTitle}>About LearnHub</h1>
+            <h1 className={styles.heroTitle}>{getString('about.heroTitle')}</h1>
             <p className={styles.heroSubtitle}>
-              Empowering learners worldwide with free, high-quality educational content
+              {getString('about.pageSubtitle')}
             </p>
           </div>
         </section>
@@ -25,15 +26,12 @@ export default function About() {
           <div className={styles.container}>
             <div className={styles.missionGrid}>
               <div className={styles.missionContent}>
-                <h2 className={styles.sectionTitle}>Our Mission</h2>
+                <h2 className={styles.sectionTitle}>{getString('about.missionTitle')}</h2>
                 <p className={styles.text}>
-                  At LearnHub, we believe that education should be accessible to everyone, everywhere. 
-                  Our mission is to provide free, high-quality video courses that help learners develop 
-                  new skills and advance their careers.
+                  {getString('about.missionText1')}
                 </p>
                 <p className={styles.text}>
-                  We curate the best educational content across various domains including web development, 
-                  mobile development, data science, cloud computing, and more.
+                  {getString('about.missionText2')}
                 </p>
               </div>
               <div className={styles.missionImage}>
@@ -48,34 +46,34 @@ export default function About() {
         {/* Values Section */}
         <section className={styles.valuesSection}>
           <div className={styles.container}>
-            <h2 className={styles.sectionTitle}>Our Values</h2>
+            <h2 className={styles.sectionTitle}>{getString('about.valuesTitle')}</h2>
             <div className={styles.valuesGrid}>
               <div className={styles.valueCard}>
                 <div className={styles.valueIcon}>🌟</div>
-                <h3 className={styles.valueTitle}>Quality First</h3>
+                <h3 className={styles.valueTitle}>{getString('about.valueQualityTitle')}</h3>
                 <p className={styles.valueText}>
-                  We carefully select and curate courses to ensure the highest quality learning experience.
+                  {getString('about.valueQualityText')}
                 </p>
               </div>
               <div className={styles.valueCard}>
                 <div className={styles.valueIcon}>🆓</div>
-                <h3 className={styles.valueTitle}>Always Free</h3>
+                <h3 className={styles.valueTitle}>{getString('about.valueFreeTitle')}</h3>
                 <p className={styles.valueText}>
-                  All our courses are completely free. No hidden fees, no subscriptions required.
+                  {getString('about.valueFreeText')}
                 </p>
               </div>
               <div className={styles.valueCard}>
                 <div className={styles.valueIcon}>🚀</div>
-                <h3 className={styles.valueTitle}>Continuous Learning</h3>
+                <h3 className={styles.valueTitle}>{getString('about.valueLearningTitle')}</h3>
                 <p className={styles.valueText}>
-                  We regularly update our content library to keep pace with the latest technologies.
+                  {getString('about.valueLearningText')}
                 </p>
               </div>
               <div className={styles.valueCard}>
                 <div className={styles.valueIcon}>🤝</div>
-                <h3 className={styles.valueTitle}>Community Driven</h3>
+                <h3 className={styles.valueTitle}>{getString('about.valueCommunityTitle')}</h3>
                 <p className={styles.valueText}>
-                  Built by learners, for learners. We value feedback and continuously improve.
+                  {getString('about.valueCommunityText')}
                 </p>
               </div>
             </div>
@@ -87,20 +85,20 @@ export default function About() {
           <div className={styles.container}>
             <div className={styles.statsGrid}>
               <div className={styles.statCard}>
-                <div className={styles.statNumber}>72+</div>
-                <div className={styles.statLabel}>Free Courses</div>
+                <div className={styles.statNumber}>{getString('about.statsCourses')}</div>
+                <div className={styles.statLabel}>{getString('about.statsCoursesLabel')}</div>
               </div>
               <div className={styles.statCard}>
-                <div className={styles.statNumber}>8</div>
-                <div className={styles.statLabel}>Categories</div>
+                <div className={styles.statNumber}>{getString('about.statsCategories')}</div>
+                <div className={styles.statLabel}>{getString('about.statsCategoriesLabel')}</div>
               </div>
               <div className={styles.statCard}>
-                <div className={styles.statNumber}>100%</div>
-                <div className={styles.statLabel}>Free Content</div>
+                <div className={styles.statNumber}>{getString('about.statsFree')}</div>
+                <div className={styles.statLabel}>{getString('about.statsFreeLabel')}</div>
               </div>
               <div className={styles.statCard}>
-                <div className={styles.statNumber}>24/7</div>
-                <div className={styles.statLabel}>Access</div>
+                <div className={styles.statNumber}>{getString('about.statsAccess')}</div>
+                <div className={styles.statLabel}>{getString('about.statsAccessLabel')}</div>
               </div>
             </div>
           </div>
@@ -109,16 +107,16 @@ export default function About() {
         {/* CTA Section */}
         <section className={styles.ctaSection}>
           <div className={styles.container}>
-            <h2 className={styles.ctaTitle}>Ready to Start Learning?</h2>
+            <h2 className={styles.ctaTitle}>{getString('about.ctaTitle')}</h2>
             <p className={styles.ctaText}>
-              Join thousands of learners and start your journey today. All courses are free!
+              {getString('about.ctaText')}
             </p>
             <div className={styles.ctaButtons}>
               <a href="/courses" className={styles.primaryButton}>
-                Browse Courses
+                {getString('about.ctaBrowse')}
               </a>
               <a href="/contact" className={styles.secondaryButton}>
-                Contact Us
+                {getString('about.ctaContact')}
               </a>
             </div>
           </div>

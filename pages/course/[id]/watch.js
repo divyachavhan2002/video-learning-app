@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { useAuth } from '@/context/AuthContext';
 import { coursesData } from '@/data/courses';
 import VideoPlayer from '@/components/video/VideoPlayer';
+import { getString } from '@/config';
 import styles from '@/styles/Watch.module.css';
 
 export default function Watch() {
@@ -37,7 +38,7 @@ export default function Watch() {
   if (loading) {
     return (
       <div className={styles.loading}>
-        <p>Loading...</p>
+        <p>{getString('messages.loading')}</p>
       </div>
     );
   }
@@ -49,10 +50,10 @@ export default function Watch() {
   if (!course || !course.lessons || course.lessons.length === 0) {
     return (
       <div className={styles.notFound}>
-        <h1>Course Not Found</h1>
-        <p>This course doesn't have any video lessons yet.</p>
+        <h1>{getString('courseDetail.notFoundTitle')}</h1>
+        <p>This course doesn&apos;t have any video lessons yet.</p>
         <Link href="/courses" className={styles.backBtn}>
-          Back to Courses
+          {getString('messages.backToCourses')}
         </Link>
       </div>
     );
@@ -89,23 +90,23 @@ export default function Watch() {
     return (
       <>
         <SEO 
-          title="Video Error - LearnHub"
-          description="Unable to play this video"
+          title={`${getString('watch.unableToPlay')} - ${getString('appName')}`}
+          description={getString('watch.unableToPlay')}
         />
         <div className={styles.container}>
           <div className={styles.errorContainer}>
             <div className={styles.errorIcon}>⚠️</div>
-            <h1 className={styles.errorTitle}>Unable to Play Video</h1>
+            <h1 className={styles.errorTitle}>{getString('watch.unableToPlay')}</h1>
             <p className={styles.errorMessage}>{videoError}</p>
             <p className={styles.errorDescription}>
-              This video cannot be played in embedded mode. The video owner has restricted playback on external websites.
+              {getString('watch.videoRestricted')}
             </p>
             <div className={styles.errorActions}>
               <button 
                 onClick={() => router.push('/courses')} 
                 className={styles.backToCoursesBtn}
               >
-                ← Back to Courses
+                {getString('watch.backToCourses')}
               </button>
               <a 
                 href={currentVideo.videoUrl} 
@@ -113,7 +114,7 @@ export default function Watch() {
                 rel="noopener noreferrer"
                 className={styles.watchOnYoutubeBtn}
               >
-                Watch on YouTube ↗
+                {getString('watch.watchOnYoutube')}
               </a>
             </div>
           </div>
@@ -125,7 +126,7 @@ export default function Watch() {
   return (
     <>
       <SEO 
-        title={`${course.title} - Watch - LearnHub`}
+        title={`${course.title} - Watch - ${getString('appName')}`}
         description={`Watch ${course.title} video lessons. Learn ${course.tech} with ${course.instructor}.`}
         keywords={`${course.title}, video lessons, ${course.tech}, online learning`}
       />
@@ -133,12 +134,12 @@ export default function Watch() {
       <div className={styles.container}>
         {/* Breadcrumb */}
         <div className={styles.breadcrumb}>
-          <Link href="/courses">Courses</Link>
-          <span className={styles.separator}>›</span>
+          <Link href="/courses">{getString('nav.courses')}</Link>
+          <span className={styles.separator}>{getString('courseDetail.breadcrumbSeparator')}</span>
           {!isYouTubeVideo && (
             <>
               <Link href={`/course/${id}`}>{course.title}</Link>
-              <span className={styles.separator}>›</span>
+              <span className={styles.separator}>{getString('courseDetail.breadcrumbSeparator')}</span>
             </>
           )}
           <span className={styles.current}>Watch</span>
@@ -167,7 +168,7 @@ export default function Watch() {
 
                 {course.description && course.description.trim() && (
                   <div className={styles.youtubeDescription}>
-                    <h3 className={styles.descriptionTitle}>About this video</h3>
+                    <h3 className={styles.descriptionTitle}>{getString('watch.aboutVideo')}</h3>
                     <p className={styles.descriptionText}>{course.description}</p>
                   </div>
                 )}
@@ -177,7 +178,7 @@ export default function Watch() {
                     onClick={() => router.push('/courses')} 
                     className={styles.backToCourses}
                   >
-                    ← Back to Courses
+                    {getString('watch.backToCourses')}
                   </button>
                   <a 
                     href={currentVideo.videoUrl} 
@@ -185,7 +186,7 @@ export default function Watch() {
                     rel="noopener noreferrer"
                     className={styles.watchOnYoutube}
                   >
-                    Watch on YouTube ↗
+                    {getString('watch.watchOnYoutube')}
                   </a>
                 </div>
               </div>
@@ -206,7 +207,7 @@ export default function Watch() {
             <div className={styles.videoInfo}>
               <h1 className={styles.videoTitle}>{currentVideo.title}</h1>
               <div className={styles.videoMeta}>
-                <span>Lesson {currentLesson + 1} of {course.lessons.length}</span>
+                <span>{getString('watch.lesson')} {currentLesson + 1} {getString('watch.of')} {course.lessons.length}</span>
                 <span className={styles.metaDivider}>•</span>
                 <span>{currentVideo.duration}</span>
               </div>
@@ -214,7 +215,7 @@ export default function Watch() {
 
             <div className={styles.courseInfo}>
               <h2>{course.title}</h2>
-              <p className={styles.instructor}>By {course.instructor}</p>
+              <p className={styles.instructor}>{getString('watch.by')} {course.instructor}</p>
               <p className={styles.description}>{course.description}</p>
             </div>
           </div>
@@ -222,9 +223,9 @@ export default function Watch() {
           {/* Lesson List Sidebar */}
           <div className={styles.lessonsSidebar}>
             <div className={styles.sidebarHeader}>
-              <h3>Course Content</h3>
+              <h3>{getString('watch.courseContent')}</h3>
               <span className={styles.lessonCount}>
-                {course.lessons.length} lessons
+                {course.lessons.length} {getString('course.lessons')}
               </span>
             </div>
 

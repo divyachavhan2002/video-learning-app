@@ -114,6 +114,7 @@ const strings = {
     enrolling: 'Enrolling...',
     enrollmentSuccess: 'Successfully enrolled! Starting course...',
     enrollmentError: 'Failed to enroll. Please try again.',
+    enrolled: 'Enrolled',
   },
 
   // Watch Page
@@ -132,6 +133,7 @@ const strings = {
   // Dashboard
   dashboard: {
     pageTitle: 'My Dashboard',
+    pageSubtitle: 'Continue your learning journey',
     welcomeBack: 'Welcome back',
     myCourses: 'My Enrolled Courses',
     noCourses: 'You haven\'t enrolled in any courses yet',
@@ -139,6 +141,11 @@ const strings = {
     continueLearning: 'Continue Learning',
     progress: 'Progress',
     completed: 'Completed',
+    profileTitle: 'Profile',
+    profileName: 'Name',
+    profileEmail: 'Email',
+    profileMemberSince: 'Member since',
+    profileNotSet: 'Not set',
   },
 
   // About Page
@@ -178,16 +185,18 @@ const strings = {
     pageSubtitle: 'Have questions? We\'d love to hear from you. Send us a message!',
     heroTitle: 'Get In Touch',
     formTitle: 'Send us a Message',
-    formName: 'Your Name',
-    formEmail: 'Your Email',
-    formSubject: 'Subject',
-    formMessage: 'Message',
+    formName: 'Your Name *',
+    formEmail: 'Your Email *',
+    formSubject: 'Subject *',
+    formMessage: 'Message *',
     formNamePlaceholder: 'John Doe',
     formEmailPlaceholder: 'john@example.com',
     formSubjectPlaceholder: 'How can we help you?',
     formMessagePlaceholder: 'Tell us more about your question...',
     formSubmit: 'Send Message',
     formSending: 'Sending...',
+    formSuccess: 'Opening your email client...',
+    formError: 'Failed to open email client. Please try again.',
     contactInfoTitle: 'Contact Information',
     emailTitle: 'Email',
     emailAddress: 'divyachavhan234@gmail.com',
@@ -220,29 +229,106 @@ const strings = {
   // Auth
   auth: {
     loginTitle: 'Welcome Back',
-    loginSubtitle: 'Sign in to continue your learning',
+    loginSubtitle: 'Login to continue your learning journey',
     signupTitle: 'Create Account',
     signupSubtitle: 'Start your learning journey today',
     emailLabel: 'Email',
     passwordLabel: 'Password',
+    confirmPasswordLabel: 'Confirm Password',
     nameLabel: 'Full Name',
-    loginBtn: 'Sign In',
+    emailPlaceholder: 'your@email.com',
+    passwordPlaceholder: '••••••••',
+    namePlaceholder: 'John Doe',
+    loginBtn: 'Login',
     signupBtn: 'Sign Up',
+    loggingIn: 'Logging in...',
+    creatingAccount: 'Creating account...',
+    continueWithGoogle: 'Continue with Google',
     forgotPassword: 'Forgot Password?',
     noAccount: 'Don\'t have an account?',
     haveAccount: 'Already have an account?',
-    signingIn: 'Signing in...',
-    signingUp: 'Creating account...',
+    orDivider: 'OR',
   },
 
   // Common Messages
   messages: {
     loading: 'Loading...',
+    loadingYourCourses: 'Loading your courses...',
     error: 'Something went wrong',
     success: 'Success!',
     tryAgain: 'Please try again',
     noResults: 'No results found',
     searchError: 'Failed to search',
+    notFound: 'Not Found',
+    backToCourses: 'Back to Courses',
+    shareThis: 'Share',
+    user: 'User',
+    student: 'Student',
+  },
+
+  // Home Page Features
+  homeFeatures: {
+    qualityVideosTitle: 'Quality Videos',
+    qualityVideosDesc: 'Learn from high-quality video content created by experts',
+    learnPaceTitle: 'Learn at Your Pace',
+    learnPaceDesc: 'Study whenever you want, wherever you are',
+    trackProgressTitle: 'Track Progress',
+    trackProgressDesc: 'Monitor your learning journey with detailed progress tracking',
+    expertInstructorsTitle: 'Expert Instructors',
+    expertInstructorsDesc: 'Learn from industry professionals and experienced teachers',
+    qualityVideosIcon: '📹',
+    learnPaceIcon: '⏱️',
+    trackProgressIcon: '📊',
+    expertInstructorsIcon: '🎓',
+  },
+
+  // Dashboard Stats
+  dashboardStats: {
+    enrolledCoursesLabel: 'Enrolled Courses',
+    completedLabel: 'Completed',
+    inProgressLabel: 'In Progress',
+    hoursLearnedLabel: 'Hours Learned',
+    enrolledIcon: '📚',
+    completedIcon: '✅',
+    inProgressIcon: '⏳',
+    hoursIcon: '🕐',
+  },
+
+  // Course Detail
+  courseDetail: {
+    notFoundTitle: 'Course Not Found',
+    notFoundDesc: 'The course you\'re looking for doesn\'t exist.',
+    noLessonsDesc: 'This course doesn\'t have any video lessons yet.',
+    breadcrumbSeparator: '›',
+    enrolledBtn: '✓ Enrolled',
+    enrollFor: 'Enroll for',
+    shareCourse: 'Share Course',
+    viewCourse: 'View Course',
+    studentsLabel: 'students',
+    whatYouLearn: '📖 What You\'ll Learn',
+    courseCurriculum: '📚 Course Curriculum',
+    aboutInstructor: '👨‍🏫 About the Instructor',
+    comingSoon: 'More modules coming soon! This course is under development.',
+    moduleIntro: 'Module 1: Introduction',
+    welcomeLesson: 'Welcome to the Course',
+    setupLesson: 'Setting Up Your Environment',
+    masterFundamentals: 'Master the fundamentals of',
+    buildProjects: 'Build real-world projects from scratch',
+    bestPractices: 'Understand best practices and industry standards',
+    handsOnExperience: 'Get hands-on experience with practical examples',
+    expertWith: 'Expert instructor with years of experience in',
+  },
+
+  // YouTube Search
+  youtube: {
+    searchPlaceholder: 'Search YouTube videos...',
+    searchBtn: 'Search',
+    searching: 'Searching...',
+    searchResults: 'Search Results',
+    apiKeyError: 'YouTube API key not configured',
+    apiKeyHint: 'Add NEXT_PUBLIC_YOUTUBE_API_KEY to your .env.local file',
+    searchFailed: 'Failed to search YouTube',
+    tutorialSuffix: ' tutorial',
   },
 
   // Video Player
@@ -253,6 +339,24 @@ const strings = {
     errorEmbedDisabled: 'Video owner does not allow embedding',
     errorHtml5: 'HTML5 player error',
     errorGeneric: 'Failed to load video',
+  },
+
+  // Page Titles & Meta
+  pageTitles: {
+    home: 'LearnHub - Video Learning Platform',
+    courses: 'All Courses - LearnHub',
+    dashboard: 'Dashboard - LearnHub',
+    about: 'About Us - LearnHub',
+    contact: 'Contact Us - LearnHub',
+    login: 'Login - LearnHub',
+    signup: 'Sign Up - LearnHub',
+  },
+
+  pageDescriptions: {
+    home: 'Learn new skills with our comprehensive video courses. Browse 72+ courses across frontend, backend, security, DevOps, cloud, and AI.',
+    about: 'Learn more about LearnHub - Your gateway to quality online education',
+    contact: 'Get in touch with LearnHub team. We\'re here to help!',
+    dashboard: 'Your learning dashboard',
   },
 };
 

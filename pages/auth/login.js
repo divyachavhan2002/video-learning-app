@@ -3,6 +3,7 @@ import { useRouter } from 'next/router';
 import Link from 'next/link';
 import { useAuth } from '@/context/AuthContext';
 import { getAuthErrorMessage } from '@/lib/authUtils';
+import { getString } from '@/config';
 import styles from '@/styles/Auth.module.css';
 
 export default function Login() {
@@ -47,32 +48,32 @@ export default function Login() {
   return (
     <div className={styles.authContainer}>
       <div className={styles.authCard}>
-        <h1 className={styles.title}>Welcome Back</h1>
-        <p className={styles.subtitle}>Login to continue your learning journey</p>
+        <h1 className={styles.title}>{getString('auth.loginTitle')}</h1>
+        <p className={styles.subtitle}>{getString('auth.loginSubtitle')}</p>
 
         {error && <div className={styles.error}>{error}</div>}
 
         <form onSubmit={handleSubmit} className={styles.form}>
           <div className={styles.formGroup}>
-            <label htmlFor="email">Email</label>
+            <label htmlFor="email">{getString('auth.emailLabel')}</label>
             <input
               type="email"
               id="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              placeholder="your@email.com"
+              placeholder={getString('auth.emailPlaceholder')}
               required
             />
           </div>
 
           <div className={styles.formGroup}>
-            <label htmlFor="password">Password</label>
+            <label htmlFor="password">{getString('auth.passwordLabel')}</label>
             <input
               type="password"
               id="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              placeholder="••••••••"
+              placeholder={getString('auth.passwordPlaceholder')}
               required
             />
           </div>
@@ -82,12 +83,12 @@ export default function Login() {
             className={styles.submitButton}
             disabled={loading}
           >
-            {loading ? 'Logging in...' : 'Login'}
+            {loading ? getString('auth.loggingIn') : getString('auth.loginBtn')}
           </button>
         </form>
 
         <div className={styles.divider}>
-          <span>OR</span>
+          <span>{getString('auth.orDivider')}</span>
         </div>
 
         <button
@@ -101,12 +102,12 @@ export default function Login() {
             <path fill="#FBBC05" d="M3.964 10.707c-.18-.54-.282-1.117-.282-1.707s.102-1.167.282-1.707V4.961H.957C.347 6.175 0 7.55 0 9s.348 2.825.957 4.039l3.007-2.332z"/>
             <path fill="#EA4335" d="M9 3.58c1.321 0 2.508.454 3.44 1.345l2.582-2.58C13.463.891 11.426 0 9 0 5.482 0 2.438 2.017.957 4.961L3.964 7.29C4.672 5.163 6.656 3.58 9 3.58z"/>
           </svg>
-          Continue with Google
+          {getString('auth.continueWithGoogle')}
         </button>
 
         <p className={styles.switchAuth}>
-          Don't have an account?{' '}
-          <Link href="/auth/signup">Sign up</Link>
+          {getString('auth.noAccount')}{' '}
+          <Link href="/auth/signup">{getString('nav.signup')}</Link>
         </p>
       </div>
     </div>

@@ -1,4 +1,5 @@
 import Head from 'next/head';
+import { getString } from '@/config';
 
 /**
  * SEO Component - Reusable Head component for meta tags
@@ -9,31 +10,35 @@ import Head from 'next/head';
  * @param {string} canonicalUrl - Canonical URL (optional)
  */
 export default function SEO({ 
-  title = 'LearnHub',
-  description = 'Free video courses on web development, programming, and design',
-  keywords = 'online learning, free courses, video tutorials, web development, programming',
+  title = '',
+  description = '',
+  keywords = '',
   ogImage = '/og-image.jpg',
   canonicalUrl = '',
 }) {
-  const siteTitle = title === 'LearnHub' ? title : `${title} - LearnHub`;
+  const finalTitle = title || getString('seo.defaultTitle');
+  const finalDescription = description || getString('seo.defaultDescription');
+  const finalKeywords = keywords || getString('seo.defaultKeywords');
+  const appName = getString('appName');
+  const siteTitle = finalTitle.includes(appName) ? finalTitle : `${finalTitle} - ${appName}`;
   
   return (
     <Head>
       <title>{siteTitle}</title>
-      <meta name="description" content={description} />
-      <meta name="keywords" content={keywords} />
+      <meta name="description" content={finalDescription} />
+      <meta name="keywords" content={finalKeywords} />
       <meta name="viewport" content="width=device-width, initial-scale=1" />
       
       {/* Open Graph / Facebook */}
       <meta property="og:type" content="website" />
       <meta property="og:title" content={siteTitle} />
-      <meta property="og:description" content={description} />
+      <meta property="og:description" content={finalDescription} />
       <meta property="og:image" content={ogImage} />
       
       {/* Twitter */}
       <meta name="twitter:card" content="summary_large_image" />
       <meta name="twitter:title" content={siteTitle} />
-      <meta name="twitter:description" content={description} />
+      <meta name="twitter:description" content={finalDescription} />
       <meta name="twitter:image" content={ogImage} />
       
       {/* Canonical URL */}

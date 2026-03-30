@@ -3,6 +3,7 @@ import { useRouter } from 'next/router';
 import SEO from '@/components/common/SEO';
 import CourseCard from '@/components/course/CourseCard';
 import { coursesData, courseCategories } from '@/data/courses';
+import { getString, getYouTubeConfig } from '@/config';
 import styles from '@/styles/Courses.module.css';
 
 export default function Courses() {
@@ -103,18 +104,19 @@ export default function Courses() {
     setYoutubeError(null);
 
     try {
-      const apiKey = process.env.NEXT_PUBLIC_YOUTUBE_API_KEY;
+      const ytConfig = getYouTubeConfig();
+      const apiKey = ytConfig.apiKey || process.env.NEXT_PUBLIC_YOUTUBE_API_KEY;
       
       if (!apiKey) {
-        throw new Error('YouTube API key not configured');
+        throw new Error(getString('youtube.apiKeyError'));
       }
 
       const response = await fetch(
-        `https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=12&q=${encodeURIComponent(query + ' tutorial')}&type=video&key=${apiKey}`
+        `https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=${ytConfig.maxResults || 12}&q=${encodeURIComponent(query + getString('youtube.tutorialSuffix'))}&type=video&key=${apiKey}`
       );
 
       if (!response.ok) {
-        throw new Error('Failed to search YouTube');
+        throw new Error(getString('youtube.searchFailed'));
       }
 
       const data = await response.json();
@@ -127,7 +129,7 @@ export default function Courses() {
       setShowYoutubeResults(true);
     } catch (err) {
       console.error('YouTube search error:', err);
-      setYoutubeError(err.message || 'Failed to search YouTube');
+      setYoutubeError(err.message || getString('youtube.searchFailed'));
     } finally {
       setYoutubeLoading(false);
     }
@@ -172,16 +174,16 @@ export default function Courses() {
   return (
     <>
       <SEO 
-        title="All Courses - LearnHub"
-        description="Browse our collection of free video courses on web development, programming, and design"
+        title={getString('pageTitles.courses')}
+        description={getString('courses.pageSubtitle')}
         keywords="online courses, web development, programming, frontend, backend, database, security, devops, mobile, cloud, AI"
       />
 
       <div className={styles.container}>
         <section className={styles.header}>
-          <h1 className={styles.title}>Explore Our Courses</h1>
+          <h1 className={styles.title}>{getString('courses.heroTitle')}</h1>
           <p className={styles.subtitle}>
-            Learn new skills with our comprehensive video courses. All courses are free!
+            {getString('courses.pageSubtitle')}
           </p>
         </section>
 
@@ -190,7 +192,7 @@ export default function Courses() {
           <form onSubmit={(e) => e.preventDefault()} className={styles.searchContainer}>
             <input
               type="text"
-              placeholder="Search courses, topics, or technologies..."
+              placeholder={getString('courses.searchPlaceholder')}
               value={searchQuery}
               onChange={handleSearchChange}
               className={styles.searchInput}
@@ -219,7 +221,7 @@ export default function Courses() {
         {/* Show Categories only when no search and no category selected */}
         {!selectedCategory && !searchQuery && (
           <section className={styles.categoriesSection}>
-            <h2 className={styles.categoriesTitle}>Browse by Category</h2>
+            <h2 className={styles.categoriesTitle}>{getString('courses.browseByCategory')}</h2>
             <div className={styles.categoriesGrid}>
               {courseCategories.map((category) => {
                 const Icon = category.Icon;
@@ -237,7 +239,7 @@ export default function Courses() {
                     <h3 className={styles.categoryName}>{category.name}</h3>
                     <p className={styles.categoryDescription}>{category.description}</p>
                     <span className={styles.exploreCourseButton}>
-                      Explore Courses
+                      {getString('courses.exploreCourses')}
                     </span>
                   </button>
                 );
@@ -250,8 +252,8 @@ export default function Courses() {
         {searchQuery && filteredCourses.length > 0 && (
           <div className={styles.searchResults}>
             <p>
-              Found <strong>{filteredCourses.length}</strong> course{filteredCourses.length !== 1 ? 's' : ''} 
-              matching "<strong>{searchQuery}</strong>"
+              {getString('courses.foundCourses')} <strong>{filteredCourses.length}</strong> course{filteredCourses.length !== 1 ? 's' : ''} 
+              {getString('courses.coursesMatching')} &quot;<strong>{searchQuery}</strong>&quot;
             </p>
           </div>
         )}
@@ -261,8 +263,8 @@ export default function Courses() {
           <>
             <div className={styles.searchResults}>
               <p>
-                We found <strong>{youtubeResults.length}</strong> YouTube video{youtubeResults.length !== 1 ? 's' : ''} matching "<strong>{searchQuery}</strong>". 
-                Select a course and start learning!
+                {getString('courses.youtubeFound')} <strong>{youtubeResults.length}</strong> {getString('courses.youtubeVideos')}{youtubeResults.length !== 1 ? 's' : ''} {getString('courses.coursesMatching')} &quot;<strong>{searchQuery}</strong>&quot;. 
+                {getString('courses.youtubeCta')}
               </p>
             </div>
             <section className={styles.youtubeResultsSection}>
@@ -302,13 +304,13 @@ export default function Courses() {
             {selectedCategory && !searchQuery && (
               <div className={styles.categoryHeader}>
                 <h2>
-                  {courseCategories.find(c => c.id === selectedCategory)?.name || 'Courses'}
+                  {courseCategories.find(c => c.id === selectedCategory)?.name || getString('nav.courses')}
                 </h2>
                 <button 
                   onClick={handleBackToCategories}
                   className={styles.viewAllButton}
                 >
-                  ← Back to Categories
+                  {getString('courses.backToCategories')}
                 </button>
               </div>
             )}
@@ -325,10 +327,10 @@ export default function Courses() {
         {selectedCategory && !searchQuery && filteredCourses.length === 0 && (
           <div className={styles.emptyState}>
             <div className={styles.emptyIcon}>📭</div>
-            <h3>No courses in this category yet</h3>
-            <p>Check back soon for new courses!</p>
+            <h3>{getString('courses.noCourseCategory')}</h3>
+            <p>{getString('courses.checkBackSoon')}</p>
             <button onClick={handleBackToCategories} className={styles.clearSearchButton}>
-              Back to Categories
+              {getString('courses.backToCategories')}
             </button>
           </div>
         )}
