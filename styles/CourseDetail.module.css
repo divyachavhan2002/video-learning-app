@@ -230,6 +230,10 @@
   padding: var(--space-sm) var(--space-lg);
 }
 
+.shareContainer {
+  position: relative;
+}
+
 .shareBtn {
   background-color: transparent;
   color: white;
@@ -239,6 +243,39 @@
 .shareBtn:hover {
   background-color: var(--overlay-white-10);
   transform: translateY(-2px);
+}
+
+.shareMenu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  margin-top: var(--space-sm);
+  background: var(--card-bg);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-lg);
+  overflow: hidden;
+  z-index: var(--z-dropdown);
+  min-width: 180px;
+}
+
+.shareOption {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  width: 100%;
+  padding: var(--space-sm) var(--space-md);
+  background: none;
+  border: none;
+  color: var(--text-primary);
+  font-size: var(--text-sm);
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  text-align: left;
+}
+
+.shareOption:hover {
+  background-color: var(--card-hover-bg);
 }
 
 .heroImage {

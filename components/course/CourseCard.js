@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { getString } from '@/config';
+import { getString, ROUTES } from '@/config';
 import styles from './CourseCard.module.css';
 
 export default function CourseCard({ course }) {
@@ -47,7 +47,7 @@ export default function CourseCard({ course }) {
 
         <div className={styles.footer}>
           <span className={styles.price}>{course.price || getString('home.featureFreeTitle', 'Free')}</span>
-          <Link href={`/course/${course.id}`} className={styles.enrollBtn}>
+          <Link href={ROUTES.COURSE_DETAIL(course.id)} className={styles.enrollBtn}>
             {getString('courseDetail.viewCourse', 'View Course')}
           </Link>
         </div>

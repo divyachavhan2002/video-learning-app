@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import { useAuth } from '@/context/AuthContext';
 import ThemeToggle from '@/components/ui/ThemeToggle';
-import { strings, getSiteInfo, isNavVisible, isFeatureEnabled } from '@/config';
+import { strings, getSiteInfo, isNavVisible, isFeatureEnabled, ROUTES } from '@/config';
 import styles from './Header.module.css';
 
 export default function Header() {
@@ -23,24 +23,24 @@ export default function Header() {
     <header className={styles.header}>
       <div className={styles.container}>
         <div className={styles.logo}>
-          <Link href="/">
+          <Link href={ROUTES.HOME}>
             <h2>{siteInfo.logo} {strings.appName}</h2>
           </Link>
         </div>
 
         <nav className={styles.nav}>
           {isNavVisible('Home') && (
-            <Link href="/" className={styles.navLink}>
+            <Link href={ROUTES.HOME} className={styles.navLink}>
               {strings.nav.home}
             </Link>
           )}
           {isNavVisible('Courses') && (
-            <Link href="/courses" className={styles.navLink}>
+            <Link href={ROUTES.COURSES} className={styles.navLink}>
               {strings.nav.courses}
             </Link>
           )}
           {user && showDashboard && (
-            <Link href="/dashboard" className={styles.navLink}>
+            <Link href={ROUTES.DASHBOARD} className={styles.navLink}>
               {strings.nav.dashboard}
             </Link>
           )}
@@ -62,10 +62,10 @@ export default function Header() {
                 </>
               ) : (
                 <>
-                  <Link href="/auth/login" className={styles.loginBtn}>
+                  <Link href={ROUTES.LOGIN} className={styles.loginBtn}>
                     {strings.nav.login}
                   </Link>
-                  <Link href="/auth/signup" className={styles.signupBtn}>
+                  <Link href={ROUTES.SIGNUP} className={styles.signupBtn}>
                     {strings.nav.signup}
                   </Link>
                 </>

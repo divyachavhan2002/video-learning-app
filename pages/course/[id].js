@@ -4,7 +4,7 @@ import SEO from '@/components/common/SEO';
 import Link from 'next/link';
 import { coursesData } from '@/data/courses';
 import { useAuth } from '@/context/AuthContext';
-import { getString } from '@/config';
+import { getString, ROUTES } from '@/config';
 import styles from '@/styles/CourseDetail.module.css';
 
 export default function CourseDetail() {
@@ -14,6 +14,7 @@ export default function CourseDetail() {
   const [enrolled, setEnrolled] = useState(false);
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState('');
+  const [showShareMenu, setShowShareMenu] = useState(false);
 
   // Find course by ID from URL parameter
   const course = coursesData.find(c => c.id === parseInt(id));
@@ -32,7 +33,9 @@ export default function CourseDetail() {
   // Handle course enrollment
   const handleEnroll = async () => {
     if (!user) {
-      router.push('/auth/login');
+      // Save redirect URL so login page can bring user back
+      sessionStorage.setItem('redirectAfterLogin', ROUTES.COURSE_DETAIL(id));
+      router.push(ROUTES.LOGIN);
       return;
     }
 
@@ -40,11 +43,18 @@ export default function CourseDetail() {
     setMessage('');
 
     try {
-      await enrollInCourse(parseInt(id));
+      const result = await enrollInCourse(parseInt(id));
+      
+      if (result?.alreadyEnrolled) {
+        // Already enrolled — go straight to watch page
+        router.push(ROUTES.COURSE_WATCH(id));
+        return;
+      }
+
       setEnrolled(true);
       setMessage(getString('course.enrollmentSuccess'));
       setTimeout(() => {
-        router.push(`/course/${id}/watch`);
+        router.push(ROUTES.COURSE_WATCH(id));
       }, 1000);
     } catch (error) {
       setMessage(getString('course.enrollmentError'));
@@ -53,12 +63,44 @@ export default function CourseDetail() {
     }
   };
 
+  // Share course functionality
+  const getCourseUrl = () => {
+    if (typeof window !== 'undefined') {
+      return window.location.href;
+    }
+    return '';
+  };
+
+  const handleCopyLink = async () => {
+    try {
+      await navigator.clipboard.writeText(getCourseUrl());
+      setMessage(getString('courseDetail.linkCopied'));
+      setTimeout(() => setMessage(''), 2000);
+    } catch {
+      setMessage(getString('courseDetail.linkCopyFailed'));
+    }
+    setShowShareMenu(false);
+  };
+
+  const handleShareWhatsApp = () => {
+    const text = `${getString('courseDetail.shareText')} ${course.title} - ${getCourseUrl()}`;
+    window.open(`https://wa.me/?text=${encodeURIComponent(text)}`, '_blank');
+    setShowShareMenu(false);
+  };
+
+  const handleShareEmail = () => {
+    const subject = `${getString('courseDetail.shareText')} ${course.title}`;
+    const body = `${course.description}\n\n${getCourseUrl()}`;
+    window.open(`mailto:?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`);
+    setShowShareMenu(false);
+  };
+
   if (!course) {
     return (
       <div className={styles.notFound}>
         <h1>{getString('courseDetail.notFoundTitle')}</h1>
         <p>{getString('courseDetail.notFoundDesc')}</p>
-        <Link href="/courses" className={styles.backBtn}>
+        <Link href={ROUTES.COURSES} className={styles.backBtn}>
           {getString('messages.backToCourses')}
         </Link>
       </div>
@@ -76,7 +118,7 @@ export default function CourseDetail() {
       <div className={styles.container}>
         <div className={styles.header}>
           <div className={styles.breadcrumb}>
-            <Link href="/courses">{getString('nav.courses')}</Link>
+            <Link href={ROUTES.COURSES}>{getString('nav.courses')}</Link>
             <span className={styles.separator}>{getString('courseDetail.breadcrumbSeparator')}</span>
             <span className={styles.current}>{course.title}</span>
           </div>
@@ -115,7 +157,7 @@ export default function CourseDetail() {
               <div className={styles.actions}>
                 {enrolled ? (
                   <>
-                    <Link href={`/course/${id}/watch`} className={styles.startLearningBtn}>
+                    <Link href={ROUTES.COURSE_WATCH(id)} className={styles.startLearningBtn}>
                       {getString('course.startLearning')}
                     </Link>
                     <button className={styles.enrolledBtn} disabled>
@@ -131,9 +173,27 @@ export default function CourseDetail() {
                     {loading ? getString('course.enrolling') : `${getString('courseDetail.enrollFor')} ${course.price}`}
                   </button>
                 )}
-                <button className={styles.shareBtn}>
-                  {getString('courseDetail.shareCourse')}
-                </button>
+                <div className={styles.shareContainer}>
+                  <button 
+                    className={styles.shareBtn}
+                    onClick={() => setShowShareMenu(!showShareMenu)}
+                  >
+                    {getString('courseDetail.shareCourse')}
+                  </button>
+                  {showShareMenu && (
+                    <div className={styles.shareMenu}>
+                      <button onClick={handleCopyLink} className={styles.shareOption}>
+                        🔗 {getString('courseDetail.copyLink')}
+                      </button>
+                      <button onClick={handleShareWhatsApp} className={styles.shareOption}>
+                        💬 {getString('courseDetail.shareWhatsApp')}
+                      </button>
+                      <button onClick={handleShareEmail} className={styles.shareOption}>
+                        ✉️ {getString('courseDetail.shareEmail')}
+                      </button>
+                    </div>
+                  )}
+                </div>
               </div>
             </div>
 

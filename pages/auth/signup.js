@@ -3,7 +3,7 @@ import { useRouter } from 'next/router';
 import Link from 'next/link';
 import { useAuth } from '@/context/AuthContext';
 import { getAuthErrorMessage, validateSignupForm } from '@/lib/authUtils';
-import { getString } from '@/config';
+import { getString, ROUTES } from '@/config';
 import styles from '@/styles/Auth.module.css';
 
 export default function Signup() {
@@ -15,6 +15,17 @@ export default function Signup() {
   const [loading, setLoading] = useState(false);
   const { signup, loginWithGoogle } = useAuth();
   const router = useRouter();
+
+  // Redirect to saved URL or dashboard after signup
+  const redirectAfterAuth = () => {
+    const redirect = sessionStorage.getItem('redirectAfterLogin');
+    if (redirect) {
+      sessionStorage.removeItem('redirectAfterLogin');
+      router.push(redirect);
+    } else {
+      router.push(ROUTES.DASHBOARD);
+    }
+  };
 
   // Handle signup form submission with validation
   const handleSubmit = async (e) => {
@@ -31,7 +42,7 @@ export default function Signup() {
 
     try {
       await signup(email, password, name);
-      router.push('/dashboard');
+      redirectAfterAuth();
     } catch (error) {
       setError(getAuthErrorMessage(error.code));
     } finally {
@@ -46,7 +57,7 @@ export default function Signup() {
 
     try {
       await loginWithGoogle();
-      router.push('/dashboard');
+      redirectAfterAuth();
     } catch (error) {
       setError(getAuthErrorMessage(error.code));
     } finally {
@@ -140,7 +151,7 @@ export default function Signup() {
 
         <p className={styles.switchAuth}>
           {getString('auth.haveAccount')}{' '}
-          <Link href="/auth/login">{getString('nav.login')}</Link>
+          <Link href={ROUTES.LOGIN}>{getString('nav.login')}</Link>
         </p>
       </div>
     </div>

@@ -1,9 +1,9 @@
-import { useState, useMemo, useEffect } from 'react';
+import { useState, useMemo, useEffect, useRef } from 'react';
 import { useRouter } from 'next/router';
 import SEO from '@/components/common/SEO';
 import CourseCard from '@/components/course/CourseCard';
 import { coursesData, courseCategories } from '@/data/courses';
-import { getString, getYouTubeConfig } from '@/config';
+import { getString, getYouTubeConfig, ROUTES } from '@/config';
 import styles from '@/styles/Courses.module.css';
 
 export default function Courses() {
@@ -16,6 +16,7 @@ export default function Courses() {
   const [youtubeLoading, setYoutubeLoading] = useState(false);
   const [youtubeError, setYoutubeError] = useState(null);
   const [showYoutubeResults, setShowYoutubeResults] = useState(false);
+  const searchTimeoutRef = useRef(null);
 
   // Update selected category when URL changes
   useEffect(() => {
@@ -54,13 +55,13 @@ export default function Courses() {
   const handleCategoryClick = (categoryId) => {
     setSelectedCategory(categoryId);
     setSearchQuery('');
-    router.push(`/courses?category=${categoryId}`, undefined, { shallow: true });
+    router.push(ROUTES.COURSES_BY_CATEGORY(categoryId), undefined, { shallow: true });
   };
 
   const handleBackToCategories = () => {
     setSelectedCategory(null);
     setSearchQuery('');
-    router.push('/courses', undefined, { shallow: true });
+    router.push(ROUTES.COURSES, undefined, { shallow: true });
   };
 
   const handleSearchChange = (e) => {
@@ -74,8 +75,8 @@ export default function Courses() {
     
     // Auto-search YouTube if no courses found after typing stops
     if (query.trim()) {
-      clearTimeout(window.searchTimeout);
-      window.searchTimeout = setTimeout(() => {
+      clearTimeout(searchTimeoutRef.current);
+      searchTimeoutRef.current = setTimeout(() => {
         autoSearchYouTube(query);
       }, 1000); // Wait 1 second after user stops typing
     }
@@ -168,7 +169,7 @@ export default function Courses() {
     sessionStorage.setItem('tempCourse', JSON.stringify(tempCourse));
     
     // Navigate to watch page
-    router.push(`/course/youtube-${videoId}/watch`);
+    router.push(ROUTES.YOUTUBE_WATCH(videoId));
   };
 
   return (

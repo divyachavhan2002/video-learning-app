@@ -1,12 +1,12 @@
 import SEO from "@/components/common/SEO";
 import Link from "next/link";
-import { getString } from '@/config';
+import { getString, ROUTES } from '@/config';
 import styles from "@/styles/Home.module.css";
 
 export default function Home() {
   return (
     <>
-      <SEO 
+      <SEO
         title={getString('pageTitles.home')}
         description={getString('pageDescriptions.home')}
         keywords={getString('seo.defaultKeywords')}
@@ -21,10 +21,10 @@ export default function Home() {
             {getString('home.heroSubtitle')}
           </p>
           <div className={styles.ctaButtons}>
-            <Link href="/courses" className={styles.primaryBtn}>
+            <Link href={ROUTES.COURSES} className={styles.primaryBtn}>
               {getString('home.ctaPrimary')}
             </Link>
-            <Link href="/auth/signup" className={styles.secondaryBtn}>
+            <Link href={ROUTES.ABOUT} className={styles.secondaryBtn}>
               {getString('home.ctaSecondary')}
             </Link>
           </div>
@@ -59,5 +59,3 @@ export default function Home() {
     </>
   );
 }
-
-

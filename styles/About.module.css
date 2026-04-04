@@ -1,6 +1,6 @@
 .aboutContainer {
   min-height: 100vh;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: var(--background);
 }
 
 .heroSection {
@@ -29,7 +29,7 @@
 }
 
 .section {
-  background: white;
+  background: var(--background);
   padding: 80px 20px;
 }
 
@@ -40,7 +40,7 @@
 
 .sectionTitle {
   font-size: 2.5rem;
-  color: #1a202c;
+  color: var(--text-primary);
   margin-bottom: 40px;
   text-align: center;
   font-weight: 700;
@@ -60,7 +60,7 @@
 .text {
   font-size: 1.125rem;
   line-height: 1.8;
-  color: #4a5568;
+  color: var(--text-secondary);
   margin-bottom: 20px;
 }
 
@@ -87,7 +87,7 @@
 }
 
 .valuesSection {
-  background: #f7fafc;
+  background: var(--card-hover-bg);
   padding: 80px 20px;
 }
 
@@ -99,17 +99,18 @@
 }
 
 .valueCard {
-  background: white;
+  background: var(--card-bg);
   padding: 40px 30px;
   border-radius: 12px;
   text-align: center;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  box-shadow: var(--shadow-md);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
+  border: 1px solid var(--border-color);
 }
 
 .valueCard:hover {
   transform: translateY(-5px);
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+  box-shadow: var(--shadow-lg);
 }
 
 .valueIcon {
@@ -119,13 +120,13 @@
 
 .valueTitle {
   font-size: 1.5rem;
-  color: #1a202c;
+  color: var(--text-primary);
   margin-bottom: 15px;
   font-weight: 600;
 }
 
 .valueText {
-  color: #4a5568;
+  color: var(--text-secondary);
   line-height: 1.6;
 }
 
@@ -158,21 +159,21 @@
 }
 
 .ctaSection {
-  background: white;
+  background: var(--background);
   padding: 100px 20px;
   text-align: center;
 }
 
 .ctaTitle {
   font-size: 2.5rem;
-  color: #1a202c;
+  color: var(--text-primary);
   margin-bottom: 20px;
   font-weight: 700;
 }
 
 .ctaText {
   font-size: 1.25rem;
-  color: #4a5568;
+  color: var(--text-secondary);
   margin-bottom: 40px;
   max-width: 600px;
   margin-left: auto;
@@ -204,7 +205,7 @@
 }
 
 .secondaryButton {
-  background: white;
+  background: var(--card-bg);
   color: #667eea;
   padding: 15px 40px;
   border-radius: 8px;
