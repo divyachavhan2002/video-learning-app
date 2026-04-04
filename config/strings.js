@@ -134,6 +134,8 @@ const strings = {
     playNow: 'Play Now',
     cancelAutoplay: 'Cancel',
     allLessonsCompleted: '🎉 All lessons completed!',
+    replayLesson: '🔄 Replay',
+    closeOverlay: 'Close',
   },
 
   // Dashboard

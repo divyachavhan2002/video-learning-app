@@ -19,6 +19,7 @@ export default function Watch() {
 
   // Auto-next countdown state
   const [autoNextCountdown, setAutoNextCountdown] = useState(null); // null = not showing, number = seconds left
+  const [showCompletedOverlay, setShowCompletedOverlay] = useState(true); // controls "All lessons completed" overlay
   const countdownTimerRef = useRef(null);
 
   // Use refs for tracking to avoid stale closure issues
@@ -245,7 +246,30 @@ export default function Watch() {
           return prev - 1;
         });
       }, 1000);
+    } else {
+      // Last lesson finished — show completed overlay
+      setShowCompletedOverlay(true);
     }
+  };
+
+  // Dismiss the completed overlay
+  const dismissCompletedOverlay = () => {
+    setShowCompletedOverlay(false);
+  };
+
+  // Replay the current lesson from start
+  const replayCurrentLesson = () => {
+    setShowCompletedOverlay(false);
+    // Reset progress for this lesson so the player re-initializes
+    setWatchProgress(prev => ({
+      ...prev,
+      [currentLesson]: { ...prev[currentLesson], played: 0, playedSeconds: 0 }
+    }));
+    lessonWatchTimeRef.current = 0;
+    lastTickRef.current = 0;
+    savedRef.current[currentLesson] = false;
+    // Force re-mount by toggling lesson index
+    setCurrentLesson(prev => prev);
   };
 
   const selectLesson = (index) => {
@@ -376,10 +400,19 @@ export default function Watch() {
                   </div>
                 )}
 
-                {!hasNextLesson && watchProgress[currentLesson]?.played >= 0.9 && autoNextCountdown === null && (
+                {!hasNextLesson && watchProgress[currentLesson]?.played >= 0.9 && autoNextCountdown === null && showCompletedOverlay && (
                   <div className={styles.autoNextOverlay}>
                     <div className={styles.autoNextContent}>
+                      <button onClick={dismissCompletedOverlay} className={styles.overlayCloseBtn} aria-label="Close">✕</button>
                       <p className={styles.allDoneMessage}>{getString('watch.allLessonsCompleted')}</p>
+                      <div className={styles.autoNextActions}>
+                        <button onClick={replayCurrentLesson} className={styles.playNowBtn}>
+                          {getString('watch.replayLesson')}
+                        </button>
+                        <button onClick={dismissCompletedOverlay} className={styles.cancelBtn}>
+                          {getString('watch.closeOverlay')}
+                        </button>
+                      </div>
                     </div>
                   </div>
                 )}
@@ -459,10 +492,19 @@ export default function Watch() {
                 </div>
               )}
 
-              {!hasNextLesson && watchProgress[currentLesson]?.played >= 0.9 && autoNextCountdown === null && (
+              {!hasNextLesson && watchProgress[currentLesson]?.played >= 0.9 && autoNextCountdown === null && showCompletedOverlay && (
                 <div className={styles.autoNextOverlay}>
                   <div className={styles.autoNextContent}>
+                    <button onClick={dismissCompletedOverlay} className={styles.overlayCloseBtn} aria-label="Close">✕</button>
                     <p className={styles.allDoneMessage}>{getString('watch.allLessonsCompleted')}</p>
+                    <div className={styles.autoNextActions}>
+                      <button onClick={replayCurrentLesson} className={styles.playNowBtn}>
+                        {getString('watch.replayLesson')}
+                      </button>
+                      <button onClick={dismissCompletedOverlay} className={styles.cancelBtn}>
+                        {getString('watch.closeOverlay')}
+                      </button>
+                    </div>
                   </div>
                 </div>
               )}
