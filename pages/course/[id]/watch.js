@@ -56,7 +56,7 @@ export default function Watch() {
         if (entry?.completedLessons?.length > 0) {
           const restored = {};
           for (const lessonIdx of entry.completedLessons) {
-            restored[lessonIdx] = { played: 1, playedSeconds: 0, saved: true };
+            restored[lessonIdx] = { played: 1, playedSeconds: 0, saved: true, completed: true };
           }
           setWatchProgress(restored);
           savedRef.current = { ...savedRef.current, ...Object.fromEntries(entry.completedLessons.map(i => [i, true])) };
@@ -194,7 +194,7 @@ export default function Watch() {
     
     setWatchProgress(prev => ({
       ...prev,
-      [currentLesson]: { played, playedSeconds }
+      [currentLesson]: { ...prev[currentLesson], played, playedSeconds }
     }));
 
     // Accumulate actual watch time (ignore large jumps from seeking)
@@ -207,7 +207,7 @@ export default function Watch() {
       savedRef.current[currentLesson] = true;
       setWatchProgress(prev => ({
         ...prev,
-        [currentLesson]: { ...prev[currentLesson], saved: true }
+        [currentLesson]: { ...prev[currentLesson], saved: true, completed: true }
       }));
       
       if (courseId && course.lessons) {
@@ -228,7 +228,7 @@ export default function Watch() {
     // Mark current lesson as completed in watchProgress
     setWatchProgress(prev => ({
       ...prev,
-      [currentLesson]: { ...prev[currentLesson], played: 1, saved: true }
+      [currentLesson]: { ...prev[currentLesson], played: 1, saved: true, completed: true }
     }));
 
     // Start auto-next countdown if there are more lessons
@@ -260,14 +260,13 @@ export default function Watch() {
   // Replay the current lesson from start
   const replayCurrentLesson = () => {
     setShowCompletedOverlay(false);
-    // Reset progress for this lesson so the player re-initializes
+    // Reset playback position but keep completed status (checkmark stays)
     setWatchProgress(prev => ({
       ...prev,
       [currentLesson]: { ...prev[currentLesson], played: 0, playedSeconds: 0 }
     }));
     lessonWatchTimeRef.current = 0;
     lastTickRef.current = 0;
-    savedRef.current[currentLesson] = false;
     // Force re-mount by toggling lesson index
     setCurrentLesson(prev => prev);
   };
@@ -400,7 +399,7 @@ export default function Watch() {
                   </div>
                 )}
 
-                {!hasNextLesson && watchProgress[currentLesson]?.played >= 0.9 && autoNextCountdown === null && showCompletedOverlay && (
+                {!hasNextLesson && watchProgress[currentLesson]?.completed && autoNextCountdown === null && showCompletedOverlay && (
                   <div className={styles.autoNextOverlay}>
                     <div className={styles.autoNextContent}>
                       <button onClick={dismissCompletedOverlay} className={styles.overlayCloseBtn} aria-label="Close">✕</button>
@@ -492,7 +491,7 @@ export default function Watch() {
                 </div>
               )}
 
-              {!hasNextLesson && watchProgress[currentLesson]?.played >= 0.9 && autoNextCountdown === null && showCompletedOverlay && (
+              {!hasNextLesson && watchProgress[currentLesson]?.completed && autoNextCountdown === null && showCompletedOverlay && (
                 <div className={styles.autoNextOverlay}>
                   <div className={styles.autoNextContent}>
                     <button onClick={dismissCompletedOverlay} className={styles.overlayCloseBtn} aria-label="Close">✕</button>
@@ -542,10 +541,10 @@ export default function Watch() {
                   onClick={() => selectLesson(index)}
                   className={`${styles.lessonItem} ${
                     currentLesson === index ? styles.active : ''
-                  } ${watchProgress[index]?.played > 0.9 ? styles.completed : ''}`}
+                  } ${watchProgress[index]?.completed ? styles.completed : ''}`}
                 >
                   <div className={styles.lessonNumber}>
-                    {watchProgress[index]?.played > 0.9 ? '✓' : index + 1}
+                    {watchProgress[index]?.completed ? '✓' : index + 1}
                   </div>
                   <div className={styles.lessonDetails}>
                     <div className={styles.lessonTitle}>{lesson.title}</div>
